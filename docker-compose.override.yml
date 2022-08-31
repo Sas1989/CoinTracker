@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  cointracker.api.coinlist:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__host=cointracker.db.mongo
+    ports:
+      - "80"

@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DD9F18C2-ED2B-4A2F-881F-7B9905444A59}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8B2637E6-0955-44E5-AC46-D150A83DE172}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoinTracker.API.CoinList", "CoinTracker.API.CoinList", "{2FE8206C-98AA-491B-921B-46BECEDF5232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinTracker.API.CoinList.Domain", "CoinTracker.API.CoinList.Domain\CoinTracker.API.CoinList.Domain.csproj", "{979DA289-20D7-45D8-B91A-19E530FF5DA4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinTracker.API.CoinList.Application", "CoinTracker.API.CoinList.Application\CoinTracker.API.CoinList.Application.csproj", "{08284EB5-AE0F-4AA5-8FE5-88E24F105C53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinTracker.Api.CoinList.Infrastructure", "CoinTracker.Api.CoinList.Infrastructure\CoinTracker.Api.CoinList.Infrastructure.csproj", "{7E3EC5E5-B72E-436F-96C5-AA67899EB695}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinTracker.API.CoinList.Controllers", "CoinTracker.API.CoinList.Controllers\CoinTracker.API.CoinList.Controllers.csproj", "{1AFFB51A-EE8B-4E45-996A-78BF43CE475B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{93D01D5C-D653-410E-B1F8-00264E9C8C0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinTracker.API.CoinList.UnitTests", "CoinTracker.API.CoinList.UnitTests\CoinTracker.API.CoinList.UnitTests.csproj", "{2842DB3D-C5B0-4A34-9910-AABAB13DDC79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{979DA289-20D7-45D8-B91A-19E530FF5DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{979DA289-20D7-45D8-B91A-19E530FF5DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{979DA289-20D7-45D8-B91A-19E530FF5DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{979DA289-20D7-45D8-B91A-19E530FF5DA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08284EB5-AE0F-4AA5-8FE5-88E24F105C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08284EB5-AE0F-4AA5-8FE5-88E24F105C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08284EB5-AE0F-4AA5-8FE5-88E24F105C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08284EB5-AE0F-4AA5-8FE5-88E24F105C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E3EC5E5-B72E-436F-96C5-AA67899EB695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E3EC5E5-B72E-436F-96C5-AA67899EB695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E3EC5E5-B72E-436F-96C5-AA67899EB695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E3EC5E5-B72E-436F-96C5-AA67899EB695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AFFB51A-EE8B-4E45-996A-78BF43CE475B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AFFB51A-EE8B-4E45-996A-78BF43CE475B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AFFB51A-EE8B-4E45-996A-78BF43CE475B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AFFB51A-EE8B-4E45-996A-78BF43CE475B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93D01D5C-D653-410E-B1F8-00264E9C8C0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93D01D5C-D653-410E-B1F8-00264E9C8C0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93D01D5C-D653-410E-B1F8-00264E9C8C0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93D01D5C-D653-410E-B1F8-00264E9C8C0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2842DB3D-C5B0-4A34-9910-AABAB13DDC79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2842DB3D-C5B0-4A34-9910-AABAB13DDC79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2842DB3D-C5B0-4A34-9910-AABAB13DDC79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2842DB3D-C5B0-4A34-9910-AABAB13DDC79}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2FE8206C-98AA-491B-921B-46BECEDF5232} = {DD9F18C2-ED2B-4A2F-881F-7B9905444A59}
+		{979DA289-20D7-45D8-B91A-19E530FF5DA4} = {2FE8206C-98AA-491B-921B-46BECEDF5232}
+		{08284EB5-AE0F-4AA5-8FE5-88E24F105C53} = {2FE8206C-98AA-491B-921B-46BECEDF5232}
+		{7E3EC5E5-B72E-436F-96C5-AA67899EB695} = {2FE8206C-98AA-491B-921B-46BECEDF5232}
+		{1AFFB51A-EE8B-4E45-996A-78BF43CE475B} = {2FE8206C-98AA-491B-921B-46BECEDF5232}
+		{2842DB3D-C5B0-4A34-9910-AABAB13DDC79} = {8B2637E6-0955-44E5-AC46-D150A83DE172}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0785CFC-6432-4B91-91E6-798D92141551}
+	EndGlobalSection
+EndGlobal
