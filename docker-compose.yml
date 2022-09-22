@@ -12,9 +12,11 @@ services:
 
   cointracker.api.coinlist:
     image: ${DOCKER_REGISTRY-}cointrackerapicoinlistcontrollers
+    ports:
+      - 50001:80
     build:
       context: .
-      dockerfile: CoinTracker.API.CoinList.Controllers/Dockerfile
+      dockerfile: src/CoinTracker.API.CoinList/CoinTracker.API.CoinList.Controllers/Dockerfile
 
 volumes:
   mongodb:
