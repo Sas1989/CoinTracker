@@ -1,0 +1,23 @@
+﻿version: '3.4'
+
+services:
+
+  cointracker.db.mongo.test:
+    image: mongo
+    container_name: CoinTracker.Db.Mongo.Test
+    ports:
+      - 27018:27017
+
+  cointracker.api.coinlist.test:
+    image: ${DOCKER_REGISTRY-}cointrackerapicoinlistcontrollers
+    container_name: cointracker.api.coinlist.test
+    build:
+      context: .
+      dockerfile: src/CoinTracker.API.CoinList/CoinTracker.API.CoinList.Controllers/Dockerfile
+    environment:
+        - MongoDb__host=cointracker.db.mongo.test
+        - MongoDb__port=27017
+    ports:
+        - 6969:80
+    depends_on:
+        - cointracker.db.mongo.test

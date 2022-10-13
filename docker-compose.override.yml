@@ -7,3 +7,4 @@ services:
       - MongoDb__host=cointracker.db.mongo
     ports:
       - "80"
+
