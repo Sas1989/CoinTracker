@@ -35,7 +35,17 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
 
             return Ok(coin);
         }
-        
+        [HttpGet("symbol/{symbol}")]
+        public async Task<IActionResult> GetBySimbolAsync(string symbol)
+        {
+            var coin = await coinService.GetCoinAsync(symbol);
+            if (coin == null)
+            {
+                return NotFound();
+            }
+            return Ok(coin);
+        }
+
         [HttpPost]
         public async Task<IActionResult> PostAsync(RecivedCoinDto coinDto)
         {
@@ -49,5 +59,7 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
             IEnumerable<CoinDto> coins = await coinService.CreateMultipleAsync(recivedCoin);
             return Ok(coins);
         }
+
+
     }
 }

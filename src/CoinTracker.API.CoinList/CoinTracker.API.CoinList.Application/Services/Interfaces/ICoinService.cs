@@ -11,7 +11,9 @@ namespace CoinTracker.API.CoinList.Application.Services.Interfaces
     {
         Task<IEnumerable<CoinDto>> GetAllCoinsAsync();
         Task<CoinDto> GetCoinAsync(Guid id);
+        Task<CoinDto> GetCoinAsync(string symbol);
         Task<CoinDto> CreateAsync(RecivedCoinDto recivedCoin);
         Task<IEnumerable<CoinDto>> CreateMultipleAsync(IEnumerable<RecivedCoinDto> recivedCoin);
+        
     }
 }

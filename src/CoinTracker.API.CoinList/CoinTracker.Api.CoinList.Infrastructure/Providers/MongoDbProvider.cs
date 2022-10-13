@@ -36,7 +36,14 @@ namespace CoinTracker.Api.CoinList.Infrastructure.Providers
         public async Task<Coin> GetAsync(Guid id)
         {
             FilterDefinition<Coin> filter = filterBuilder.Eq(entity => entity.Id, id);
+
             return await collection.Find(filter).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<Coin>> GetAsync<TField>(string field, TField filedValue)
+        {
+            FilterDefinition<Coin> filter = filterBuilder.Eq(field, filedValue);
+            return await collection.Find(filter).ToListAsync();
         }
 
         public async Task RemoveAsync(Guid id)
@@ -65,5 +72,7 @@ namespace CoinTracker.Api.CoinList.Infrastructure.Providers
             await collection.InsertManyAsync(entities);
             return entities;
         }
+
+
     }
 }

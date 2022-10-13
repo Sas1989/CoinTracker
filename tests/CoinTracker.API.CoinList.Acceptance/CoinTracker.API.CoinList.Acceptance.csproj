@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <Folder Include="Drivers\" />
+    <Folder Include="Features\GetCoins\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -54,5 +54,21 @@ namespace CoinTracker.API.CoinList.Application.Services
 
             return mapper.Map<CoinDto>(coin);
         }
+
+        public async Task<CoinDto> GetCoinAsync(string symbol)
+        {
+            if(string.IsNullOrEmpty(symbol))
+            {
+                throw new ArgumentNullException(nameof(symbol));
+            }
+            var coinList = await provider.GetAsync(nameof(Coin.Symbol), symbol);
+            
+            if(coinList.Count() == 0)
+            {
+                return null;
+            }
+
+            return mapper.Map<CoinDto>(coinList.First());
+        }
     }
 }

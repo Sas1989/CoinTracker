@@ -18,20 +18,52 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         private Mock<IProvider> provider;
         private Mock<IDataMapper> mapper;
         private CoinService coinService;
+        private RecivedCoinDto recivedCoin;
+        private CoinDto coinDto;
+        private Coin coin;
+        private string symbolCoin;
+        private Coin coinNull;
+        private IEnumerable<Coin> coinList;
+        private IEnumerable<CoinDto> coinDtoList;
+        private IEnumerable<RecivedCoinDto> recivedCoinList;
+        private Guid idNew;
 
         [SetUp]
         public void Setup()
         {
             provider = new Mock<IProvider>();
             mapper = new Mock<IDataMapper>();
+
             coinService = new CoinService(provider.Object, mapper.Object);
+
+            recivedCoin = CoinFixture.GenerateRecivedDtos();
+            coinDto = CoinFixture.GenerateCoinDtos();
+            coin = CoinFixture.GenerateCoin();
+
+            symbolCoin = coin.Symbol;
+
+            coinList = CoinFixture.GenereteListOfCoin();
+            coinDtoList = CoinFixture.GenereteListOfCoinDtos();
+            recivedCoinList = CoinFixture.GenereteListOfRecivedDtos();
+
+            idNew = Guid.NewGuid();
+
+            mapper.Setup(mapper => mapper.Map<CoinDto>(coin)).Returns(coinDto);
+            mapper.Setup(mapper => mapper.Map<Coin>(recivedCoin)).Returns(coin);
+            mapper.Setup(mapper => mapper.Map<IEnumerable<CoinDto>>(coinList)).Returns(coinDtoList);
+            mapper.Setup(mapper => mapper.Map<IEnumerable<Coin>>(recivedCoinList)).Returns(coinList);
+
+            provider.Setup(provider => provider.CreateAsync(coin)).ReturnsAsync(coin);
+            provider.Setup(provider => provider.CreateAsync(coinList)).ReturnsAsync(coinList);
+            provider.Setup(provider => provider.GetAllAsync()).ReturnsAsync(coinList);
+            provider.Setup(provider => provider.GetAsync(idNew)).ReturnsAsync(coin);
+            provider.Setup(provider => provider.GetAsync(nameof(Coin.Symbol), symbolCoin)).ReturnsAsync(coinList);
+
         }
 
         [Test]
         public void CreateAsync_CreateAsync_CalledOnce()
         {
-            RecivedCoinDto recivedCoin = CoinFixture.GenerateRecivedDtos();
-
             coinService.CreateAsync(recivedCoin);
 
             provider.Verify(provider => provider.CreateAsync(It.IsAny<Coin>()), Times.Once());
@@ -40,8 +72,6 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public void CreateAsync_Mapped_CalledOnce()
         {
-
-            RecivedCoinDto recivedCoin = CoinFixture.GenerateRecivedDtos();
 
             coinService.CreateAsync(recivedCoin);
 
@@ -52,33 +82,18 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         public async Task CreateAsync_CoinDto_Returned()
         {
 
-            RecivedCoinDto recivedCoin = CoinFixture.GenerateRecivedDtos();
-            CoinDto coinDto = CoinFixture.GenerateCoinDtos();
-
-            mapper.Setup(mapper => mapper.Map<CoinDto>(It.IsAny<Coin>())).Returns(coinDto);
-
             var result = await coinService.CreateAsync(recivedCoin);
 
             Assert.That(result, Is.TypeOf(typeof(CoinDto)));
-
         }
 
         [Test]
         public async Task CreateAsync_CoinDto_ReturnedCorrect()
         {
 
-            RecivedCoinDto recivedCoin = CoinFixture.GenerateRecivedDtos();
-            Coin coin = CoinFixture.GenerateCoin();
-            CoinDto coinDto = CoinFixture.GenerateCoinDtos();
-
-            mapper.Setup(mapper => mapper.Map<Coin>(recivedCoin)).Returns(coin);
-            provider.Setup(provider => provider.CreateAsync(coin)).ReturnsAsync(coin);
-            mapper.Setup(mapper => mapper.Map<CoinDto>(coin)).Returns(coinDto);
-
             var result = await coinService.CreateAsync(recivedCoin);
 
             Assert.That(result, Is.EqualTo(coinDto));
-
         }
 
         [Test]
@@ -99,34 +114,26 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task GetAllCoinsAsync_Map_CalledOne()
         {
-            IEnumerable<Coin> coin = CoinFixture.GenereteListOfCoin();
-            provider.Setup(provider => provider.GetAllAsync()).ReturnsAsync(coin);
-
             await coinService.GetAllCoinsAsync();
 
-            mapper.Verify(mapper => mapper.Map<IEnumerable<CoinDto>>(coin), Times.Once);
+            mapper.Verify(mapper => mapper.Map<IEnumerable<CoinDto>>(coinList), Times.Once);
         }
 
         [Test]
         public async Task GetAllCoinsAsync_CoinDto_ReturnedCorrect()
         {
-            IEnumerable<Coin> coin = CoinFixture.GenereteListOfCoin();
-            IEnumerable<CoinDto> coinDto = CoinFixture.GenereteListOfCoinDtos();
-
-            provider.Setup(provider => provider.GetAllAsync()).ReturnsAsync(coin);
-            mapper.Setup(mapper => mapper.Map<IEnumerable<CoinDto>>(coin)).Returns(coinDto);
-
             var result = await coinService.GetAllCoinsAsync();
 
-            Assert.That(result, Is.EqualTo(coinDto));
+            Assert.That(result, Is.EqualTo(coinDtoList));
 
         }
+
         [Test]
         public void GetCoinAsync_IdEmpty_ThrowException()
         {
-            Guid id = Guid.Empty;
+            Guid idEmpty = Guid.Empty;
 
-            var func = () => coinService.GetCoinAsync(id);
+            var func = () => coinService.GetCoinAsync(idEmpty);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("id"));
@@ -135,34 +142,26 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task GetCoinAsync_CoinDto_TypeReturned()
         {
-            Guid id = Guid.NewGuid();
-            CoinDto coinDto = CoinFixture.GenerateCoinDtos();
-
-            mapper.Setup(mapper => mapper.Map<CoinDto>(It.IsAny<Coin>())).Returns(coinDto);
-
-            var result = await coinService.GetCoinAsync(id);
+            var result = await coinService.GetCoinAsync(idNew);
 
             Assert.That(result, Is.TypeOf(typeof(CoinDto)));
         }
+
         [Test]
         public async Task GetCoinAync_GetAsync_CalledOnce()
         {
-            Guid id = Guid.NewGuid();
 
-            var result = await coinService.GetCoinAsync(id);
+            var result = await coinService.GetCoinAsync(idNew);
 
-            provider.Verify(provider => provider.GetAsync(id), Times.Once);
+            provider.Verify(provider => provider.GetAsync(idNew), Times.Once);
         }
 
         [Test]
         public async Task GetCoinAync_CoinNotFound_ReturnNull()
         {
-            Guid id = Guid.NewGuid();
-            Coin coin = null;
+            provider.Setup(provider => provider.GetAsync(idNew)).ReturnsAsync(coinNull);
 
-            provider.Setup(provider => provider.GetAsync(id)).ReturnsAsync(coin);
-
-            var result = await coinService.GetCoinAsync(id);
+            var result = await coinService.GetCoinAsync(idNew);
 
             Assert.IsNull(result);
         }
@@ -170,14 +169,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task GetCoinAync_CoinDto_ReturnedCorrect()
         {
-            Coin coin = CoinFixture.GenerateCoin();
-            Guid id = coin.Id;
-            CoinDto coinDto = CoinFixture.GenerateCoinDtos();
-
-            provider.Setup(provider => provider.GetAsync(id)).ReturnsAsync(coin);
-            mapper.Setup(mapper => mapper.Map<CoinDto>(coin)).Returns(coinDto);
-
-            var result = await coinService.GetCoinAsync(id);
+            var result = await coinService.GetCoinAsync(idNew);
 
             Assert.That(result, Is.EqualTo(coinDto));
         }
@@ -185,10 +177,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task CreateMultipleAsync_CoinDot_TypeReturn()
         {
-            IEnumerable<RecivedCoinDto> recivedCoin = CoinFixture.GenereteListOfRecivedDtos();
-            IEnumerable<CoinDto> coinDtos = CoinFixture.GenereteListOfCoinDtos();
-
-            var result = await coinService.CreateMultipleAsync(recivedCoin);
+            var result = await coinService.CreateMultipleAsync(recivedCoinList);
 
             Assert.That(result, Is.InstanceOf(typeof(IEnumerable<CoinDto>)));
         }
@@ -196,32 +185,62 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task CreateMultipleAsync_CreateAsync_CalledOnce()
         {
-            IEnumerable<RecivedCoinDto> recivedCoin = CoinFixture.GenereteListOfRecivedDtos();
-            IEnumerable<Coin> coins = CoinFixture.GenereteListOfCoin();
-            
-            mapper.Setup(x => x.Map<IEnumerable<Coin>>(recivedCoin)).Returns(coins);
+            var result = await coinService.CreateMultipleAsync(recivedCoinList);
 
-            var result = await coinService.CreateMultipleAsync(recivedCoin);
-
-            provider.Verify(x => x.CreateAsync(coins), Times.Once);
+            provider.Verify(x => x.CreateAsync(coinList), Times.Once);
         }
+
         [Test]
         public async Task CreateMultipleAsync_Returns_Corrects()
         {
-            IEnumerable<RecivedCoinDto> recivedCoin = CoinFixture.GenereteListOfRecivedDtos();
-            IEnumerable<Coin> coins = CoinFixture.GenereteListOfCoin();
-            IEnumerable<CoinDto> coinDtos = CoinFixture.GenereteListOfCoinDtos();
-            
-            mapper.Setup(x => x.Map<IEnumerable<Coin>>(recivedCoin)).Returns(coins);
-            provider.Setup(provider => provider.CreateAsync(coins)).ReturnsAsync(coins);
-            mapper.Setup(x => x.Map<IEnumerable<CoinDto>>(coins)).Returns(coinDtos);
+            var result = await coinService.CreateMultipleAsync(recivedCoinList);
 
-            var result = await coinService.CreateMultipleAsync(recivedCoin);
+            Assert.AreEqual(coinDtoList, result);
 
-            Assert.AreEqual(result, coinDtos);
+        }
+        [Test]
+        public async Task GetCoinAsync_EmptySymbol_ThrowException()
+        {
+            var func = () => coinService.GetCoinAsync(String.Empty);
+
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
+            Assert.That(ex.ParamName, Is.EqualTo("symbol"));
+        }
+
+        [Test]
+        public async Task GetCoinAsync_NullSymbol_ThrowException()
+        {
+            var func = () => coinService.GetCoinAsync((string)null);
+
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
+            Assert.That(ex.ParamName, Is.EqualTo("symbol"));
+        }
+
+        [Test]
+        public async Task GetCoinAsync_GetAsync_CalledOnce()
+        {
+            coinService.GetCoinAsync(symbolCoin);
+
+            provider.Verify(x => x.GetAsync(nameof(Coin.Symbol), symbolCoin), Times.Once);
+        }
+
+        [Test]
+        public async Task GetCoinAsync_GetAsync_ReturnEmptyList()
+        {
+            provider.Setup(provider => provider.GetAsync(nameof(Coin.Symbol), symbolCoin)).ReturnsAsync(Enumerable.Empty<Coin>());
+            var result = await coinService.GetCoinAsync(symbolCoin);
+
+            Assert.IsNull(result);
 
         }
 
+        [Test]
+        public async Task GetCoinAsync_Return_CoinDto()
+        {
+            var result = await coinService.GetCoinAsync(symbolCoin);
 
+            Assert.That(result, Is.EqualTo(coinDto));
+
+        }
     }
 }

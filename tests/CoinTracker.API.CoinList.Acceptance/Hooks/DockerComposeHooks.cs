@@ -23,7 +23,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Hooks
                                 .WithName("CoinTracker.FunctionalTest")
                                 .UseCompose()
                                 .FromFile(dockerComposePath)
-                                .RemoveOrphans()//.ForceBuild()
+                                .RemoveOrphans().ForceBuild()
                                 .WaitForHttp("cointracker.api.coinlist.test", $"{baseAddress}/api/coin", 30000)
                                 .Build();
             containerService.Start();
