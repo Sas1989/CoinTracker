@@ -32,5 +32,13 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services
             HttpClient client = GetClient();
             var result = await client.PostAsJsonAsync(CoinListEndPoint.API_COIN_BULK, coins);
         }
+
+        public static async Task<Coin> GetCoin(Guid id)
+        {
+         
+            HttpClient client = GetClient();
+            var result = await client.GetAsync($"{CoinListEndPoint.API_COIN}/{id}");
+            return await result.Content.ReadFromJsonAsync<Coin>();
+        }
     }
 }

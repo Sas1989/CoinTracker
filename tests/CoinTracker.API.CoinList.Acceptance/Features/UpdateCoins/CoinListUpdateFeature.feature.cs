@@ -104,7 +104,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("The BTC bitcoin in the database with value 20000", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.When("Post a new value 40000 using his Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Put a new value 40000 using his Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
  testRunner.Then("The value is changed sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -144,7 +144,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("The Eth Ethereum in the database with value 1336", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 13
- testRunner.When("Post a new value 40000 using his Symbol", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Put a new value 40000 using his Symbol", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
  testRunner.Then("The value is changed sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
@@ -184,7 +184,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("The Luna Terra in the database with value 100", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 18
- testRunner.When("Post a new symbol Lunc and TerraClassic", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Put a new symbol Lunc and TerraClassic", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
  testRunner.Then("The symbol and the description are changed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

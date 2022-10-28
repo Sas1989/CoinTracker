@@ -52,14 +52,23 @@ namespace CoinTracker.Api.CoinList.Infrastructure.Providers
             await collection.DeleteOneAsync(filter);
         }
 
-        public async Task UpdateAsync(Coin entity)
+        public async Task<Coin> UpdateAsync(Coin entity)
         {
             if (entity == null)
             {
                 throw new ArgumentNullException(nameof(entity));
             }
+
             FilterDefinition<Coin> filter = filterBuilder.Eq(existingentity => existingentity.Id, entity.Id);
-            await collection.ReplaceOneAsync(filter, entity);
+
+            var result = await collection.ReplaceOneAsync(filter, entity);
+
+            if (!result.IsAcknowledged || result.MatchedCount == 0)
+            {
+                return null;
+            }
+
+            return entity;
         }
 
         public async Task<IEnumerable<Coin>> CreateAsync(IEnumerable<Coin> entities)

@@ -15,12 +15,15 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
     {
         private Mock<IMongoCollection<Coin>> mongoCollection;
         private MongoDbProvider provider;
+        private Coin coin;
 
         [SetUp]
         public void Setup()
         {
             mongoCollection = new Mock<IMongoCollection<Coin>>();
             provider = new MongoDbProvider(mongoCollection.Object);
+
+            coin = CoinFixture.GenerateCoin();
         }
 
         [Test]
@@ -36,7 +39,6 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         [Test]
         public async Task CreateAsync_InsertOneAsync_CalledOne()
         {
-            Coin coin = CoinFixture.GenerateCoin();
 
             await provider.CreateAsync(coin);
 
@@ -45,8 +47,6 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         [Test]
         public async Task CreateAsync_Coin_Returned()
         {
-            Coin coin = CoinFixture.GenerateCoin();
-
             var result = await provider.CreateAsync(coin);
 
             Assert.AreEqual(coin, result);
@@ -70,8 +70,15 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         [Test]
         public async Task UpdateAsync_ReplaceOneAsync_CalledOnce()
         {
-            Coin coin = CoinFixture.GenerateCoin();
-            await provider.UpdateAsync(coin);
+            
+            var replaceOneResult = new Mock<ReplaceOneResult>();
+            replaceOneResult.SetupGet(replaceOneResult => replaceOneResult.IsAcknowledged).Returns(true);
+            replaceOneResult.SetupGet(replaceOneResult => replaceOneResult.MatchedCount).Returns(1);
+
+            mongoCollection.Setup(collection => collection.ReplaceOneAsync(It.IsAny<FilterDefinition<Coin>>(), coin, It.IsAny<ReplaceOptions>(), default)).ReturnsAsync(replaceOneResult.Object);
+
+            provider.UpdateAsync(coin);
+
             mongoCollection.Verify(collection => collection.ReplaceOneAsync(It.IsAny<FilterDefinition<Coin>>(), coin, It.IsAny<ReplaceOptions>(), default), Times.Once);
         }
 
