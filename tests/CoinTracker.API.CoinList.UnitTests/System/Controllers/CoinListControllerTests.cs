@@ -16,22 +16,24 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         private RecivedCoinDto recivedCoin;
         private IEnumerable<RecivedCoinDto> recivedCoinList;
         private Guid newId;
+        private Guid updateId;
         private CoinDto nullCoinDto;
         private string symbol;
 
         [SetUp]
         public void Setup()
         {
-            
+
             coinservice = new Mock<ICoinService>();
             controller = new CoinListController(coinservice.Object);
-            
+
             coinDtoList = CoinFixture.GenereteListOfCoinDtos();
             coinDto = CoinFixture.GenerateCoinDtos();
             recivedCoin = CoinFixture.GenerateRecivedDtos();
             recivedCoinList = CoinFixture.GenereteListOfRecivedDtos();
 
             newId = Guid.NewGuid();
+            updateId = coinDto.Id;
             nullCoinDto = null;
             symbol = coinDto.Symbol;
 
@@ -41,6 +43,9 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
             coinservice.Setup(coinservice => coinservice.CreateAsync(recivedCoin)).ReturnsAsync(coinDto);
             coinservice.Setup(coinservice => coinservice.CreateMultipleAsync(recivedCoinList)).ReturnsAsync(coinDtoList);
             coinservice.Setup(coinservice => coinservice.GetCoinAsync(symbol)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateCoin(updateId, recivedCoin)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateCoin(newId, recivedCoin)).ReturnsAsync(nullCoinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateCoin(symbol, recivedCoin)).ReturnsAsync(coinDto);
         }
 
         [Test]
@@ -62,7 +67,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
 
         [Test]
         public async Task GetAsync_Return_ListOfCoinDto()
-        { 
+        {
             var result = await controller.GetAsync();
 
             var objresult = (OkObjectResult)result;
@@ -96,7 +101,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
 
             var objresult = (OkObjectResult)result;
 
-            Assert.AreEqual(coinDto,objresult.Value);
+            Assert.AreEqual(coinDto, objresult.Value);
         }
 
         [Test]
@@ -153,12 +158,12 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         }
 
         [Test]
-        public async Task PostMultipleCoinAsync_ReturnS_CoinDtoList()
+        public async Task PostMultipleCoinAsync_Returns_CoinDtoList()
         {
             var result = await controller.BulkAsync(recivedCoinList);
 
             var objresult = (OkObjectResult)result;
-            Assert.AreEqual(coinDtoList,objresult.Value);
+            Assert.AreEqual(coinDtoList, objresult.Value);
         }
 
         [Test]
@@ -191,6 +196,75 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
             coinservice.Setup(x => x.GetCoinAsync(symbol)).ReturnsAsync(nullCoinDto);
 
             var result = await controller.GetBySimbolAsync(symbol);
+
+            Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
+
+        }
+
+        [Test]
+        public async Task PutAsync_Returns_200Code()
+        {
+            var result = await controller.PutAsync(updateId, recivedCoin);
+
+            Assert.That(result, Is.TypeOf<OkObjectResult>());
+        }
+
+        [Test]
+        public async Task PutAsync_UpdateCoin_CalledOnce()
+        {
+            var result = await controller.PutAsync(updateId, recivedCoin);
+
+            coinservice.Verify(x => x.UpdateCoin(updateId, recivedCoin), Times.Once);
+        }
+
+        [Test]
+        public async Task PutAsync_Returns_CoinDto()
+        {
+            var result = await controller.PutAsync(updateId, recivedCoin);
+
+            var objresult = (OkObjectResult)result;
+
+            Assert.AreEqual(coinDto, objresult.Value);
+        }
+        [Test]
+        public async Task PutAsync_CoinNotFund_Returns_404Code()
+        {
+            var result = await controller.PutAsync(newId, recivedCoin);
+
+            Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
+        }
+
+        [Test]
+        public async Task PutBySymbolAsync_Returns_200Code()
+        {
+            var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
+
+            Assert.That(result, Is.TypeOf<OkObjectResult>());
+        }
+
+        [Test]
+        public async Task PutBySymbolAsync_UpdateCoin_CalledOnce()
+        {
+            var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
+
+            coinservice.Verify(x => x.UpdateCoin(symbol, recivedCoin), Times.Once);
+        }
+
+        [Test]
+        public async Task PutBySymbolAsync_Returns_CoinDto()
+        {
+            var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
+
+            var objresult = (OkObjectResult)result;
+
+            Assert.AreEqual(coinDto, objresult.Value);
+        }
+        [Test]
+        public async Task PutBySymbolAsync_CoinNotFund_Returns_404Codee()
+        {
+            coinservice.Setup(coinservice => coinservice.UpdateCoin(symbol, recivedCoin)).ReturnsAsync(nullCoinDto);
+
+            var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
 
             Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
 

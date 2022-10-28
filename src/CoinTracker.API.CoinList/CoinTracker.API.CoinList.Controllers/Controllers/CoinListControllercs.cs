@@ -28,31 +28,24 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             CoinDto coin = await coinService.GetCoinAsync(id);
-            if (coin == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(coin);
+            
+            return CoinResult(coin);
         }
         [HttpGet("symbol/{symbol}")]
         public async Task<IActionResult> GetBySimbolAsync(string symbol)
         {
             var coin = await coinService.GetCoinAsync(symbol);
-            if (coin == null)
-            {
-                return NotFound();
-            }
-            return Ok(coin);
+
+            return CoinResult(coin);
         }
 
         [HttpPost]
         public async Task<IActionResult> PostAsync(RecivedCoinDto coinDto)
         {
             CoinDto coin = await coinService.CreateAsync(coinDto);
-            return Ok(coin);
+            return CoinResult(coin);
         }
-        
+
         [HttpPost("bulk")]
         public async Task<IActionResult> BulkAsync(IEnumerable<RecivedCoinDto> recivedCoin)
         {
@@ -60,6 +53,31 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
             return Ok(coins);
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Guid id, RecivedCoinDto recivedCoin)
+        {
+            var coin = await coinService.UpdateCoin(id, recivedCoin);
 
+            return CoinResult(coin);
+        }
+
+        [HttpPut("symbol/{symbol}")]
+        public async Task<IActionResult> PutBySymbolAsync(string symbol, RecivedCoinDto recivedCoin)
+        {
+            var coin = await coinService.UpdateCoin(symbol, recivedCoin);
+
+            return CoinResult(coin);
+        }
+
+        private IActionResult CoinResult(CoinDto coin)
+        {
+            if (coin == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(coin);
+        }
     }
 }
+

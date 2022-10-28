@@ -27,6 +27,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         private IEnumerable<CoinDto> coinDtoList;
         private IEnumerable<RecivedCoinDto> recivedCoinList;
         private Guid idNew;
+        private Guid updateId;
 
         [SetUp]
         public void Setup()
@@ -47,6 +48,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
             recivedCoinList = CoinFixture.GenereteListOfRecivedDtos();
 
             idNew = Guid.NewGuid();
+            updateId = coin.Id;
 
             mapper.Setup(mapper => mapper.Map<CoinDto>(coin)).Returns(coinDto);
             mapper.Setup(mapper => mapper.Map<Coin>(recivedCoin)).Returns(coin);
@@ -58,6 +60,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
             provider.Setup(provider => provider.GetAllAsync()).ReturnsAsync(coinList);
             provider.Setup(provider => provider.GetAsync(idNew)).ReturnsAsync(coin);
             provider.Setup(provider => provider.GetAsync(nameof(Coin.Symbol), symbolCoin)).ReturnsAsync(coinList);
+            provider.Setup(provider => provider.UpdateAsync(coin)).ReturnsAsync(coin);
 
         }
 
@@ -241,6 +244,91 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
 
             Assert.That(result, Is.EqualTo(coinDto));
 
+        }
+
+        [Test]
+        public async Task UpdateCoin_EmptyGuid_ThrowException()
+        {
+            var func = () => coinService.UpdateCoin(Guid.Empty, recivedCoin);
+
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
+            Assert.That(ex.ParamName, Is.EqualTo("id"));
+        }
+
+        [Test]
+        public async Task UpdateCoin_Mapper_CalledOnce()
+        {
+            coinService.UpdateCoin(updateId, recivedCoin);
+
+            mapper.Verify(mapper => mapper.Map<Coin>(recivedCoin), Times.Once);
+        }
+
+        [Test]
+        public async Task UpdateCoin_Update_CalledOnce()
+        {
+            coinService.UpdateCoin(updateId, recivedCoin);
+
+            provider.Verify(provider => provider.UpdateAsync(coin), Times.Once);
+        }
+
+        [Test]
+        public async Task UpdateCoin_Retruns_CoinDto()
+        {
+            var result = await coinService.UpdateCoin(updateId, recivedCoin);
+
+            Assert.AreEqual(coinDto, result);
+
+        }
+
+        [Test]
+        public async Task UpdateCoinSymbol_EmptySymbol_ThrowException()
+        {
+            var func = () => coinService.UpdateCoin(string.Empty, recivedCoin);
+
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
+        }
+
+        [Test]
+        public async Task UpdateCoinSymbol_NullSymbol_ThrowException()
+        {
+            var func = () => coinService.UpdateCoin((string)null, recivedCoin);
+
+            var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
+        }
+
+        [Test]
+        public async Task UpdateCoinSymbol_GetAsync_CalledOnce()
+        {
+            var result = await coinService.UpdateCoin(symbolCoin, recivedCoin);
+
+            provider.Verify(provider => provider.GetAsync(nameof(Coin.Symbol), symbolCoin), Times.Once);
+        }
+
+        [Test]
+        public async Task UpdateCoinSymbol_GetAsync_ReturnNull_ReturnNull()
+        {
+            provider.Setup(provider => provider.GetAsync(nameof(Coin.Symbol), symbolCoin)).ReturnsAsync(Enumerable.Empty<Coin>());
+
+            var result = await coinService.UpdateCoin(symbolCoin, recivedCoin);
+
+            Assert.IsNull(result);
+
+        }
+
+        [Test]
+        public async Task UpdateCoinSymbol_UpdateAsync_CalledOnce()
+        {
+            var result = await coinService.UpdateCoin(symbolCoin, recivedCoin);
+
+            provider.Verify(provider => provider.UpdateAsync(coin), Times.Once);
+        }
+
+        [Test]
+        public async Task UpdateCoinSymbol_ReturnCoinDto()
+        {
+            var result = await coinService.UpdateCoin(symbolCoin, recivedCoin);
+
+            Assert.That(result, Is.EqualTo(coinDto));
         }
     }
 }

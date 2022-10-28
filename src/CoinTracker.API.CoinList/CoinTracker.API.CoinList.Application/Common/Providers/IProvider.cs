@@ -12,7 +12,7 @@ namespace CoinTracker.API.CoinList.Application.Providers
         Task<Coin> CreateAsync(Coin entity);
         Task<IEnumerable<Coin>> GetAllAsync();
         Task<Coin> GetAsync(Guid id);
-        Task UpdateAsync(Coin entity);
+        Task<Coin> UpdateAsync(Coin entity);
         Task RemoveAsync(Guid id);
         Task<IEnumerable<Coin>> CreateAsync(IEnumerable<Coin> entities);
         Task<IEnumerable<Coin>> GetAsync<TField>(string field, TField filedValue);
