@@ -1,3 +1,4 @@
+using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
 using CoinTracker.API.CoinList.Acceptance.Support.Models;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using System;
@@ -19,83 +20,63 @@ namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
             this.httpClient = httpClient;
         }
 
-        [Given(@"The (.*) (.*) in the database with value (.*)")]
-        public async Task GivenTheBTCBitcoinInTheDatabaseWithValueAsync(string symbol, string name, decimal value)
-        {
-            var sendCoin = new RecivedCoin { Name = name, Symbol = symbol, Value = value };
-            var id = await CoinAction.CreateNewCoinAsync(sendCoin);
-            scenarioContext.Add("CoinIdInDatabase", id);
-            scenarioContext.Add("CoinInDatabase", sendCoin);
-        }
-
         [When(@"Put a new value (.*) using his Id")]
         public async Task WhenPostANewValueByIdAsync(decimal newValue)
         {
-            var id = scenarioContext.Get<Guid>("CoinIdInDatabase");
-            var newValueCoin = scenarioContext.Get<RecivedCoin>("CoinInDatabase");
-            newValueCoin.Value = newValue;
+            var newValueCoin = SetCoin(value: newValue);
 
-            var result = await httpClient.PutAsJsonAsync($"{CoinListEndPoint.API_COIN}/{id}", newValueCoin);
-            scenarioContext.Add("PutResult",result);
-            scenarioContext.Add("NewCoin", newValueCoin);
+            await PutCoinByID(newValueCoin);
         }
 
         [When(@"Put a new value (.*) using his Symbol")]
         public async Task WhenPostANewValueBySymbolAsync(decimal newValue)
         {
-            var id = scenarioContext.Get<Guid>("CoinIdInDatabase");
-            var newValueCoin = scenarioContext.Get<RecivedCoin>("CoinInDatabase");
-            newValueCoin.Value = newValue;
+            var newValueCoin = SetCoin(value: newValue);
 
-            var result = await httpClient.PutAsJsonAsync($"{CoinListEndPoint.API_COIN}/symbol/{newValueCoin.Symbol}", newValueCoin);
-            scenarioContext.Add("PutResult", result);
-            scenarioContext.Add("NewCoin", newValueCoin);
+            await PutCoinBySymbol(newValueCoin);
         }
 
         [When(@"Put a new symbol (.*) and (.*)")]
         public async Task WhenPostANewSymbolLuncAndTerraClassicAsync(string symbol, string description)
         {
-            var id = scenarioContext.Get<Guid>("CoinIdInDatabase");
-            var newValueCoin = scenarioContext.Get<RecivedCoin>("CoinInDatabase");
-            newValueCoin.Symbol = symbol;
-            newValueCoin.Name = description;
+            var newValueCoin = SetCoin(symbol: symbol, name: description);
 
-
-            var result = await httpClient.PutAsJsonAsync($"{CoinListEndPoint.API_COIN}/{id}", newValueCoin);
-            scenarioContext.Add("PutResult", result);
-            scenarioContext.Add("NewCoin", newValueCoin);
+            await PutCoinByID(newValueCoin);
 
         }
 
-        [Then(@"The value is changed sucessfully")]
-        public async Task ThenTheValueIsChangedSucessfullyAsync()
+        private RecivedCoin SetCoin(string? symbol = null, string? name = null, decimal? value = null)
         {
-            var id = scenarioContext.Get<Guid>("CoinIdInDatabase");
-            var expectedCoin = scenarioContext.Get<RecivedCoin>("NewCoin");
+            var newValueCoin = scenarioContext.Get<Coin>(CoinKeys.DATABASE_COIN);
+            
+            if(symbol is not null) newValueCoin.Symbol = symbol;
+            if(name is not null) newValueCoin.Name = name;
+            if(value is not null) newValueCoin.Value = (decimal)value;
+            
+            return CoinAction.ToRecivedCoin(newValueCoin);
+        }
 
-            var result = scenarioContext.Get<HttpResponseMessage>("PutResult");
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
+        private async Task PutCoinByID(RecivedCoin newCoin)
+        {
+            var id = scenarioContext.Get<Guid>(CoinKeys.DATABASE_COIN_ID);
+            string endPoint = $"{CoinListEndPoint.API_COIN}/{id}";
 
-            var actualCoin = await CoinAction.GetCoin(id);
+            await PutCoin(endPoint, newCoin);
+        }
 
-            actualCoin.Value.Should().Be(expectedCoin.Value);
+        private async Task PutCoinBySymbol(RecivedCoin newCoin)
+        {
+            string endPoint = $"{CoinListEndPoint.API_COIN}/symbol/{newCoin.Symbol}";
+            await PutCoin(endPoint, newCoin);
         }
 
 
-        [Then(@"The symbol and the description are changed")]
-        public async Task ThenTheSymbolAndTheDescriptionAreChangedAsync()
+        private async Task PutCoin(string endPoint, RecivedCoin newCoin)
         {
-            var id = scenarioContext.Get<Guid>("CoinIdInDatabase");
-            var expectedCoin = scenarioContext.Get<RecivedCoin>("NewCoin");
+            var result = await httpClient.PutAsJsonAsync(endPoint, newCoin);
 
-            var result = scenarioContext.Get<HttpResponseMessage>("PutResult");
-            result.StatusCode.Should().Be(HttpStatusCode.OK);
-
-            var actualCoin = await CoinAction.GetCoin(id);
-
-            actualCoin.Symbol.Should().Be(expectedCoin.Symbol);
-            actualCoin.Name.Should().Be(expectedCoin.Name);
-
+            scenarioContext.Add(CoinKeys.ACTION_RESULT, result);
+            scenarioContext.Add(CoinKeys.INPUT_COIN, newCoin);
         }
 
     }

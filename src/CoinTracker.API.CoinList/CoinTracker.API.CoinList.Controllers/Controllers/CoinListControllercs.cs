@@ -69,6 +69,8 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
             return CoinResult(coin);
         }
 
+
+
         private IActionResult CoinResult(CoinDto coin)
         {
             if (coin == null)
@@ -77,6 +79,17 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
             }
 
             return Ok(coin);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAsync(Guid id)
+        {
+            if (await coinService.DeleteCoin(id))
+            {
+                return Ok();
+            }
+            
+           return NotFound();
         }
     }
 }

@@ -5,8 +5,9 @@ Insert in the database newcoin
 Scenario: Insert A new Coin in the system
 	Given A new coin BTC with description Bitcoin and 20000 vaule is addeded
 	When Post the coin
-	Then The new coin is created sucessfully
+	Then Recive a 200 status
 	And Recive the coin sent with a new id created
+	And The coin is created sucessfully
 
 Scenario: Insert an Invalid Coin in the system
 	Given A new coin ETH with description Etherium with a negative value
@@ -21,6 +22,6 @@ Scenario: Insert multiple Coin
 		| USDC	 | Usd Coin		| 0.9855	|
 		| BNB    | BNB			| 288.27    |
 	When Post the coins
-	Then The new coins is created sucessfully
+	Then Recive a 200 status
 	And The coins are in the coin list
 

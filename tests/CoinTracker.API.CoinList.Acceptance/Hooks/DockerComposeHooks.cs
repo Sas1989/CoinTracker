@@ -12,7 +12,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Hooks
         private static ICompositeService containerService;
 
 
-        [BeforeFeature]
+        [BeforeTestRun]
         public static void DockerComposeUp()
         {
             var dockerFile = ConfigurationService.Configuration.GetValue("DockerComposeFileName");
@@ -29,7 +29,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Hooks
             containerService.Start();
         }
 
-        [AfterFeature]
+        [AfterTestRun]
         public static void DockerComposeDown()
         {
             containerService.Stop();

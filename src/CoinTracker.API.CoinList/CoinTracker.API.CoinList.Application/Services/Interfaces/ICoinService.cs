@@ -16,5 +16,6 @@ namespace CoinTracker.API.CoinList.Application.Services.Interfaces
         Task<IEnumerable<CoinDto>> CreateMultipleAsync(IEnumerable<RecivedCoinDto> recivedCoin);
         Task<CoinDto> UpdateCoin(Guid id, RecivedCoinDto recivedCoin);
         Task<CoinDto> UpdateCoin(string symbol, RecivedCoinDto recivedCoin);
+        Task<bool> DeleteCoin(Guid id);
     }
 }

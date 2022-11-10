@@ -14,15 +14,14 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services
         {
             return new HttpClientFactory().Build(); 
         }
-        public static async Task<Guid> CreateNewCoinAsync(RecivedCoin coin)
+        public static async Task<Coin> CreateNewCoinAsync(RecivedCoin coin)
         {
             HttpClient client = GetClient();
             var result = await client.PostAsJsonAsync(CoinListEndPoint.API_COIN, coin);
-            var coinSaved = await result.Content.ReadFromJsonAsync<Coin>();
-            return coinSaved.Id;
+            return await result.Content.ReadFromJsonAsync<Coin>();
         }
 
-        public static async Task<Guid> CreateNewCoinAsync(string symbol, string name, decimal value)
+        public static async Task<Coin> CreateNewCoinAsync(string symbol, string name, decimal value)
         {
             return await CreateNewCoinAsync(new RecivedCoin { Name = name, Symbol = symbol, Value = value });
         }
@@ -39,6 +38,34 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services
             HttpClient client = GetClient();
             var result = await client.GetAsync($"{CoinListEndPoint.API_COIN}/{id}");
             return await result.Content.ReadFromJsonAsync<Coin>();
+        }
+
+        public static async Task<IEnumerable<Coin>> GetCoins()
+        {
+            HttpClient client = GetClient();
+            var result = await client.GetAsync($"{CoinListEndPoint.API_COIN}");
+            return await result.Content.ReadFromJsonAsync<IEnumerable<Coin>>();
+        }
+        public static RecivedCoin ToRecivedCoin(Coin Coin)
+        {
+            return new RecivedCoin
+            {
+                Symbol = Coin.Symbol,
+                Name = Coin.Name,
+                Value = Coin.Value
+            };
+        }
+
+        public static async Task Clean()
+        {
+            HttpClient client = GetClient();
+            var result = await client.GetAsync($"{CoinListEndPoint.API_COIN}");
+            var coins = await result.Content.ReadFromJsonAsync<IEnumerable<Coin>>();
+
+            foreach(Coin coin in coins)
+            {
+                await client.DeleteAsync($"{CoinListEndPoint.API_COIN}/{coin.Id}");
+            }
         }
     }
 }
