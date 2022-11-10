@@ -59,10 +59,9 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services
         public static async Task Clean()
         {
             HttpClient client = GetClient();
-            var result = await client.GetAsync($"{CoinListEndPoint.API_COIN}");
-            var coins = await result.Content.ReadFromJsonAsync<IEnumerable<Coin>>();
+            var coins = await GetCoins();
 
-            foreach(Coin coin in coins)
+            foreach (Coin coin in coins)
             {
                 await client.DeleteAsync($"{CoinListEndPoint.API_COIN}/{coin.Id}");
             }
