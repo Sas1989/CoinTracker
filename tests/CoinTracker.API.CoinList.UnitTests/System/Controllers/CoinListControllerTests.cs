@@ -46,6 +46,8 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
             coinservice.Setup(coinservice => coinservice.UpdateCoin(updateId, recivedCoin)).ReturnsAsync(coinDto);
             coinservice.Setup(coinservice => coinservice.UpdateCoin(newId, recivedCoin)).ReturnsAsync(nullCoinDto);
             coinservice.Setup(coinservice => coinservice.UpdateCoin(symbol, recivedCoin)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.DeleteCoin(newId)).ReturnsAsync(false);
+            coinservice.Setup(coinservice => coinservice.DeleteCoin(coinDto.Id)).ReturnsAsync(true);
         }
 
         [Test]
@@ -268,6 +270,30 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
 
             Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
 
+        }
+
+        [Test]
+        public async Task Delete_Returns_Returns_200Code()
+        {
+            var result = await controller.DeleteAsync(coinDto.Id);
+
+            Assert.That(result, Is.TypeOf<OkResult>());
+        }
+
+        [Test]
+        public async Task Delete_Returns_DeleteCoin_CalledOnce()
+        {
+            var result = await controller.DeleteAsync(coinDto.Id);
+
+            coinservice.Verify(x => x.DeleteCoin(coinDto.Id), Times.Once);
+        }
+
+        [Test]
+        public async Task Delete_Returns_DeleteCoin_ReturnFalse_Retruns_404Code()
+        {
+            var result = await controller.DeleteAsync(newId);
+
+            Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
         }
     }
 }

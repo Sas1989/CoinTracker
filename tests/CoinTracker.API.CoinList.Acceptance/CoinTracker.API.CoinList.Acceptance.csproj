@@ -30,6 +30,7 @@
   <ItemGroup>
     <Folder Include="Drivers\" />
     <Folder Include="Features\GetCoins\" />
+    <Folder Include="Features\DeleteCoins\" />
   </ItemGroup>
 
   <ItemGroup>

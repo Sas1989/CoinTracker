@@ -28,6 +28,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         private IEnumerable<RecivedCoinDto> recivedCoinList;
         private Guid idNew;
         private Guid updateId;
+        private Guid idEmpty;
 
         [SetUp]
         public void Setup()
@@ -49,6 +50,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
 
             idNew = Guid.NewGuid();
             updateId = coin.Id;
+            idEmpty = Guid.Empty;
 
             mapper.Setup(mapper => mapper.Map<CoinDto>(coin)).Returns(coinDto);
             mapper.Setup(mapper => mapper.Map<Coin>(recivedCoin)).Returns(coin);
@@ -61,6 +63,8 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
             provider.Setup(provider => provider.GetAsync(idNew)).ReturnsAsync(coin);
             provider.Setup(provider => provider.GetAsync(nameof(Coin.Symbol), symbolCoin)).ReturnsAsync(coinList);
             provider.Setup(provider => provider.UpdateAsync(coin)).ReturnsAsync(coin);
+            provider.Setup(provider => provider.DeleteAsync(coin.Id)).ReturnsAsync(true);
+
 
         }
 
@@ -134,8 +138,6 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public void GetCoinAsync_IdEmpty_ThrowException()
         {
-            Guid idEmpty = Guid.Empty;
-
             var func = () => coinService.GetCoinAsync(idEmpty);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
@@ -329,6 +331,48 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
             var result = await coinService.UpdateCoin(symbolCoin, recivedCoin);
 
             Assert.That(result, Is.EqualTo(coinDto));
+        }
+
+        [Test]
+        public async Task DeleteCoin_ReturnBool()
+        {
+            var result = await coinService.DeleteCoin(coin.Id);
+
+            Assert.That(result, Is.TypeOf(typeof(bool)));
+        }
+
+        [Test]
+        public async Task DeleteCoin_DeleteAsync_CalledOnce()
+        {
+            var result = await coinService.DeleteCoin(coin.Id);
+
+            provider.Verify(provider => provider.DeleteAsync(coin.Id), Times.Once);
+        }
+
+        [Test]
+        public async Task DeleteCoin_EmptyId_ReturnFalse()
+        {
+            var result = await coinService.DeleteCoin(idEmpty);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public async Task DeleteCoin_DeleteAsync_ReturnFalse_ReturnFalse()
+        {
+            provider.Setup(provider => provider.DeleteAsync(coin.Id)).ReturnsAsync(false);
+
+            var result = await coinService.DeleteCoin(coin.Id);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public async Task DeleteCoin_DeleteAsync_ReturnTrue_ReturnTrue()
+        {
+            var result = await coinService.DeleteCoin(coin.Id);
+
+            Assert.That(result, Is.True);
         }
     }
 }

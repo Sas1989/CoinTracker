@@ -46,10 +46,11 @@ namespace CoinTracker.Api.CoinList.Infrastructure.Providers
             return await collection.Find(filter).ToListAsync();
         }
 
-        public async Task RemoveAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             FilterDefinition<Coin> filter = filterBuilder.Eq(entity => entity.Id, id);
-            await collection.DeleteOneAsync(filter);
+            var result = await collection.DeleteOneAsync(filter);
+            return result.DeletedCount > 0;
         }
 
         public async Task<Coin> UpdateAsync(Coin entity)
@@ -81,7 +82,5 @@ namespace CoinTracker.Api.CoinList.Infrastructure.Providers
             await collection.InsertManyAsync(entities);
             return entities;
         }
-
-
     }
 }

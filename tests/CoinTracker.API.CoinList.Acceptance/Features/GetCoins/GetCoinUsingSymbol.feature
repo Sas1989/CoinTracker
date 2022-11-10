@@ -10,4 +10,4 @@ Scenario: Get one specific coin by Symbol
 Scenario: Ask for Symbol not in the database
 	Given A coin SAS not presen in the database
 	When Request coin using his Symbol
-	Then I recive a 404 status
+	Then Recive a 404 status

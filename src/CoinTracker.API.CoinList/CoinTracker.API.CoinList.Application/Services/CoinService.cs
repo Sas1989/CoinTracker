@@ -37,6 +37,16 @@ namespace CoinTracker.API.CoinList.Application.Services
             return ToDto(insertCoins);
         }
 
+        public async Task<bool> DeleteCoin(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                return false;
+            }
+
+            return await provider.DeleteAsync(id);
+        }
+
         public async Task<IEnumerable<CoinDto>> GetAllCoinsAsync()
         {
             IEnumerable<Coin> coins = await provider.GetAllAsync();

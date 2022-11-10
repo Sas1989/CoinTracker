@@ -55,8 +55,44 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         public async Task RemoveAsync_DeleteOneAsync_CalledOnce()
         {
             Guid id = Guid.NewGuid();
-            await provider.RemoveAsync(id);
+
+            var deleteOneResult = new Mock<DeleteResult>();
+            deleteOneResult.SetupGet(deleteOneResult => deleteOneResult.IsAcknowledged).Returns(true);
+
+            mongoCollection.Setup(collection => collection.DeleteOneAsync(It.IsAny<FilterDefinition<Coin>>(), default)).ReturnsAsync(deleteOneResult.Object);
+
+            await provider.DeleteAsync(id);
             mongoCollection.Verify(collection => collection.DeleteOneAsync(It.IsAny<FilterDefinition<Coin>>(), default), Times.Once);
+        }
+
+        [Test]
+        public async Task RemoveAsync_DeleteOneAsync_ReturnFalse_ReturnFalse()
+        {
+            Guid id = Guid.NewGuid();
+
+            var deleteOneResult = new Mock<DeleteResult>();
+            deleteOneResult.SetupGet(deleteOneResult => deleteOneResult.DeletedCount).Returns(0);
+
+            mongoCollection.Setup(collection => collection.DeleteOneAsync(It.IsAny<FilterDefinition<Coin>>(), default)).ReturnsAsync(deleteOneResult.Object);
+
+            var result = await provider.DeleteAsync(id);
+
+            Assert.That(result, Is.False);
+        }
+
+        [Test]
+        public async Task RemoveAsync_DeleteOneAsync_ReturnTrue_ReturnTrue()
+        {
+            Guid id = Guid.NewGuid();
+
+            var deleteOneResult = new Mock<DeleteResult>();
+            deleteOneResult.SetupGet(deleteOneResult => deleteOneResult.DeletedCount).Returns(1);
+
+            mongoCollection.Setup(collection => collection.DeleteOneAsync(It.IsAny<FilterDefinition<Coin>>(), default)).ReturnsAsync(deleteOneResult.Object);
+
+            var result = await provider.DeleteAsync(id);
+
+            Assert.That(result, Is.True);
         }
 
         [Test]
