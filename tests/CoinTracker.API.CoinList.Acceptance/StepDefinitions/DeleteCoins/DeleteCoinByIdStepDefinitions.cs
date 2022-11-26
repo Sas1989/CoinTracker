@@ -1,10 +1,9 @@
-using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using System;
 using System.Net;
 using TechTalk.SpecFlow;
 
-namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
+namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.DeleteCoins
 {
     [Binding]
     public class DeleteCoinByIdStepDefinitions

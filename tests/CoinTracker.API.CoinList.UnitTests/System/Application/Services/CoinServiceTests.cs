@@ -1,5 +1,5 @@
 ﻿using CoinTracker.API.CoinList.Application.Common.Mappers;
-using CoinTracker.API.CoinList.Application.Providers;
+using CoinTracker.API.CoinList.Application.Common.Providers;
 using CoinTracker.API.CoinList.Application.Services;
 using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;

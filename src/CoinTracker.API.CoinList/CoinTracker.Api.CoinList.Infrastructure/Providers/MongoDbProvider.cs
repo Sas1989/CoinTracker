@@ -1,4 +1,4 @@
-﻿using CoinTracker.API.CoinList.Application.Providers;
+﻿using CoinTracker.API.CoinList.Application.Common.Providers;
 using CoinTracker.API.CoinList.Domain.Entities;
 using MongoDB.Driver;
 using System;
