@@ -9,6 +9,17 @@ services:
       - 27017:27017
     volumes:
       - "mongodb:/data/db"
+   
+  cointracker.bus.rabbitmq:
+    image: rabbitmq:management
+    container_name: Cointracker.Bus.RabbitMQ
+    ports:
+        - 5672:5672
+        - 15672:15672
+    volumes:
+        - rabbitmqdata:/var/lib/rabbitmq
+    hostname: rabbitmq
+
 
   cointracker.api.coinlist:
     image: ${DOCKER_REGISTRY-}cointrackerapicoinlistcontrollers
@@ -20,3 +31,4 @@ services:
 
 volumes:
   mongodb:
+  rabbitmqdata:

@@ -1,12 +1,11 @@
-﻿using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
-using CoinTracker.API.CoinList.Acceptance.Support.Models;
+﻿using CoinTracker.API.CoinList.Acceptance.Support.Models;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using System;
 using System.Net.Http.Json;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
-namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.GetCoin
+namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.GetCoins
 {
     [Binding]
     public class GetCoinListStepDefinitions

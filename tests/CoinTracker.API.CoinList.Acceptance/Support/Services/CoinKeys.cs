@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps
+namespace CoinTracker.API.CoinList.Acceptance.Support.Services
 {
     public static class CoinKeys
     {

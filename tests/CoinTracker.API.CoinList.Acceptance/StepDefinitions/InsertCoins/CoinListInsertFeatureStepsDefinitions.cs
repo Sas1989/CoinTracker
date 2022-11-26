@@ -1,4 +1,3 @@
-using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
 using CoinTracker.API.CoinList.Acceptance.Support.Models;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using FluentAssertions.Execution;
@@ -10,7 +9,7 @@ using System.Text;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
 
-namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
+namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.InsertCoins
 {
     [Binding]
     public class CoinListInsertFeatureStepsDefinitions

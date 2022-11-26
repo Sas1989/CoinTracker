@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.CoinList.Application.Providers
+namespace CoinTracker.API.CoinList.Application.Common.Providers
 {
     public interface IProvider
     {

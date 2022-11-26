@@ -1,4 +1,3 @@
-using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
 using CoinTracker.API.CoinList.Acceptance.Support.Models;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using System;
@@ -6,7 +5,7 @@ using System.Net;
 using System.Net.Http.Json;
 using TechTalk.SpecFlow;
 
-namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
+namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.UpdateCoins
 {
     [Binding]
     public class CoinUpdatesStepDefinitions
@@ -48,11 +47,11 @@ namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
         private RecivedCoin SetCoin(string? symbol = null, string? name = null, decimal? value = null)
         {
             var newValueCoin = scenarioContext.Get<Coin>(CoinKeys.DATABASE_COIN);
-            
-            if(symbol is not null) newValueCoin.Symbol = symbol;
-            if(name is not null) newValueCoin.Name = name;
-            if(value is not null) newValueCoin.Value = (decimal)value;
-            
+
+            if (symbol is not null) newValueCoin.Symbol = symbol;
+            if (name is not null) newValueCoin.Name = name;
+            if (value is not null) newValueCoin.Value = (decimal)value;
+
             return CoinAction.ToRecivedCoin(newValueCoin);
         }
 

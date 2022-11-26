@@ -1,5 +1,4 @@
-﻿using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
-using CoinTracker.API.CoinList.Acceptance.Support.Models;
+﻿using CoinTracker.API.CoinList.Acceptance.Support.Models;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using System;
 using System.Collections.Generic;

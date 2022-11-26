@@ -1,4 +1,4 @@
-﻿using CoinTracker.Api.CoinList.Infrastructure.Providers;
+﻿using CoinTracker.Api.CoinList.Infrastructure;
 using CoinTracker.API.CoinList.Application;
 
 namespace CoinTracker.API.CoinList.Controllers
@@ -10,6 +10,7 @@ namespace CoinTracker.API.CoinList.Controllers
             services.AddMapper();
             services.AddMongo();
             services.AddServices();
+            services.AddMassTransitWithRabbitMq();
             return services;
         }
     }
