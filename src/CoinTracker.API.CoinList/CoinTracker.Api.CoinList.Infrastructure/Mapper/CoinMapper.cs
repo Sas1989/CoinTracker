@@ -1,5 +1,6 @@
 ﻿using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
+using CoinTracker.API.Contracts.Coins;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace CoinTracker.Api.CoinList.Infrastructure.Mapper
         {
             CreateMap<Coin, CoinDto>();
             CreateMap<RecivedCoinDto, Coin>();
+            CreateMap<CoinDto, CoinInsert>();
+            CreateMap<CoinDto, CoinUpdate>();
         }
     }
 }

@@ -1,9 +1,8 @@
-using CoinTracker.API.CoinList.Acceptance.StepDefinitions.CommonSteps;
 using CoinTracker.API.CoinList.Acceptance.Support.Services;
 using System;
 using TechTalk.SpecFlow;
 
-namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
+namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.GetCoins
 {
     [Binding]
     public class GetCoinUsingSymbolStepDefinitions
