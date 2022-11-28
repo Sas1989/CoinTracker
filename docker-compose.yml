@@ -29,6 +29,14 @@ services:
       context: .
       dockerfile: src/CoinTracker.API.CoinList/CoinTracker.API.CoinList.Controllers/Dockerfile
 
+  cointracker.api.wallets:
+    image: ${DOCKER_REGISTRY-}cointrackerapiwalletscontrollers
+    ports:
+      - 50002:80
+    build:
+      context: .
+      dockerfile: src/CoinTracker.API.Wallets/CoinTracker.API.Wallets.Controllers/Dockerfile
+
 volumes:
   mongodb:
   rabbitmqdata:
