@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cointracker-api-coinlist-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cointracker-api-coinlist
+  template:
+    metadata:
+      labels:
+        app: cointracker-api-coinlist
+    spec:
+      containers:
+        - name: cointracker-coinlist-db-mongo
+          image: mongo
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongodb
+        - name: cointracker-api-coinlist
+          image: sas1989/cointrackerapicoinlist:latest
+      volumes:
+      - name: mongodb
+        persistentVolumeClaim:
+          claimName: mongodb-coinlist
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cointracker-api-coinlist-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: cointracker-api-coinlist
+  ports:
+  - name: coinlist
+    protocol: TCP
+    port: 80
+    targetPort: 80
