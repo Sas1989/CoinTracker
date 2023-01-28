@@ -1,12 +1,6 @@
 ﻿using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
 using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.Contracts.Coins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.UnitTests.Fixture
 {

@@ -39,6 +39,9 @@ services:
     build:
       context: .
       dockerfile: src/CoinTracker.API.Wallets/CoinTracker.API.Wallets.Controllers/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__host=cointracker.db.mongo
 
 volumes:
   mongodb:

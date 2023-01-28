@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CoinTracker.API.SDK\CoinTracker.API.SDK.Domain\CoinTracker.API.SDK.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

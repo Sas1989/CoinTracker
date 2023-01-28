@@ -1,5 +1,4 @@
-﻿using CoinTracker.API.CoinList.Application.Common.Mappers;
-using CoinTracker.API.CoinList.Application.Common.Providers;
+﻿using CoinTracker.API.SDK.Application.IProvider;
 using CoinTracker.API.CoinList.Application.Services.Interfaces;
 using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
@@ -8,15 +7,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoinTracker.API.SDK.Application.DataMapper;
 
 namespace CoinTracker.API.CoinList.Application.Services
 {
     public class CoinService : ICoinService
     {
-        private readonly IProvider provider;
+        private readonly IProvider<Coin> provider;
         private readonly IDataMapper mapper;
 
-        public CoinService(IProvider provider, IDataMapper mapper)
+        public CoinService(IProvider<Coin> provider, IDataMapper mapper)
         {
             this.provider = provider;
             this.mapper = mapper;

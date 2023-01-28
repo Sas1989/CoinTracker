@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using CoinTracker.API.CoinList.Application.Common.Mappers;
+using CoinTracker.API.SDK.Application.DataMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.Api.CoinList.Infrastructure.Mapper
+namespace CoinTracker.API.SDK.Infrastructure.DataMapper
 {
     public class AutoMapperDataMapper : IDataMapper
     {

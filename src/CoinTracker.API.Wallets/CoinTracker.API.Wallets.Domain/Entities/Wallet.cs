@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoinTracker.API.SDK.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.Wallets.Domain.Entities
 {
-    public class Wallet
+    public class Wallet : Entity
     {
-        public Guid Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }

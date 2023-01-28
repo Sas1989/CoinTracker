@@ -14,4 +14,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CoinTracker.API.SDK\CoinTracker.API.SDK.Infrastructure\CoinTracker.API.SDK.Infrastructure.csproj" />
+    <ProjectReference Include="..\CoinTracker.API.Wallets.Application\CoinTracker.API.Wallets.Application.csproj" />
+    <ProjectReference Include="..\CoinTracker.API.Wallets.Infrastructure\CoinTracker.API.Wallets.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

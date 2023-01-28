@@ -1,21 +1,16 @@
-﻿using CoinTracker.API.CoinList.Application.Common.Mappers;
-using CoinTracker.API.CoinList.Application.Common.Providers;
-using CoinTracker.API.CoinList.Application.Services;
+﻿using CoinTracker.API.CoinList.Application.Services;
 using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
 using CoinTracker.API.CoinList.UnitTests.Fixture;
+using CoinTracker.API.SDK.Application.DataMapper;
+using CoinTracker.API.SDK.Application.IProvider;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
 {
     internal class CoinServiceTests
     {
-        private Mock<IProvider> provider;
+        private Mock<IProvider<Coin>> provider;
         private Mock<IDataMapper> mapper;
         private CoinService coinService;
         private RecivedCoinDto recivedCoin;
@@ -33,7 +28,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [SetUp]
         public void Setup()
         {
-            provider = new Mock<IProvider>();
+            provider = new Mock<IProvider<Coin>>();
             mapper = new Mock<IDataMapper>();
 
             coinService = new CoinService(provider.Object, mapper.Object);

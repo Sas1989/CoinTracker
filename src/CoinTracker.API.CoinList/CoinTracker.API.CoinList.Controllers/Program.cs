@@ -1,4 +1,4 @@
-using CoinTracker.API.CoinList.Controllers;
+using CoinTracker.API.CoinList;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,9 +19,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpsRedirection();
+
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-public partial class Program { }

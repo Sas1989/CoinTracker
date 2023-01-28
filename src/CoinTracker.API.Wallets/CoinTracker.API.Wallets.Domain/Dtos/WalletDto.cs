@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.Wallets.Domain.Dtos
 {
-    public class WalletDto
-    {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
+    public readonly record struct WalletDto(
+        Guid Id,
+        string Name,
+        string Description
+     );
 }

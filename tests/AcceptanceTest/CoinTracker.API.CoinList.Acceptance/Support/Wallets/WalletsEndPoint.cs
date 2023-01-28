@@ -8,6 +8,6 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Wallets
 {
     public static class WalletsEndPoint
     {
-        public const string API_WALLETS = "api/wallets";
+        public const string API_WALLETS = "api/wallet";
     }
 }

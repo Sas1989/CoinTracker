@@ -1,17 +1,13 @@
-﻿using CoinTracker.API.CoinList.Domain.Dtos;
+﻿using AutoMapper;
+using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
-using CoinTracker.API.Contracts.Coins;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CoinTracker.API.Contracts.Coin;
 
 namespace CoinTracker.Api.CoinList.Infrastructure.Mapper
 {
-    public class CoinMapper : AutoMapper.Profile
+    public class CoinMapperProfile : Profile
     {
-        public CoinMapper()
+        public CoinMapperProfile()
         {
             CreateMap<Coin, CoinDto>();
             CreateMap<RecivedCoinDto, Coin>();

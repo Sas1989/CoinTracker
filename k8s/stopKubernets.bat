@@ -1,8 +1,6 @@
-kubectl delete deploy cointracker-api-coinlist-depl
-kubectl delete services cointracker-api-coinlist-services-srv
-
-kubectl delete deploy cointracker-bus-rabbitmq-depl
-kubectl delete services cointracker-bus-rabbitmq-srv
-
-kubectl delete deploy -n ingress-nginx ingress-nginx-controller
-kubectl delete services -n ingress-nginx ingress-nginx-controller
+kubectl delete -f cointrackercoin-depL.yaml
+kubectl delete -f cointrackerwallet-depL.yaml
+kubectl delete -f rabbitmq-depl.yaml
+kubectl delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
+kubectl delete -f ingress.yaml
+kubectl delete -f local-pvc.yaml

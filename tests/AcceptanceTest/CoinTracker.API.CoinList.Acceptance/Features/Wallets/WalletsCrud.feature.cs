@@ -76,7 +76,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Features.Wallets
         [NUnit.Framework.TestAttribute()]
         [NUnit.Framework.DescriptionAttribute("Insert A new Wallet")]
         [NUnit.Framework.TestCaseAttribute("My first wallet", "This is my first wallet", null)]
-        [NUnit.Framework.TestCaseAttribute("Second Wallet", "sas", null)]
+        [NUnit.Framework.TestCaseAttribute("Second Wallet", "", null)]
         public virtual void InsertANewWallet(string name, string description, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
