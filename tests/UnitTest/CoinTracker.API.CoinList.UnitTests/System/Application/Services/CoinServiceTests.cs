@@ -33,19 +33,20 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
 
             coinService = new CoinService(provider.Object, mapper.Object);
 
-            recivedCoin = CoinFixture.GenerateRecivedDtos();
-            coinDto = CoinFixture.GenerateCoinDtos();
-            coin = CoinFixture.GenerateCoin();
-
-            symbolCoin = coin.Symbol;
-
             coinList = CoinFixture.GenereteListOfCoin();
             coinDtoList = CoinFixture.GenereteListOfCoinDtos();
             recivedCoinList = CoinFixture.GenereteListOfRecivedDtos();
 
+
+            recivedCoin = recivedCoinList.First();
+            coinDto = coinDtoList.First();
+            coin = coinList.First();
+
             idNew = Guid.NewGuid();
             updateId = coin.Id;
             idEmpty = Guid.Empty;
+
+            symbolCoin = coin.Symbol;
 
             mapper.Setup(mapper => mapper.Map<CoinDto>(coin)).Returns(coinDto);
             mapper.Setup(mapper => mapper.Map<Coin>(recivedCoin)).Returns(coin);

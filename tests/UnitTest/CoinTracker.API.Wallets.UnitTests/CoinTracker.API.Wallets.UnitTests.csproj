@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\CoinTracker.API.Wallets\CoinTracker.API.Wallets.Application\CoinTracker.API.Wallets.Application.csproj" />
     <ProjectReference Include="..\..\..\src\CoinTracker.API.Wallets\CoinTracker.API.Wallets.Controllers\CoinTracker.API.Wallets.csproj" />
+    <ProjectReference Include="..\Utility\CoinTracker.API.UnitTest.Utiltiy\CoinTracker.API.UnitTest.Utility.csproj" />
   </ItemGroup>
 
 </Project>

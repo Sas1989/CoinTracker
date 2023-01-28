@@ -53,6 +53,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinTracker.API.SDK.Domain"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoinTracker.API.SDK.UnitTests", "tests\UnitTest\CoinTracker.API.SDK.UnitTests\CoinTracker.API.SDK.UnitTests.csproj", "{1D69B9E0-BF2B-4E75-AE07-233D908F69A9}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utility", "Utility", "{295E1A1F-1C25-4BF4-BE03-BD682C2DE3D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinTracker.API.UnitTest.Utility", "tests\UnitTest\Utility\CoinTracker.API.UnitTest.Utiltiy\CoinTracker.API.UnitTest.Utility.csproj", "{E222BA1A-AA8B-4755-AFF8-C25313C5F627}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +131,10 @@ Global
 		{1D69B9E0-BF2B-4E75-AE07-233D908F69A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D69B9E0-BF2B-4E75-AE07-233D908F69A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D69B9E0-BF2B-4E75-AE07-233D908F69A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E222BA1A-AA8B-4755-AFF8-C25313C5F627}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E222BA1A-AA8B-4755-AFF8-C25313C5F627}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E222BA1A-AA8B-4755-AFF8-C25313C5F627}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E222BA1A-AA8B-4755-AFF8-C25313C5F627}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +162,8 @@ Global
 		{6B255DFF-6EC7-4C4F-8EB2-ABEC7D51E899} = {65291DEA-53D4-44FF-B8B2-A0DCB2B69376}
 		{4CE48DE6-B887-446A-8237-2C90CFD79E72} = {65291DEA-53D4-44FF-B8B2-A0DCB2B69376}
 		{1D69B9E0-BF2B-4E75-AE07-233D908F69A9} = {D7D547FE-83CD-4D18-8502-7D86A409FE1B}
+		{295E1A1F-1C25-4BF4-BE03-BD682C2DE3D0} = {D7D547FE-83CD-4D18-8502-7D86A409FE1B}
+		{E222BA1A-AA8B-4755-AFF8-C25313C5F627} = {295E1A1F-1C25-4BF4-BE03-BD682C2DE3D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0785CFC-6432-4B91-91E6-798D92141551}

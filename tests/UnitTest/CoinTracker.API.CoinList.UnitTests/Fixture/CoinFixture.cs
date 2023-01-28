@@ -1,181 +1,73 @@
 ﻿using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
 using CoinTracker.API.Contracts.Coin;
+using CoinTracker.API.UnitTest.Utiltiy.FixtureManager;
 
 namespace CoinTracker.API.CoinList.UnitTests.Fixture
 {
     internal static class CoinFixture
     {
-        private static List<GenericCoin> genericCoins = GenericCoinGenerator.Generate();
-
-        private static List<Coin> coins = BuildCoinList();
-        private static List<CoinDto> coinsDto = BuildCoinDtosList();
-        private static List<RecivedCoinDto> recivedCoinDtos = BuildRecivedDtosList();
-
-        private static List<CoinUpdate> coinsUpdate = BuildCoinUpdateList();
-        private static List<CoinInsert> coinsInsert = BuildCoinInsertList();
-        private static List<CoinDelete> coinsDelete = BuildCoinDeleteList();
+        private static FixureManger fixureManger = new FixureManger();
 
         internal static IEnumerable<CoinUpdate> GenereteListOfCoinUpdate()
         {
-            return coinsUpdate;
+            return fixureManger.CreateList<CoinUpdate>();
         }
 
         internal static IEnumerable<CoinInsert> GenereteListOfCoinInsert()
         {
-            return coinsInsert;
+            return fixureManger.CreateList<CoinInsert>();
         }
 
         internal static IEnumerable<CoinDelete> GenereteListOfCoinDelete()
         {
-            return coinsDelete;
+            return fixureManger.CreateList<CoinDelete>();
         }
 
         internal static IEnumerable<Coin> GenereteListOfCoin()
         {
-            return coins;
+            return fixureManger.CreateList<Coin>();
         }
 
         internal static IEnumerable<CoinDto> GenereteListOfCoinDtos()
         {
-            return coinsDto;
+            return fixureManger.CreateList<CoinDto>();
         }
 
         internal static IEnumerable<RecivedCoinDto> GenereteListOfRecivedDtos()
         {
-            return recivedCoinDtos;
+            return fixureManger.CreateList<RecivedCoinDto>();
         }
 
         internal static Coin GenerateCoin()
         {
-            return coins[0];
+            return fixureManger.Create<Coin>();
         }
 
         internal static CoinDto GenerateCoinDtos()
         {
-            return coinsDto[0];
+            return fixureManger.Create<CoinDto>();
         }
 
         internal static RecivedCoinDto GenerateRecivedDtos()
         {
-            return recivedCoinDtos[0];
+            return fixureManger.Create<RecivedCoinDto>();
         }
 
         internal static CoinUpdate GenerateCoinUpdate()
         {
-            return coinsUpdate[0];
+            return fixureManger.Create<CoinUpdate>();
         }
 
         internal static CoinInsert GenerateCoinInsert()
         {
-            return coinsInsert[0];
+            return fixureManger.Create<CoinInsert>();
         }
 
         internal static CoinDelete GenerateCoinDelete()
         {
-            return coinsDelete[0];
+            return fixureManger.Create<CoinDelete>();
         }
 
-        private static List<CoinDelete> BuildCoinDeleteList()
-        {
-            var list = new List<CoinDelete>();
-
-            foreach (var coin in genericCoins)
-            {
-                list.Add(new()
-                {
-                    Id = coin.Id,
-                });
-            }
-
-            return list;
-        }
-
-        private static List<CoinUpdate> BuildCoinUpdateList()
-        {
-            var list = new List<CoinUpdate>();
-
-            foreach (var coin in genericCoins)
-            {
-                list.Add(new(){
-                    Id = coin.Id,
-                    Symbol = coin.Symbol,
-                    Name = coin.Name,
-                    Value = coin.Value
-                });
-            }
-
-            return list;
-        }
-
-        private static List<CoinInsert> BuildCoinInsertList()
-        {
-            var list = new List<CoinInsert>();
-
-            foreach (var coin in genericCoins)
-            {
-                list.Add(new()
-                {
-                    Id = coin.Id,
-                    Symbol = coin.Symbol,
-                    Name = coin.Name,
-                    Value = coin.Value
-                });
-            }
-
-            return list;
-        }
-        private static List<Coin> BuildCoinList()
-        {
-            var list = new List<Coin>();
-
-            foreach (var coin in genericCoins)
-            {
-                list.Add(new()
-                {
-                    Id = coin.Id,
-                    Symbol = coin.Symbol,
-                    Name = coin.Name,
-                    Value = coin.Value
-                });
-            }
-
-            return list;
-        }
-
-        private static List<CoinDto> BuildCoinDtosList()
-        {
-            var list = new List<CoinDto>();
-
-            foreach (var coin in genericCoins)
-            {
-                list.Add(new()
-                {
-                    Id = coin.Id,
-                    Symbol = coin.Symbol,
-                    Name = coin.Name,
-                    Value = coin.Value
-                });
-            }
-
-            return list;
-        }
-
-        private static List<RecivedCoinDto> BuildRecivedDtosList()
-        {
-            var list = new List<RecivedCoinDto>();
-
-            foreach (var coin in genericCoins)
-            {
-                list.Add(new()
-                {
-                    Symbol = coin.Symbol,
-                    Name = coin.Name,
-                    Value = coin.Value
-                });
-            }
-
-            return list;
-        }
     }
 }

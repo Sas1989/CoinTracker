@@ -3,7 +3,7 @@ using CoinTracker.API.SDK.Application.IProvider;
 using CoinTracker.API.Wallets.Application.Services;
 using CoinTracker.API.Wallets.Domain.Dtos;
 using CoinTracker.API.Wallets.Domain.Entities;
-using CoinTracker.API.Wallets.UnitTests.Fixture;
+using CoinTracker.API.Wallets.UnitTests.Fixtures;
 using Moq;
 
 namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services

@@ -1,7 +1,7 @@
 ﻿using CoinTracker.API.Wallets.Application.Services.Interfaces;
 using CoinTracker.API.Wallets.Controllers;
 using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.UnitTests.Fixture;
+using CoinTracker.API.Wallets.UnitTests.Fixtures;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;

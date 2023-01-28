@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\CoinTracker.API.SDK\CoinTracker.API.SDK.Infrastructure\CoinTracker.API.SDK.Infrastructure.csproj" />
+    <ProjectReference Include="..\Utility\CoinTracker.API.UnitTest.Utiltiy\CoinTracker.API.UnitTest.Utility.csproj" />
   </ItemGroup>
 
 </Project>

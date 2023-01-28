@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CoinTracker.API.UnitTest.Utiltiy.FixtureManager;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,20 +9,15 @@ namespace CoinTracker.API.SDK.UnitTests.Fixure
 {
     internal static class GenerateEntity
     {
+        private static FixureManger fixureManger = new FixureManger();
         public static FakeEntity Generate()
         {
-            return new FakeEntity { Id = Guid.NewGuid() };
+            return fixureManger.Create<FakeEntity>();
         }
 
         public static IEnumerable<FakeEntity> GenerateList()
         {
-            var list = new List<FakeEntity>();
-            for(int i=0; i < 10; i++)
-            {
-                list.Add(new FakeEntity { Id = Guid.NewGuid() });
-            }
-
-            return list;
+            return fixureManger.CreateList<FakeEntity>();
         }
     }
 }
