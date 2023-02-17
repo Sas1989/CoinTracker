@@ -3,6 +3,7 @@ using CoinTracker.API.CoinList.Application.Services.Interfaces;
 using CoinTracker.API.CoinList.Controllers.Controllers;
 using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.UnitTests.Fixture;
+using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
@@ -37,25 +38,23 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
 
             newId = Guid.NewGuid();
             updateId = coinDto.Id;
-            nullCoinDto = null;
+            nullCoinDto = default(CoinDto);
             symbol = coinDto.Symbol;
 
-            coinservice.Setup(coinservice => coinservice.GetAllCoinsAsync()).ReturnsAsync(coinDtoList);
+            coinservice.Setup(coinservice => coinservice.GetAllAsync()).ReturnsAsync(coinDtoList);
 
-            coinservice.Setup(coinservice => coinservice.GetCoinAsync(newId)).ReturnsAsync(nullCoinDto);
-            coinservice.Setup(coinservice => coinservice.GetCoinAsync(coinDto.Id)).ReturnsAsync(coinDto);
-            coinservice.Setup(coinservice => coinservice.GetCoinAsync(symbol)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.GetAsync(coinDto.Id)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.GetAsync(symbol)).ReturnsAsync(coinDto);
             
             coinservice.Setup(coinservice => coinservice.CreateAsync(recivedCoin)).ReturnsAsync(coinDto);
             
             coinservice.Setup(coinservice => coinservice.CreateMultipleAsync(recivedCoinList)).ReturnsAsync(coinDtoList);
 
-            coinservice.Setup(coinservice => coinservice.UpdateCoin(updateId, recivedCoin)).ReturnsAsync(coinDto);
-            coinservice.Setup(coinservice => coinservice.UpdateCoin(newId, recivedCoin)).ReturnsAsync(nullCoinDto);
-            coinservice.Setup(coinservice => coinservice.UpdateCoin(symbol, recivedCoin)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(updateId, recivedCoin)).ReturnsAsync(coinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(symbol, recivedCoin)).ReturnsAsync(coinDto);
             
-            coinservice.Setup(coinservice => coinservice.DeleteCoin(newId)).ReturnsAsync(false);
-            coinservice.Setup(coinservice => coinservice.DeleteCoin(coinDto.Id)).ReturnsAsync(true);
+            coinservice.Setup(coinservice => coinservice.DeleteAsync(newId)).ReturnsAsync(false);
+            coinservice.Setup(coinservice => coinservice.DeleteAsync(coinDto.Id)).ReturnsAsync(true);
         }
         #region GetAsync
         [Test]
@@ -72,7 +71,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         {
             var result = await controller.GetAsync();
 
-            coinservice.Verify(coinservice => coinservice.GetAllCoinsAsync(), Times.Once());
+            coinservice.Verify(coinservice => coinservice.GetAllAsync(), Times.Once());
         }
 
         [Test]
@@ -93,12 +92,14 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         {
             var result = await controller.GetByIdAsync(newId);
 
-            coinservice.Verify(coinservice => coinservice.GetCoinAsync(newId), Times.Once());
+            coinservice.Verify(coinservice => coinservice.GetAsync(newId), Times.Once());
         }
 
         [Test]
         public async Task GetByIdAsync_CoinNotFound_Return404()
         {
+            coinservice.Setup(coinservice => coinservice.GetAsync(newId)).ThrowsAsync(new EntityNotFoundException());
+            
             var result = await controller.GetByIdAsync(newId);
 
             Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
@@ -222,7 +223,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         {
             var result = await controller.GetBySimbolAsync(symbol);
 
-            coinservice.Verify(x => x.GetCoinAsync(symbol), Times.Once);
+            coinservice.Verify(x => x.GetAsync(symbol), Times.Once);
         }
         [Test]
         public async Task GetBySimbol_Retruns_CoinDto()
@@ -236,7 +237,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         [Test]
         public async Task GetBySimbol_Retruns_404_WhenNotFound()
         {
-            coinservice.Setup(x => x.GetCoinAsync(symbol)).ReturnsAsync(nullCoinDto);
+            coinservice.Setup(x => x.GetAsync(symbol)).ThrowsAsync(new EntityNotFoundException());
 
             var result = await controller.GetBySimbolAsync(symbol);
 
@@ -259,7 +260,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         {
             var result = await controller.PutAsync(updateId, recivedCoin);
 
-            coinservice.Verify(x => x.UpdateCoin(updateId, recivedCoin), Times.Once);
+            coinservice.Verify(x => x.UpdateAsync(updateId, recivedCoin), Times.Once);
         }
 
         [Test]
@@ -274,6 +275,8 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         [Test]
         public async Task PutAsync_CoinNotFund_Returns_404Code()
         {
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(newId, recivedCoin)).ThrowsAsync(new EntityNotFoundException());
+            
             var result = await controller.PutAsync(newId, recivedCoin);
 
             Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
@@ -309,7 +312,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         {
             var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
 
-            coinservice.Verify(x => x.UpdateCoin(symbol, recivedCoin), Times.Once);
+            coinservice.Verify(x => x.UpdateAsync(symbol, recivedCoin), Times.Once);
         }
 
         [Test]
@@ -324,7 +327,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         [Test]
         public async Task PutBySymbolAsync_CoinNotFund_Returns_404Codee()
         {
-            coinservice.Setup(coinservice => coinservice.UpdateCoin(symbol, recivedCoin)).ReturnsAsync(nullCoinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(symbol, recivedCoin)).ThrowsAsync(new EntityNotFoundException());
 
             var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
 
@@ -342,7 +345,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         [Test]
         public async Task PutBySymbolAsync_Publish_GoOnError_CalledNever()
         {
-            coinservice.Setup(coinservice => coinservice.UpdateCoin(symbol, recivedCoin)).ReturnsAsync(nullCoinDto);
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(symbol, recivedCoin)).ReturnsAsync(nullCoinDto);
 
             var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
             coinPublisher.Verify(coinservice => coinservice.PublishUpdateAsync(coinDto), Times.Never());
@@ -363,7 +366,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Controllers
         {
             var result = await controller.DeleteAsync(coinDto.Id);
 
-            coinservice.Verify(x => x.DeleteCoin(coinDto.Id), Times.Once);
+            coinservice.Verify(x => x.DeleteAsync(coinDto.Id), Times.Once);
         }
 
         [Test]

@@ -26,7 +26,7 @@ namespace CoinTracker.API.Wallets.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            var wallet = await walletServices.GetWalletAsync(id);
+            var wallet = await walletServices.GetAsync(id);
             if(wallet == null)
             {
                 return NotFound();
@@ -38,7 +38,7 @@ namespace CoinTracker.API.Wallets.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            if(await walletServices.DeleteWalletAsync(id))
+            if(await walletServices.DeleteAsync(id))
             {
                 return Ok();
             }
@@ -50,7 +50,7 @@ namespace CoinTracker.API.Wallets.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAsync()
         {
-            var wallets = await walletServices.GetWalletAsync();
+            var wallets = await walletServices.GetAllAsync();
             return Ok(wallets);
         }
     }

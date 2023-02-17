@@ -28,7 +28,7 @@ namespace CoinTracker.Api.CoinList.Infrastructure
                 });
             });
 
-            services.AddScoped<ICoinPublisher, RabbitMqPublisher>();
+            services.AddSingleton<ICoinPublisher, RabbitMqPublisher>();
             return services;
         }
     }

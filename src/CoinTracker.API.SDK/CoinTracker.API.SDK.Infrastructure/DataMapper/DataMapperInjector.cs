@@ -9,7 +9,7 @@ namespace CoinTracker.API.SDK.Infrastructure.DataMapper
     {
         public static IServiceCollection AddDataMapper<TProfile>(this IServiceCollection services)
         {
-            services.AddScoped<IDataMapper, AutoMapperDataMapper>();
+            services.AddSingleton<IDataMapper, AutoMapperDataMapper>();
             services.AddAutoMapper(Assembly.GetAssembly(typeof(TProfile)));
             return services;
         }

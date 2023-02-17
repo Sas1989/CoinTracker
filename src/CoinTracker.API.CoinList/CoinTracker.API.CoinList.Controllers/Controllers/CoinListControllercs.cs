@@ -1,6 +1,7 @@
 ﻿using CoinTracker.API.CoinList.Application.Common.Publishers;
 using CoinTracker.API.CoinList.Application.Services.Interfaces;
 using CoinTracker.API.CoinList.Domain.Dtos;
+using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoinTracker.API.CoinList.Controllers.Controllers
@@ -22,7 +23,7 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
         public async Task<IActionResult> GetAsync()
         {
 
-            var result = await coinService.GetAllCoinsAsync();
+            var result = await coinService.GetAllAsync();
 
             return Ok(result);
         }
@@ -30,16 +31,31 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            CoinDto coin = await coinService.GetCoinAsync(id);
-            
-            return CoinResultAsync(coin);
+            try
+            {
+                CoinDto coin = await coinService.GetAsync(id);
+                return Ok(coin);
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+
         }
         [HttpGet("symbol/{symbol}")]
         public async Task<IActionResult> GetBySimbolAsync(string symbol)
         {
-            var coin = await coinService.GetCoinAsync(symbol);
+            try
+            {
+                var coin = await coinService.GetAsync(symbol);
+                return Ok(coin);
+            }
+            catch (EntityNotFoundException)
+            {
 
-            return CoinResultAsync(coin);
+                return NotFound();
+            }
+            
         }
 
         [HttpPost]
@@ -47,9 +63,9 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
         {
             CoinDto coin = await coinService.CreateAsync(coinDto);
 
-            await PublishCreation(coin);
+            await coinPublisher.PublishCreateAsync(coin);
 
-            return CoinResultAsync(coin);
+            return Ok(coin);
         }
 
         [HttpPost("bulk")]
@@ -57,7 +73,7 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
         {
             IEnumerable<CoinDto> coins = await coinService.CreateMultipleAsync(recivedCoin);
 
-            await PublishCreation(coins);
+            await coinPublisher.PublishCreateAsync(coins);
 
             return Ok(coins);
         }
@@ -65,73 +81,47 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAsync(Guid id, RecivedCoinDto recivedCoin)
         {
-            var coin = await coinService.UpdateCoin(id, recivedCoin);
+            try
+            {
+                var coin = await coinService.UpdateAsync(id, recivedCoin);
+                await coinPublisher.PublishUpdateAsync(coin);
+                return Ok(coin);
+            }
+            catch (EntityNotFoundException)
+            {
 
-            await PublishUpdate(coin);
+                return NotFound();
+            }
 
-            return CoinResultAsync(coin);
         }
 
         [HttpPut("symbol/{symbol}")]
         public async Task<IActionResult> PutBySymbolAsync(string symbol, RecivedCoinDto recivedCoin)
         {
-            var coin = await coinService.UpdateCoin(symbol, recivedCoin);
+            try
+            {
+                var coin = await coinService.UpdateAsync(symbol, recivedCoin);
+                await coinPublisher.PublishUpdateAsync(coin);
+                return Ok(coin);
+            }
+            catch (EntityNotFoundException)
+            {
 
-            await PublishUpdate(coin);
+                return NotFound();
+            }
 
-            return CoinResultAsync(coin);
         }
-
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            if (await coinService.DeleteCoin(id))
+            if (await coinService.DeleteAsync(id))
             {
-                await PublishDelete(id);
+                await coinPublisher.PublishDeleteAsync(id);
                 return Ok();
             }
 
             return NotFound();
-        }
-
-        private IActionResult CoinResultAsync(CoinDto coin)
-        {
-            if (coin == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(coin);
-        }
-
-        private async Task PublishCreation(CoinDto coin)
-        {
-            if (coin != null)
-            {
-                await coinPublisher.PublishCreateAsync(coin);
-            }
-        }
-
-        private async Task PublishCreation(IEnumerable<CoinDto> coins)
-        {
-            if (coins != null)
-            {
-                await coinPublisher.PublishCreateAsync(coins);
-            }
-        }
-
-        private async Task PublishUpdate(CoinDto coin)
-        {
-            if (coin != null)
-            {
-                await coinPublisher.PublishUpdateAsync(coin);
-            }
-        }
-
-        private async Task PublishDelete(Guid id)
-        {
-            await coinPublisher.PublishDeleteAsync(id);
         }
     }
 }

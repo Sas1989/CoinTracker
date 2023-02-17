@@ -1,11 +1,5 @@
 ﻿using AutoMapper;
 using CoinTracker.API.SDK.Infrastructure.DataMapper;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoinTracker.API.SDK.UnitTests.System.Infrastructure.DataMapper
 {

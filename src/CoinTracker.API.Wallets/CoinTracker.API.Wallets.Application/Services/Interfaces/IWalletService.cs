@@ -1,12 +1,10 @@
-﻿using CoinTracker.API.Wallets.Domain.Dtos;
+﻿using CoinTracker.API.SDK.Application.ApplicationService.Interfaces;
+using CoinTracker.API.Wallets.Domain.Dtos;
+using CoinTracker.API.Wallets.Domain.Entities;
 
 namespace CoinTracker.API.Wallets.Application.Services.Interfaces
 {
-    public interface IWalletService
+    public interface IWalletService : IApplicationService<Wallet,WalletDto,RecivedWalletDto>
     {
-        Task<WalletDto> CreateAsync(RecivedWalletDto recivedWallet);
-        Task<WalletDto?> GetWalletAsync(Guid walletId);
-        Task<IEnumerable<WalletDto>> GetWalletAsync();
-        Task<bool> DeleteWalletAsync(Guid walletId);
     }
 }

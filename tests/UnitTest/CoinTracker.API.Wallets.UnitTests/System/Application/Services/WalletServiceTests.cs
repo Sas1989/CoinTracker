@@ -65,7 +65,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         [Test]
         public async Task GetWalletAsync_IProvider_CalledOnes()
         {
-            var actualWallet = await walletService.GetWalletAsync(walletDtoId);
+            var actualWallet = await walletService.GetAsync(walletDtoId);
 
             provider.Verify(provider => provider.GetAsync(walletDtoId), Times.Once);
         }
@@ -73,7 +73,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         [Test]
         public async Task GetWalletAsync_Return_WalletDto()
         {
-            var actualWallet = await walletService.GetWalletAsync(walletDtoId);
+            var actualWallet = await walletService.GetAsync(walletDtoId);
 
             Assert.AreEqual(actualWallet, walletDto);
         }
@@ -81,7 +81,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         [Test]
         public async Task DeleteWalletAsync_DeleteAsync_CalledOnce()
         {
-            var ret = await walletService.DeleteWalletAsync(walletDtoId);
+            var ret = await walletService.DeleteAsync(walletDtoId);
 
             provider.Verify(provider => provider.DeleteAsync(walletDtoId), Times.Once);
         }
@@ -89,7 +89,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         [Test]
         public async Task DeleteWalletAsync_ReturnTrue()
         {
-            var ret = await walletService.DeleteWalletAsync(walletDtoId);
+            var ret = await walletService.DeleteAsync(walletDtoId);
 
             Assert.IsTrue(ret);
         }
@@ -99,7 +99,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         {
             provider.Setup(provider => provider.DeleteAsync(walletDtoId)).ReturnsAsync(false);
 
-            var ret = await walletService.DeleteWalletAsync(walletDtoId);
+            var ret = await walletService.DeleteAsync(walletDtoId);
 
             Assert.IsFalse(ret);
         }
@@ -108,7 +108,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         public async Task GetWalletAsync_GetAllAsync_CalledOnce()
         {
 
-            var ret = await walletService.GetWalletAsync();
+            var ret = await walletService.GetAllAsync();
 
             provider.Verify(provider => provider.GetAllAsync(), Times.Once);
         }
@@ -116,7 +116,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
         [Test]
         public async Task GetWalletAsync_Return_WalletDotIEnumerable()
         {
-            var wallets = await walletService.GetWalletAsync();
+            var wallets = await walletService.GetAllAsync();
 
             Assert.AreEqual(wallets, walletDtoList);
         }

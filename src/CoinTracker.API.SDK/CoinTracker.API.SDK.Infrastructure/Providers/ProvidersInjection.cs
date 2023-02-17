@@ -16,7 +16,7 @@ namespace CoinTracker.API.SDK.Infrastructure.Providers
 
             BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
             BsonSerializer.RegisterSerializer(new DateTimeOffsetSerializer(BsonType.String));
-            services.AddScoped<IProvider<T>>(provider =>
+            services.AddSingleton<IProvider<T>>(provider =>
             {
                 var configuration = provider.GetService<IConfiguration>();
                 string connectionstring = $"mongodb://{configuration["MongoDb:host"]}:{configuration["MongoDb:port"]}";

@@ -1,12 +1,6 @@
 ﻿using CoinTracker.API.SDK.Infrastructure.Providers;
 using CoinTracker.API.SDK.UnitTests.Fixure;
 using MongoDB.Driver;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CoinTracker.API.SDK.UnitTests.System.Infrastructure.Providers
 {
@@ -23,8 +17,8 @@ namespace CoinTracker.API.SDK.UnitTests.System.Infrastructure.Providers
             mongoCollection = new Mock<IMongoCollection<FakeEntity>>();
             provider = new MongoDbProvider<FakeEntity>(mongoCollection.Object);
 
-            entity = GenerateEntity.Generate();
-            entities = GenerateEntity.GenerateList();
+            entity = GenerateFakeModels.GenerateEntity();
+            entities = GenerateFakeModels.GenerateEntityList();
         }
 
         [Test]
