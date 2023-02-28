@@ -107,7 +107,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("Put a new value 40000 using his Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.Then("The coin is updated sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The coin is saved sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -147,7 +147,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("Put a new value 40000 using his Symbol", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
- testRunner.Then("The coin is updated sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The coin is saved sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -187,7 +187,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("Put a new symbol Lunc and TerraClassic", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 19
- testRunner.Then("The coin is updated sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The coin is saved sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -221,7 +221,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 22
- testRunner.Given("A new Id no present in the application with random data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("A coin not present in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 23
  testRunner.When("Put a new value 10 using his Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

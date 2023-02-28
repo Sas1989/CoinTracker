@@ -9,6 +9,6 @@ Scenario: Delete existing coin by Id
 	Then Coin is deleted
 
 Scenario: Try To delete coin not in database
-	Given A new Id no present in the application with random data
+	Given A coin not present in the database
 	When Delete coin using ID
 	Then Recive a 404 status

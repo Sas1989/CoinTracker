@@ -2,6 +2,7 @@ using CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions;
 using CoinTracker.API.CoinList.Acceptance.Support.Wallets;
 using CoinTracker.API.CoinList.Acceptance.Support.Wallets.Models;
 using System;
+using System.Net;
 using System.Net.Http.Json;
 using TechTalk.SpecFlow;
 
@@ -17,56 +18,84 @@ namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions.Wallets
             this.walletAction = ActionFactory.GetAction<WalletsActions>();
         }
 
-        [Given(@"A new wallet with name (.*)")]
-        public void GivenANewWalletWithNameName(string name)
+        [Given(@"A new wallet with name (.*) and description (.*)")]
+        public void GivenANewWalletWithNameName(string name, string description)
         {
-            var wallet = new RecivedWallet { Name = name };
+            var wallet = new RecivedWallet { Name = name , Description = description };
             scenarioContext.Add(WalletsKeys.INPUT_WALLET, wallet);
         }
 
-        [Given(@"a (.*) as description")]
-        public void GivenADescriptionAsDescription(string description)
+        [Given(@"An existing wallet with (.*) as name and (.*) as description")]
+        public async Task GivenAnExistingWalletWithAsNameAndAsDescriptionAsync(string name, string description)
         {
-            var wallet = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
-            wallet.Description = description;
-            scenarioContext[WalletsKeys.INPUT_WALLET] = wallet;
+            var existingWallet = new RecivedWallet { Name = name, Description = description };
+            var dbwallet = await walletAction.Create(existingWallet);
+            scenarioContext.Add(WalletsKeys.DATABASE_WALLET, dbwallet);
+            scenarioContext.Add(WalletsKeys.DATABASE_WALLET_ID, dbwallet.Id);
+            scenarioContext.Add(WalletsKeys.INPUT_WALLET, existingWallet);
+        }
+
+        [Given(@"a wallet not in the database")]
+        public void GivenAWalletNotInTheDatabase()
+        {
+            var wallet = new RecivedWallet { Name = "Random", Description = "Random" };
+            scenarioContext.Add(WalletsKeys.DATABASE_WALLET_ID, Guid.NewGuid());
+            scenarioContext.Add(WalletsKeys.INPUT_WALLET, wallet);
         }
 
         [When(@"I post this wallet")]
-        public async Task WhenIPushThisWalletAsync()
+        public async Task WhenIPostThisWalletAsync()
         {
-            var data = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
+            RecivedWallet data = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
             var result = await httpClient.PostAsJsonAsync(WalletsEndPoint.API_WALLETS, data);
             scenarioContext.Add(WalletsKeys.ACTION_RESULT, result);
 
         }
 
-        [Then(@"Post action return Ok")]
-        public async Task ThenPostActionReturnOkAsync()
+        [When(@"I put this wallet")]
+        public async Task WhenIPushThisWalletAsync()
         {
-            var result = scenarioContext.Get<HttpResponseMessage>(WalletsKeys.ACTION_RESULT);
-            result.StatusCode.Should().Be(System.Net.HttpStatusCode.OK);
-
-            var wallet = await result.Content.ReadFromJsonAsync<Wallet>();
-
-            wallet.Should().NotBeNull();
-            wallet.Id.Should().NotBeEmpty();
-
-            scenarioContext.Add(WalletsKeys.CREATE_WALLET_ID, wallet.Id);
+            RecivedWallet data = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
+            Guid id = scenarioContext.Get<Guid>(WalletsKeys.DATABASE_WALLET_ID);
+            var result = await httpClient.PutAsJsonAsync($"{WalletsEndPoint.API_WALLETS}/{id}", data);
+            scenarioContext.Add(WalletsKeys.ACTION_RESULT, result);
 
         }
 
+        [When(@"I update name with (.*)")]
+        public void WhenIUpdateNameWithNewName(string newValue)
+        {
+            RecivedWallet existWallet = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
+            existWallet.Name = newValue;
+
+            scenarioContext[WalletsKeys.INPUT_WALLET] = existWallet;
+        }
+
+        [When(@"I update description with (.*)")]
+        public void WhenIUpdateDescriptionWithNewName(string newValue)
+        {
+            RecivedWallet existWallet = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
+            existWallet.Description = newValue;
+
+            scenarioContext[WalletsKeys.INPUT_WALLET] = existWallet;
+        }
 
         [Then(@"The wallet is well saved")]
         public async Task ThenTheWalletIsWellSavedAsync()
         {
-            var walletId = scenarioContext.Get<Guid>(WalletsKeys.CREATE_WALLET_ID);
+            var result = scenarioContext.Get<HttpResponseMessage>(WalletsKeys.ACTION_RESULT);
+            var wallet = await result.Content.ReadFromJsonAsync<Wallet>();
+
             var expectedWallet = scenarioContext.Get<RecivedWallet>(WalletsKeys.INPUT_WALLET);
 
-            var savedWallet = (RecivedWallet)await walletAction.Get(walletId);
+            wallet.Should().NotBeNull();
+            wallet.Id.Should().NotBeEmpty();
+
+            var savedWallet = (RecivedWallet)await walletAction.Get(wallet.Id);
 
             savedWallet.Should().Be(expectedWallet);
 
         }
+
     }
 }

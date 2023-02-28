@@ -11,7 +11,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Hooks
     [Binding]
     internal class DatabaseHooks
     {
-        [BeforeScenario]
+        [BeforeScenario,AfterScenario]
         public async Task EmptyDatabaseAsync()
         {
             var actions = ActionFactory.GetAll();

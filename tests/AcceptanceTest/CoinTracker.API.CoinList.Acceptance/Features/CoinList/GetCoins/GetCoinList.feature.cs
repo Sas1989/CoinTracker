@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace CoinTracker.API.CoinList.Acceptance.Features.CoinList.DeleteCoins.GetCoins
+namespace CoinTracker.API.CoinList.Acceptance.Features.CoinList.GetCoins
 {
     using TechTalk.SpecFlow;
     using System;
@@ -35,7 +35,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Features.CoinList.DeleteCoins.GetC
         public virtual void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/CoinList/DeleteCoins/GetCoins", "Get all the coin list", "Get all the coin list ", ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "Features/CoinList/GetCoins", "Get all the coin list", "Get all the coin list ", ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -124,7 +124,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("The following coin in the database", ((string)(null)), table1, "Given ");
 #line hidden
 #line 13
- testRunner.When("Request All the coin", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Get All coins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 14
  testRunner.Then("I recive all the coin", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");

@@ -1,4 +1,5 @@
-﻿using CoinTracker.API.Wallets.Application.Services.Interfaces;
+﻿using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
+using CoinTracker.API.Wallets.Application.Services.Interfaces;
 using CoinTracker.API.Wallets.Controllers;
 using CoinTracker.API.Wallets.Domain.Dtos;
 using CoinTracker.API.Wallets.UnitTests.Fixtures;
@@ -38,6 +39,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
 
 
             walletService.Setup(service => service.CreateAsync(recivedWallet)).ReturnsAsync(walletDto);
+            walletService.Setup(service => service.UpdateAsync(walletId,recivedWallet)).ReturnsAsync(walletDto);
             walletService.Setup(service => service.GetAsync(walletId)).ReturnsAsync(walletDto);
             walletService.Setup(service => service.DeleteAsync(walletId)).ReturnsAsync(true);
             walletService.Setup(service => service.GetAllAsync()).ReturnsAsync(walletDtoList);
@@ -100,17 +102,17 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
             Assert.AreEqual(walletDto, walletActual.Value);
         }
 
-        /*
+
         [Test]
         public async Task GetByIdAsync_WalletNotFound_Return404()
         {
-            walletService.Setup(service => service.GetAsync(walletId)).ReturnsAsync(nullWalletDto);
+            walletService.Setup(service => service.GetAsync(walletId)).Throws<EntityNotFoundException>();
 
             var ret = await wallertController.GetByIdAsync(walletId);
 
             Assert.That(ret, Is.TypeOf(typeof(NotFoundResult)));
         }
-        */
+ 
         [Test]
         public async Task DelteAsync_Retrun_Ok()
         {
@@ -161,6 +163,44 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
             var walletActual = (OkObjectResult)ret;
 
             Assert.AreEqual(walletDtoList, walletActual.Value);
+        }
+
+        [Test]
+        public async Task PutAsync_Retrun_OK()
+        {
+            var ret = await wallertController.PutAsync(walletId, recivedWallet);
+
+            Assert.That(ret, Is.TypeOf(typeof(OkObjectResult)));
+        }
+
+        [Test]
+        public async Task PutAsyc_Create_CalledOnce()
+        {
+
+            var ret = await wallertController.PutAsync(walletId, recivedWallet);
+
+            walletService.Verify(service => service.UpdateAsync(walletId, recivedWallet), Times.Once);
+        }
+
+        [Test]
+        public async Task PutAsync_Return_WalletDto()
+        {
+            var ret = await wallertController.PutAsync(walletId, recivedWallet);
+
+            var walletActual = (OkObjectResult)ret;
+
+            Assert.AreEqual(walletDto, walletActual.Value);
+
+        }
+
+        [Test]
+        public async Task PutAsync_WalletNotFound_Return404()
+        {
+            walletService.Setup(service => service.UpdateAsync(walletId, recivedWallet)).Throws<EntityNotFoundException>();
+
+            var ret = await wallertController.PutAsync(walletId, recivedWallet);
+
+            Assert.That(ret, Is.TypeOf(typeof(NotFoundResult)));
         }
     }
 }

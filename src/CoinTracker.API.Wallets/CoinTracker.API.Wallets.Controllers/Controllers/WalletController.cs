@@ -1,4 +1,5 @@
 ﻿
+using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
 using CoinTracker.API.Wallets.Application.Services.Interfaces;
 using CoinTracker.API.Wallets.Domain.Dtos;
 using Microsoft.AspNetCore.Mvc;
@@ -26,13 +27,16 @@ namespace CoinTracker.API.Wallets.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            var wallet = await walletServices.GetAsync(id);
-            if(wallet == null)
+            try
+            {
+                var wallet = await walletServices.GetAsync(id);
+                return Ok(wallet);
+            }
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
 
-            return Ok(wallet);
         }
 
         [HttpDelete("{id}")]
@@ -52,6 +56,22 @@ namespace CoinTracker.API.Wallets.Controllers
         {
             var wallets = await walletServices.GetAllAsync();
             return Ok(wallets);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(Guid id, RecivedWalletDto recivedWallet)
+        {
+            try
+            {
+                var wallet = await walletServices.UpdateAsync(id, recivedWallet);
+                return Ok(wallet);
+            }
+            catch (EntityNotFoundException)
+            {
+
+                return NotFound();
+            }
+
         }
     }
 }

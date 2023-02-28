@@ -7,7 +7,7 @@ Scenario: Insert A new Coin in the system
 	When Post the coin
 	Then Recive a 200 status
 	And Recive the coin sent with a new id created
-	And The coin is created sucessfully
+	And The coin is saved sucessfully
 
 Scenario: Insert an Invalid Coin in the system
 	Given A new coin ETH with description Etherium with a negative value
@@ -15,7 +15,7 @@ Scenario: Insert an Invalid Coin in the system
 	Then Recive en error message
 
 Scenario: Insert multiple Coin
-	Given A new coin with the following value:
+	Given A new coins with the following value:
 		| Symbol | Name			| Value		|
 		| ETH    | Etherium		| 16927.72  |
 		| USDT	 | Thether		| 0.9854	|

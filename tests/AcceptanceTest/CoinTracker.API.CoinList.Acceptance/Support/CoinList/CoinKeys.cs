@@ -12,8 +12,6 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.CoinList
         public static string DATABASE_COIN = "DATABASE_COIN";
         public static string DATABASE_COIN_SYMBOL = "DATABASE_COIN_SYMBOL";
 
-        public static string ACTION_RESULT = "ACTION_RESULT";
-
         public static string INPUT_COIN = "INPUT_COIN";
     }
 }

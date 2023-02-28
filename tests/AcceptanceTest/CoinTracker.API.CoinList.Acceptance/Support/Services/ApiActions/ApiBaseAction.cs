@@ -30,9 +30,10 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
             return await result.Content.ReadFromJsonAsync<T>();
         }
 
-        public async Task CreateMassive<RecivedObject>(List<RecivedObject> data)
+        public async Task<IEnumerable<T>> CreateMassive<RecivedObject>(List<RecivedObject> data)
         {
             var result = await client.PostAsJsonAsync(bulkEndPoint, data);
+            return await result.Content.ReadFromJsonAsync<IEnumerable<T>>();
         }
 
         public async Task<T> Get(Guid id)
@@ -51,6 +52,22 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
         {
             await client.DeleteAsync($"{singleEndPoint}/{id}");
         }
+
+        public async Task<bool> Exist(Guid id)
+        {
+            var result = await client.GetAsync($"{singleEndPoint}/{id}");
+            switch (result.StatusCode)
+            {
+                case System.Net.HttpStatusCode.OK:
+                    return true;
+                case System.Net.HttpStatusCode.NotFound:
+                    return false;
+                default:
+
+                    throw new Exception($"Error status code : {result.StatusCode}");
+            }
+        }
+
 
         public async Task Clean()
         {

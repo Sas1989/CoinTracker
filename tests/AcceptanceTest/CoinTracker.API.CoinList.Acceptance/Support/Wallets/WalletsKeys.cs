@@ -10,7 +10,8 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Wallets
     {
         public const string INPUT_WALLET = "INPUT_WALLET";
         public const string ACTION_RESULT = "ACTION_RESULT";
-        public const string CREATE_WALLET_ID = "CREATE_WALLET_ID";
+        public const string DATABASE_WALLET_ID = "DATABASE_WALLET_ID";
+        public const string DATABASE_WALLET = "DATABASE_WALLET";
 
     }
 }

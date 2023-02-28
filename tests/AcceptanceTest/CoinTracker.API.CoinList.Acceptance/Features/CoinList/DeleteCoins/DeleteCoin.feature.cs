@@ -141,7 +141,7 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 12
- testRunner.Given("A new Id no present in the application with random data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("A coin not present in the database", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 13
  testRunner.When("Delete coin using ID", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

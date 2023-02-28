@@ -113,7 +113,7 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.And("Recive the coin sent with a new id created", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 10
- testRunner.And("The coin is created sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("The coin is saved sucessfully", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -207,7 +207,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "BNB",
                             "288.27"});
 #line 18
- testRunner.Given("A new coin with the following value:", ((string)(null)), table2, "Given ");
+ testRunner.Given("A new coins with the following value:", ((string)(null)), table2, "Given ");
 #line hidden
 #line 24
  testRunner.When("Post the coins", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
