@@ -2,17 +2,9 @@ version: '3.4'
 
 services:
 
-  cointracker.db.mongo:
-    image: mongo
-    container_name: Cointracker.Db.Mongo
-    ports:
-      - 27017:27017
-    volumes:
-      - "mongodb:/data/db"
-   
   cointracker.bus.rabbitmq:
     image: rabbitmq:management
-    container_name: Cointracker.Bus.RabbitMQ
+    container_name: Cointracker.BUS.RabbitMQ
     ports:
         - 5672:5672
         - 15672:15672
@@ -20,6 +12,13 @@ services:
         - rabbitmqdata:/var/lib/rabbitmq
     hostname: rabbitmq
 
+  cointracker.db.mongo:
+    image: mongo
+    container_name: Cointracker.DB.Mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - "mongodb:/data/db"
 
   cointracker.api.coinlist:
     image: ${DOCKER_REGISTRY-}cointrackerapicoinlistcontrollers
@@ -28,6 +27,21 @@ services:
     build:
       context: .
       dockerfile: src/CoinTracker.API.CoinList/CoinTracker.API.CoinList.Controllers/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__host=cointracker.db.mongo
+      - RabbitMqSettings__host=cointracker.bus.rabbitmq
+
+  cointracker.api.wallets:
+    image: ${DOCKER_REGISTRY-}cointrackerapiwalletscontrollers
+    ports:
+      - 50002:80
+    build:
+      context: .
+      dockerfile: src/CoinTracker.API.Wallets/CoinTracker.API.Wallets.Controllers/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDb__host=cointracker.db.mongo
 
 volumes:
   mongodb:

@@ -1,21 +1,12 @@
 ﻿using CoinTracker.API.CoinList.Domain.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CoinTracker.API.CoinList.Domain.Entities;
+using CoinTracker.API.SDK.Application.ApplicationService.Interfaces;
 
 namespace CoinTracker.API.CoinList.Application.Services.Interfaces
 {
-    public interface ICoinService
+    public interface ICoinService : IApplicationService<Coin, CoinDto, RecivedCoinDto>
     {
-        Task<IEnumerable<CoinDto>> GetAllCoinsAsync();
-        Task<CoinDto> GetCoinAsync(Guid id);
-        Task<CoinDto> GetCoinAsync(string symbol);
-        Task<CoinDto> CreateAsync(RecivedCoinDto recivedCoin);
-        Task<IEnumerable<CoinDto>> CreateMultipleAsync(IEnumerable<RecivedCoinDto> recivedCoin);
-        Task<CoinDto> UpdateCoin(Guid id, RecivedCoinDto recivedCoin);
-        Task<CoinDto> UpdateCoin(string symbol, RecivedCoinDto recivedCoin);
-        Task<bool> DeleteCoin(Guid id);
+        Task<CoinDto> GetAsync(string symbol);
+        Task<CoinDto> UpdateAsync(string symbol, RecivedCoinDto recivedCoin);
     }
 }

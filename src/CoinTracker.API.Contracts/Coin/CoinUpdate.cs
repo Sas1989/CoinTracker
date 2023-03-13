@@ -1,6 +1,4 @@
-﻿using CoinTracker.API.Contracts.Coins;
-
-namespace CoinTracker.API.Contracts.Coins
+﻿namespace CoinTracker.API.Contracts.Coin
 {
     public class CoinUpdate : CoinContract
     {

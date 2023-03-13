@@ -1,8 +1,7 @@
-﻿using CoinTracker.API.CoinList.Application.Common.Mappers;
-using CoinTracker.API.CoinList.Application.Common.Publishers;
+﻿using CoinTracker.API.CoinList.Application.Common.Publishers;
 using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.Contracts.Coins;
+using CoinTracker.API.SDK.Application.DataMapper;
 using MassTransit;
 using System;
 using System.Collections.Generic;

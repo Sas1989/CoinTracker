@@ -1,5 +1,4 @@
-﻿using CoinTracker.API.CoinList.Application.Common.Mappers;
-using CoinTracker.API.CoinList.Application.Common.Providers;
+﻿using CoinTracker.API.SDK.Application.IProvider;
 using CoinTracker.API.CoinList.Application.Services.Interfaces;
 using CoinTracker.API.CoinList.Domain.Dtos;
 using CoinTracker.API.CoinList.Domain.Entities;
@@ -8,109 +7,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoinTracker.API.SDK.Application.DataMapper;
+using CoinTracker.API.SDK.Application.ApplicationService;
+using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
 
 namespace CoinTracker.API.CoinList.Application.Services
 {
-    public class CoinService : ICoinService
+    public class CoinService : ApplicationService<Coin, CoinDto, RecivedCoinDto>, ICoinService
     {
-        private readonly IProvider provider;
-        private readonly IDataMapper mapper;
-
-        public CoinService(IProvider provider, IDataMapper mapper)
+        public CoinService(IProvider<Coin> provider, IDataMapper mapper) : base(provider, mapper)
         {
-            this.provider = provider;
-            this.mapper = mapper;
         }
 
-        public async Task<CoinDto> CreateAsync(RecivedCoinDto recivedCoin)
+        public async Task<CoinDto> GetAsync(string symbol)
         {
-            Coin coin = mapper.Map<Coin>(recivedCoin);
-            var insertCoin = await provider.CreateAsync(coin);
-            return ToDto(insertCoin);
-
-        }
-
-        public async Task<IEnumerable<CoinDto>> CreateMultipleAsync(IEnumerable<RecivedCoinDto> recivedCoin)
-        {
-            var coins = mapper.Map<IEnumerable<Coin>>(recivedCoin);
-            var insertCoins = await provider.CreateAsync(coins);
-            return ToDto(insertCoins);
-        }
-
-        public async Task<bool> DeleteCoin(Guid id)
-        {
-            if (id == Guid.Empty)
-            {
-                return false;
-            }
-
-            return await provider.DeleteAsync(id);
-        }
-
-        public async Task<IEnumerable<CoinDto>> GetAllCoinsAsync()
-        {
-            IEnumerable<Coin> coins = await provider.GetAllAsync();
-            return ToDto(coins);
-        }
-
-        public async Task<CoinDto> GetCoinAsync(Guid id)
-        {
-            if (id == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
-
-            Coin coin = await provider.GetAsync(id);
-
-            return ToDto(coin);
-        }
-
-        public async Task<CoinDto> GetCoinAsync(string symbol)
-        {
-            if(string.IsNullOrEmpty(symbol))
-            {
-                throw new ArgumentNullException(nameof(symbol));
-            }
+            CheckSymbol(symbol);
 
             var coinList = await provider.GetAsync(nameof(Coin.Symbol), symbol);
-            
-            if(coinList.Count() == 0)
-            {
-                return null;
-            }
+
+            CheckNoCoinFound(coinList);
 
             return ToDto(coinList.First());
         }
 
-        public async Task<CoinDto> UpdateCoin(Guid id, RecivedCoinDto recivedCoin)
+        public async Task<CoinDto> UpdateAsync(string symbol, RecivedCoinDto recivedCoin)
         {
-            if (id == Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(id));
-            }
+            CheckSymbol(symbol);
 
-            var coin = mapper.Map<Coin>(recivedCoin);
-            coin.Id = id;
-
-            var coinUpdated = await provider.UpdateAsync(coin);
-
-            return ToDto(coinUpdated);
-        }
-
-        public async Task<CoinDto> UpdateCoin(string symbol, RecivedCoinDto recivedCoin)
-        {
-            if (string.IsNullOrEmpty(symbol)){
-                throw new ArgumentNullException(nameof(symbol));
-            }
-            
             var coinList = await provider.GetAsync(nameof(Coin.Symbol), symbol);
 
-            if (coinList.Count() == 0)
-            {
-                return null;
-            }
+            CheckNoCoinFound(coinList);
 
-            var coin = mapper.Map<Coin>(recivedCoin);
+            var coin = ToEntity(recivedCoin);
             coin.Id = coinList.First().Id;
 
             var coinUpdated = await provider.UpdateAsync(coin);
@@ -118,14 +46,20 @@ namespace CoinTracker.API.CoinList.Application.Services
             return ToDto(coinUpdated);
         }
 
-        private CoinDto ToDto(Coin coin)
+        private static void CheckNoCoinFound(IEnumerable<Coin> coinList)
         {
-            return mapper.Map<CoinDto>(coin);
+            if (!coinList.Any())
+            {
+                throw new EntityNotFoundException();
+            }
         }
 
-        private IEnumerable<CoinDto> ToDto(IEnumerable<Coin> coinList)
+        private static void CheckSymbol(string symbol)
         {
-            return mapper.Map<IEnumerable<CoinDto>>(coinList);
+            if (string.IsNullOrEmpty(symbol))
+            {
+                throw new ArgumentNullException(nameof(symbol));
+            }
         }
     }
 }

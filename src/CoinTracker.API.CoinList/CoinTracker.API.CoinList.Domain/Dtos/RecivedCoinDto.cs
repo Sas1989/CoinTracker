@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.Domain.Dtos
 {
-    public class RecivedCoinDto
-    {
-        [Required]
-        public string Symbol { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Range(0, int.MaxValue)]
-        public decimal Value { get; set; }
-    }
+    public readonly record struct RecivedCoinDto
+    (
+        [property: Required]
+        string Symbol,
+        [property: Required]
+        string Name,
+        [property: Range(0, int.MaxValue)]
+        decimal Value
+    );
 }

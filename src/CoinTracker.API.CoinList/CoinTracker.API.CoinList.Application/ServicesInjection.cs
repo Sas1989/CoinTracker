@@ -13,7 +13,7 @@ namespace CoinTracker.API.CoinList.Application
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<ICoinService, CoinService>();
+            services.AddSingleton<ICoinService, CoinService>();
             return services;
         }
     }

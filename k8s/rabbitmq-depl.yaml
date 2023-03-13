@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cointracker-bus-rabbitmq-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cointracker-bus-rabbitmq
+  template:
+    metadata:
+      labels:
+        app: cointracker-bus-rabbitmq
+    spec:
+      containers:
+        - name: cointracker-bus-rabbitmq
+          image: rabbitmq:management
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cointracker-bus-rabbitmq-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: cointracker-bus-rabbitmq
+  ports:
+  - name: rbmq-mgmt-port
+    protocol: TCP
+    port: 15672
+    targetPort: 15672
+  - name: rbmq-msg-port
+    protocol: TCP
+    port: 5672
+    targetPort: 5672

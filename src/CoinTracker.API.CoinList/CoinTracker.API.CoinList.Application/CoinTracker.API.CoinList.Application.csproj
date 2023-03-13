@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\CoinTracker.API.SDK\CoinTracker.API.SDK.Application\CoinTracker.API.SDK.Application.csproj" />
     <ProjectReference Include="..\CoinTracker.API.CoinList.Domain\CoinTracker.API.CoinList.Domain.csproj" />
   </ItemGroup>
 

@@ -7,14 +7,11 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.Domain.Dtos
 {
-    public class CoinDto
-    {
-        public Guid Id { get; set; }
-        [Required]
-        public string Symbol { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Range(0, int.MaxValue)]
-        public decimal Value { get; set; }
-    }
+    public readonly record struct CoinDto
+    (
+        Guid Id,
+        string Symbol,
+        string Name,
+        decimal Value
+    );
 }
