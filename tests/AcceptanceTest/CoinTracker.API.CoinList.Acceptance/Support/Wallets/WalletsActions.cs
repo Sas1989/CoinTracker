@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.Acceptance.Support.Wallets
 {
-    public class WalletsActions : ApiBaseAction<Wallet>
+    public class WalletsActions : BaseAction<Wallet>
     {
-        public WalletsActions() : base(WalletsEndPoint.API_WALLETS, "")
+        public WalletsActions() : base(WalletsEndPoint.API_WALLETS, WalletsEndPoint.API_WALLETS_BULK)
         {
         }
     }

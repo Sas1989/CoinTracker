@@ -1,9 +1,10 @@
 ﻿
+using CoinTracker.API.CoinList.Acceptance.Support.Services.BaseModels;
+
 namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions.Interface
 {
-    public interface IApiActionBase
+    public interface ICleanable
     {
         Task Clean();
-        Task Delete(Guid id);
     }
 }

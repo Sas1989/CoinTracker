@@ -9,9 +9,9 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
 {
     internal static class ActionFactory
     {
-        private static readonly Dictionary<Type, IApiActionBase> _actions = new Dictionary<Type, IApiActionBase>();
+        private static readonly Dictionary<Type, object> _actions = new Dictionary<Type, object>();
 
-        public static T GetAction<T>() where T : IApiActionBase, new()
+        public static T GetAction<T>() where T : ICleanable, new()
         {
             var action = typeof(T);
 
@@ -22,9 +22,14 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
             return (T)_actions[action];
         }
 
-        public static List<IApiActionBase> GetAll()
+        public static async Task ClearAllAsync()
         {
-            return _actions.Values.ToList();
+            var task = new List<Task>();
+            foreach (ICleanable action in _actions.Values)
+            {
+                task.Add(action.Clean());
+            }
+            await Task.WhenAll(task);
         }
     }
 }

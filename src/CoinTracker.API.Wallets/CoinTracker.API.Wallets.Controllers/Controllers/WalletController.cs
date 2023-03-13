@@ -73,5 +73,13 @@ namespace CoinTracker.API.Wallets.Controllers
             }
 
         }
+
+        [HttpPost("bulk")]
+        public async Task<IActionResult> BulkAsync(IEnumerable<RecivedWalletDto> recivedWallets)
+        {
+            IEnumerable<WalletDto> wallets = await walletServices.CreateMultipleAsync(recivedWallets);
+
+            return Ok(wallets);
+        }
     }
 }

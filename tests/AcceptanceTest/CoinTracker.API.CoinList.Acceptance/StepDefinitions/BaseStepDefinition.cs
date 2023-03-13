@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions;
+using CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions.Interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,11 +12,13 @@ namespace CoinTracker.API.CoinList.Acceptance.StepDefinitions
     {
         protected readonly ScenarioContext scenarioContext;
         protected readonly HttpClient httpClient;
+        protected readonly ICleanable action;
 
         public BaseStepDefinition(ScenarioContext scenarioContext, HttpClient httpClient)
         {
             this.scenarioContext = scenarioContext;
             this.httpClient = httpClient;
         }
+
     }
 }

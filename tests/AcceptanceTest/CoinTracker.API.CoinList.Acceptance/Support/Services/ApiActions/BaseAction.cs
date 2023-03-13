@@ -10,29 +10,23 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
 {
-    public class ApiBaseAction<T> : IApiActionBase where T : BaseEntity
+    public class BaseAction<T> : ICleanable where T : BaseEntity
     {
         protected readonly string singleEndPoint;
         protected readonly string bulkEndPoint;
         protected readonly HttpClient client;
 
 
-        protected ApiBaseAction(string SingleEndPoint, string BulkEndPoint)
+        protected BaseAction(string SingleEndPoint, string BulkEndPoint)
         {
             singleEndPoint = SingleEndPoint;
             bulkEndPoint = BulkEndPoint;
             client = new HttpClientFactory().Build();
         }
 
-        public async Task<T> Create(object data)
+        public async Task<IEnumerable<T>> GetAll()
         {
-            var result = await client.PostAsJsonAsync(singleEndPoint, data);
-            return await result.Content.ReadFromJsonAsync<T>();
-        }
-
-        public async Task<IEnumerable<T>> CreateMassive<RecivedObject>(List<RecivedObject> data)
-        {
-            var result = await client.PostAsJsonAsync(bulkEndPoint, data);
+            var result = await client.GetAsync($"{singleEndPoint}");
             return await result.Content.ReadFromJsonAsync<IEnumerable<T>>();
         }
 
@@ -42,9 +36,15 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
             return await result.Content.ReadFromJsonAsync<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<T> Create<TRecivedEntity>(TRecivedEntity data)
         {
-            var result = await client.GetAsync($"{singleEndPoint}");
+            var result = await client.PostAsJsonAsync(singleEndPoint, data);
+            return await result.Content.ReadFromJsonAsync<T>();
+        }
+
+        public async Task<IEnumerable<T>> CreateMassive<TRecivedEntity>(List<TRecivedEntity> data)
+        {
+            var result = await client.PostAsJsonAsync(bulkEndPoint, data);
             return await result.Content.ReadFromJsonAsync<IEnumerable<T>>();
         }
 
@@ -68,15 +68,17 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Services.ApiActions
             }
         }
 
-
         public async Task Clean()
         {
             var elements = await GetAll();
+            var task = new List<Task>();
 
-            foreach (T e in elements)
+            foreach (var e in elements)
             {
-                await Delete(e.Id);
+                task.Add(Delete(e.Id));
             }
+            await Task.WhenAll(task);
         }
+
     }
 }

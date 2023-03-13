@@ -14,11 +14,7 @@ namespace CoinTracker.API.CoinList.Acceptance.Hooks
         [BeforeScenario,AfterScenario]
         public async Task EmptyDatabaseAsync()
         {
-            var actions = ActionFactory.GetAll();
-            foreach(var action in actions)
-            {
-                await action.Clean();
-            }
+            await ActionFactory.ClearAllAsync();
         }
     }
 }

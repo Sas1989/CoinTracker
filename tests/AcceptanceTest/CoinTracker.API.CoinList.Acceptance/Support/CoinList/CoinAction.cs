@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CoinTracker.API.CoinList.Acceptance.Support.CoinList
 {
-    public class CoinAction : ApiBaseAction<Coin>
+    public class CoinAction : BaseAction<Coin>
     {
         public CoinAction() : base(CoinListEndPoint.API_COIN, CoinListEndPoint.API_COIN_BULK)
         {

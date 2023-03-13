@@ -24,3 +24,31 @@ Scenario: Update not exising wallet
 	Given a wallet not in the database
 	When I put this wallet
 	Then Recive a 404 status
+
+Scenario: Get a wallet
+	Given An existing wallet with GenericWallet as name and WalletDescription as description
+	When I get wallet by ID
+	Then I recive the requested wallet
+
+Scenario: Get Not existing wallet
+	Given a wallet not in the database
+	When I get wallet by ID
+	Then Recive a 404 status
+
+Scenario: Get all wallets
+	Given The following wallets in the database
+		| Name            | Description             |
+		| My first wallet | This is my first wallet |
+		| Second Wallet   |                         |
+	When I gets all wallets
+	Then I recive all the wallets
+
+Scenario: Delete Coin
+	Given An existing wallet with GenericWallet as name and WalletDescription as description
+	When I delete this wallet
+	Then The wallet is well deleted
+
+Scenario: Delete not existing coin
+	Given a wallet not in the database
+	When I delete this wallet
+	Then Recive a 404 status

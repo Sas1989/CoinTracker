@@ -22,6 +22,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
         private Guid walletId;
         private WalletDto? nullWalletDto;
         private IEnumerable<WalletDto> walletDtoList;
+        private IEnumerable<RecivedWalletDto> recivedWalletList;
 
         [SetUp]
         public void Setup()
@@ -36,6 +37,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
             nullWalletDto = null;
 
             walletDtoList = WalletFixture.WalletDtoList();
+            recivedWalletList = WalletFixture.RecivedWalletList();
 
 
             walletService.Setup(service => service.CreateAsync(recivedWallet)).ReturnsAsync(walletDto);
@@ -43,6 +45,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
             walletService.Setup(service => service.GetAsync(walletId)).ReturnsAsync(walletDto);
             walletService.Setup(service => service.DeleteAsync(walletId)).ReturnsAsync(true);
             walletService.Setup(service => service.GetAllAsync()).ReturnsAsync(walletDtoList);
+            walletService.Setup(service => service.CreateMultipleAsync(recivedWalletList)).ReturnsAsync(walletDtoList);
         }
 
         [Test]
@@ -201,6 +204,34 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
             var ret = await wallertController.PutAsync(walletId, recivedWallet);
 
             Assert.That(ret, Is.TypeOf(typeof(NotFoundResult)));
+        }
+
+        [Test]
+        public async Task PostBulkAsync_Retrun_OK()
+        {
+            var ret = await wallertController.BulkAsync(recivedWalletList);
+
+            Assert.That(ret, Is.TypeOf(typeof(OkObjectResult)));
+        }
+
+        [Test]
+        public async Task PostBulkAsync_Return_WalletDtoList()
+        {
+            var ret = await wallertController.BulkAsync(recivedWalletList);
+
+            var walletsActual = (OkObjectResult)ret;
+
+            Assert.AreEqual(walletDtoList, walletsActual.Value);
+
+        }
+
+        [Test]
+        public async Task PostBulkAsync_CreateMassive_CalledOnce()
+        {
+
+            var ret = await wallertController.BulkAsync(recivedWalletList);
+
+            walletService.Verify(service => service.CreateMultipleAsync(recivedWalletList), Times.Once);
         }
     }
 }
