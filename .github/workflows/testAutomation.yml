@@ -29,6 +29,12 @@ jobs:
         kubectl apply -f local-pvc.yaml
         kubectl apply -f cointrackercoin-depL.yaml
         kubectl apply -f cointrackerwallet-depL.yaml
+    - name: Wait service up
+      run: | 
+        until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=2m; do
+          echo 'Waiting for example-deployment to be ready...'
+          sleep 1
+        done
     - name: Test Api
       run: |
         curl http://localhost/api/coin/
