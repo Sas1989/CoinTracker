@@ -19,6 +19,10 @@ jobs:
     - name: Configure kubectl
       run: |
         kubectl cluster-info --context kind-test-cluster
+    - name: Deploy app to Kubernetes
+      run: |
+        kubectl apply -f k8s/rabbitmq-depl.yaml
+      
     - name: Delete Kunbernetes cluster
       run: |
         kind delete cluster
