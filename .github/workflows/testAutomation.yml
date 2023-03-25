@@ -29,7 +29,9 @@ jobs:
         kubectl apply -f local-pvc.yaml
         kubectl apply -f cointrackercoin-depL.yaml
         kubectl apply -f cointrackerwallet-depL.yaml
-      
+    - name: Test Api
+      run: |
+        curl http://localhost/api/coin/
     - name: Delete Kunbernetes cluster
       run: |
         kind delete cluster
