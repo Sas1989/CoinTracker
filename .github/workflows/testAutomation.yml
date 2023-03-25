@@ -7,15 +7,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Install kubectl
-      uses: steebchen/kubectl@v2.0.0
     - name: Set up Minikube
-      uses: engineerd/setup-kind@v0.5.0
-      with:
-        kind-version: "v0.11.1"
-    - name: Start Minikube
-      run: |
-        minikube start
-    - name: Stop Minikube
-      run: |
-        minikube stop
+      uses: medyagh/setup-minikube@latest
+    - name: kubectl
+      run: kubectl cluster-info
