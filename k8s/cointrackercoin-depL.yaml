@@ -15,10 +15,3 @@ spec:
       containers:
         - name: cointracker-coinlist-db-mongo
           image: mongo
-          volumeMounts:
-          - mountPath: /data/db
-            name: mongodb-coin
-      volumes:
-      - name: mongodb-coin
-        persistentVolumeClaim:
-          claimName: mongodb-coin-volumeclaim
