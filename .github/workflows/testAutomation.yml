@@ -7,7 +7,28 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Set up Minikube
-      uses: medyagh/setup-minikube@latest
-    - name: kubectl
-      run: kubectl cluster-info
+    - name: Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
+    - name: Install kind
+      run: |
+        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
+        chmod +x ./kind
+        sudo mv ./kind /usr/local/bin/kind
+    - name: Create Kubernetes cluster
+      run: |
+        kind create cluster
+    - name: Setup kubectl
+      run: |
+        sudo apt-get update && sudo apt-get install -y apt-transport-https
+        curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+        echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+        sudo apt-get update
+        sudo apt-get install -y kubectl
+    - name: Configure kubectl
+      run: |
+        kubectl cluster-info
+    - name: Delete Kunbernetes cluster
+      run: |
+        kind delete cluster
