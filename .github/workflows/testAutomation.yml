@@ -15,10 +15,10 @@ jobs:
         sudo mv ./kind /usr/local/bin/kind
     - name: Create Kubernetes cluster
       run: |
-        kind create cluster --config kind-config.yaml
+        kind create cluster --name test-cluster --config kind-config.yaml
     - name: Configure kubectl
       run: |
-        kubectl cluster-info
+        kubectl cluster-info --name test-cluster
     - name: Delete Kunbernetes cluster
       run: |
         kind delete cluster
