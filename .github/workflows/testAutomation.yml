@@ -33,7 +33,7 @@ jobs:
       run: | 
         until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
           echo 'Waiting for example-deployment to be ready...'
-          kubectl logs deployment/cointracker-api-coinlist-depl
+          kubectl logs deployment/cointracker-api-coinlist-depl -c cointracker-api-coinlist
           sleep 1
         done
     - name: Test Api
