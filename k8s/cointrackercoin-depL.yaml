@@ -18,3 +18,7 @@ spec:
           volumeMounts:
           - mountPath: /data/db
             name: mongodb-coin
+      volumes:
+      - name: mongodb-coin
+        persistentVolumeClaim:
+          claimName: mongodb-coin-volumeclaim
