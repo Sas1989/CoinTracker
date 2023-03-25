@@ -31,9 +31,9 @@ jobs:
         kubectl apply -f cointrackerwallet-depL.yaml
     - name: Wait service up
       run: | 
-        until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=1m; do
+        until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
           echo 'Waiting for example-deployment to be ready...'
-          kubectl get events 
+          kubectl logs deployment/cointracker-api-coinlist-depl
           sleep 1
         done
     - name: Test Api
