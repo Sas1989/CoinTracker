@@ -28,7 +28,6 @@ jobs:
         kubectl apply -f ingress.yaml
         kubectl apply -f local-pvc.yaml
         kubectl apply -f cointrackercoin-depL.yaml
-        kubectl apply -f cointrackerwallet-depL.yaml
     - name: Wait service up
       run: | 
         kubectl get deploy
