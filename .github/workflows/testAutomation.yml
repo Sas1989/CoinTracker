@@ -27,11 +27,9 @@ jobs:
     - name: Wait service up
       run: | 
         kubectl get deploy
-        kubectl logs pod/cointracker-api-coinlist-depl-7486747b84-9trd4 -c cointracker-coinlist-db-mongo
         until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
           echo 'Waiting for example-deployment to be ready...'
           kubectl get deploy
-          kubectl logs pod/cointracker-api-coinlist-depl-7486747b84-9trd4 -c cointracker-coinlist-db-mongo
           sleep 1
         done
     - name: Test Api
