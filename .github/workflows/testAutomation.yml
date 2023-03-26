@@ -1,26 +1,37 @@
 name: "Create cluster using KinD"
 on: [push]
 
-env:
-  IMAGE_NAME: sas1989/cointrackerapicoinlist:latest
 
 jobs:
-  test_image:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up Kubernetes CLI
-        uses: azure/setup-kubectl@v1
-      - name: Retrieve Docker image
-        run: |
-          kubectl create deployment cointracker --image=$IMAGE_NAME
-          kubectl rollout status deployment/cointracker
+    - name: Set up KIND
+      uses: docker/setup-kind@v1
+      with:
+        config: |
+          kind: Cluster
+          apiVersion: kind.x-k8s.io/v1alpha4
+          nodes:
+          - role: control-plane
+            image: kindest/node:v1.22.2
+            extraPortMappings:
+            - containerPort: 80
+              hostPort: 8080
+              protocol: TCP
 
-      - name: Make request to Docker image
-        run: |
-          POD_NAME=$(kubectl get pods --selector=app=cointracker --output=jsonpath={.items..metadata.name})
-          kubectl port-forward $POD_NAME 8080:80 &
-          sleep 5
-          curl http://localhost:8080/health
+    - name: Install Helm
+      uses: azure/setup-helm@v1.0.3
+
+    - name: Deploy Coin Tracker API
+      run: |
+        kubectl create deployment cointrackerapi --image=sas1989/cointrackerapicoinlist:latest
+        kubectl expose deployment cointrackerapi --type=LoadBalancer --port=80
+
+    - name: Test Coin Tracker API
+      uses: crazy-max/curl@v1
+      with:
+        args: -sSL http://localhost:8080/api/coin
