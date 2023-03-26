@@ -9,9 +9,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Set up Kubernetes CLI
       uses: azure/setup-kubectl@v1
-      with:
-        version: '1.22.3'
-        download: true
+      
     - name: Deploy app to Kubernetes
       run: |
         cd k8s
