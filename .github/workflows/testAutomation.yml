@@ -38,10 +38,10 @@ jobs:
         done
         kubectl get services
         kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
-        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].port}'
+        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
     - name: Test Api
       run: |
-        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].port}')
+        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
         NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
         echo "http://$NODE_IP:$NODE_PORT/api/coin"
         curl -I http://$NODE_IP:$NODE_PORT/api/coin
