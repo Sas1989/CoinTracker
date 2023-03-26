@@ -38,8 +38,11 @@ jobs:
         done
         kubectl get pods
         kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
+        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].nodePort}'
     - name: Test Api
       run: |
+        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].nodePort}')
+        NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
         curl http://localhost/api/coin/
     - name: Delete Kunbernetes cluster
       run: |
