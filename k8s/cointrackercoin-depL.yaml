@@ -15,3 +15,22 @@ spec:
       containers:
         - name: cointracker-coinlist-db-mongo
           image: mongo
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongodb-coin
+        - name: cointracker-api-coinlist
+          image: sas1989/cointrackerapicoinlist:latest
+      volumes:
+      - name: mongodb-coin
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cointracker-api-coinlist
+spec:
+  type: ClusterIP
+  selector:
+    app: cointracker-api-coinlist
+  ports:
+    - port: 80
+      targetPort: 80
