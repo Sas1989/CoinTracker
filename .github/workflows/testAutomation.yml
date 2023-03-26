@@ -13,10 +13,6 @@ jobs:
 
       - name: Set up Kubernetes CLI
         uses: azure/setup-kubectl@v1
-        with:
-          version: '1.22.3'
-          download: true
-
       - name: Retrieve Docker image
         run: |
           kubectl create deployment cointracker --image=$IMAGE_NAME
