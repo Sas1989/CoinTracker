@@ -36,15 +36,15 @@ jobs:
           kubectl get deploy
           sleep 1
         done
-        kubectl get pods
+        kubectl get services
         kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
-        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].nodePort}'
+        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].port}'
     - name: Test Api
       run: |
-        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].nodePort}')
+        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].port}')
         NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
         echo "http://$NODE_IP/api/coin:$NODE_PORT"
-        curl -I http://$NODE_IP/api/coin
+        curl -I http://$NODE_IP/api/coin:$NODE_PORT
     - name: Delete Kunbernetes cluster
       run: |
         kind delete cluster
