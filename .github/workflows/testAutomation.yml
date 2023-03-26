@@ -36,6 +36,12 @@ jobs:
           kubectl get deploy
           sleep 1
         done
+        PODS=$(kubectl get pods -o=name)
+        for POD in $PODS
+          do
+            echo "Logs for $POD:"
+            kubectl logs $POD
+          done
     - name: Test Api
       run: |
         curl http://localhost/api/coin/
