@@ -1,37 +1,50 @@
 name: "Create cluster using KinD"
 on: [push]
 
-
 jobs:
-  build:
+  kind:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v2
-
-    - name: Set up KIND
-      uses: docker/setup-kind@v1
-      with:
-        config: |
-          kind: Cluster
-          apiVersion: kind.x-k8s.io/v1alpha4
-          nodes:
-          - role: control-plane
-            image: kindest/node:v1.22.2
-            extraPortMappings:
-            - containerPort: 80
-              hostPort: 8080
-              protocol: TCP
-
-    - name: Install Helm
-      uses: azure/setup-helm@v1.0.3
-
-    - name: Deploy Coin Tracker API
+   
+    - name: Install kind
       run: |
-        kubectl create deployment cointrackerapi --image=sas1989/cointrackerapicoinlist:latest
-        kubectl expose deployment cointrackerapi --type=LoadBalancer --port=80
-
-    - name: Test Coin Tracker API
-      uses: crazy-max/curl@v1
-      with:
-        args: -sSL http://localhost:8080/api/coin
+        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
+        chmod +x ./kind
+        sudo mv ./kind /usr/local/bin/kind
+    - name: Create Kubernetes cluster
+      run: |
+        kind create cluster --name test-cluster --config kind-config.yaml
+    - name: Configure kubectl
+      run: |
+        kubectl cluster-info --context kind-test-cluster
+    - name: Deploy app to Kubernetes
+      run: |
+        cd k8s
+        kubectl apply -f rabbitmq-depl.yaml
+        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
+        kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+        kubectl apply -f ingress.yaml
+        kubectl apply -f local-pvc.yaml
+        kubectl apply -f cointrackercoin-depL.yaml
+    - name: Wait service up
+      run: | 
+        kubectl get deploy
+        until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
+          echo 'Waiting for example-deployment to be ready...'
+          kubectl get deploy
+          sleep 1
+        done
+        kubectl get services
+        kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
+        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
+    - name: Test Api
+      run: |
+        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
+        NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
+        echo "http://$NODE_IP:$NODE_PORT/api/coin"
+        curl -I http://localhost/api/coin
+    - name: Delete Kunbernetes cluster
+      run: |
+        kind delete cluster
