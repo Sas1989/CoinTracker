@@ -43,7 +43,8 @@ jobs:
       run: |
         NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].nodePort}')
         NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
-        curl http://localhost/api/coin/
+        echo "http://$NODE_IP/api/coin:$NODE_PORT"
+        curl -I http://$NODE_IP/api/coin
     - name: Delete Kunbernetes cluster
       run: |
         kind delete cluster
