@@ -46,7 +46,7 @@ jobs:
         echo "http://$NODE_IP:$NODE_PORT/api/coin"
         kubectl describe ingress
         kubectl get nodes -o wide
-        curl -X http://$NODE_IP:$NODE_PORT/api/coin
+        curl --location --request GET 'http://$NODE_IP:$NODE_PORT/api/coin'
     - name: Debug
       run: |
         echo "Starting interactive shell"
