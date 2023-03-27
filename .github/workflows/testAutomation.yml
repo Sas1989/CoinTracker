@@ -16,7 +16,7 @@ jobs:
     - name: Create Kubernetes cluster
       run: |
         kind create cluster --name test-cluster --config kind-config.yaml
-        kind get kubeconfig --internal >$HOME/.kube/config
+        kind get kubeconfig --internal >$HOME/.kube/config --name test-cluster
     - name: Configure kubectl
       run: |
         kubectl cluster-info --context kind-test-cluster
