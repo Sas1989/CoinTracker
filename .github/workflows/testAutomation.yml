@@ -45,6 +45,7 @@ jobs:
         NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
         echo "http://$NODE_IP:$NODE_PORT/api/coin"
         kubectl describe ingress
+        kubectl get nodes -o wide
         curl -I http://$NODE_IP:$NODE_PORT/api/coin
     - name: Debug
       run: |
