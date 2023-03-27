@@ -16,7 +16,6 @@ jobs:
     - name: Create Kubernetes cluster
       run: |
         kind create cluster --loglevel debug
-        kind get kubeconfig --internal >$HOME/.kube/config
     - name: Configure kubectl
       run: |
         kubectl cluster-info
@@ -47,7 +46,7 @@ jobs:
         echo "http://$NODE_IP:$NODE_PORT/api/coin"
         kubectl describe ingress
         kubectl get nodes -o wide
-        curl http://$NODE_IP:$NODE_PORT/api/coin
+        curl http://$NODE_IP:6443/api/coin
     - name: Debug
       run: |
         echo "Starting interactive shell"
