@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   kind:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -35,6 +35,10 @@ jobs:
         kubectl get services
         kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
         kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
+    - name: Debug
+      run: |
+        echo "Starting interactive shell"
+        bash  
     - name: Test Api
       run: |
         NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
