@@ -15,11 +15,10 @@ jobs:
         sudo mv ./kind /usr/local/bin/kind
     - name: Create Kubernetes cluster
       run: |
-        kind create cluster --name test-cluster --config kind-config.yaml
-        kind get kubeconfig --internal --name test-cluster > $HOME/.kube/config
+        kind create cluster
     - name: Configure kubectl
       run: |
-        kubectl cluster-info --context kind-test-cluster
+        kubectl cluster-info
     - name: Deploy app to Kubernetes
       run: |
         cd k8s
