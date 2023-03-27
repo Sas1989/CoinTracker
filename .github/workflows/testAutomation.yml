@@ -46,6 +46,7 @@ jobs:
         echo "http://$NODE_IP:$NODE_PORT/api/coin"
         kubectl describe ingress
         kubectl get nodes -o wide
+        apt-get update; apt-get install -y curl
         curl http://$NODE_IP:$NODE_PORT/api/coin
     - name: Debug
       run: |
