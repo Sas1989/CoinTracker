@@ -3,7 +3,7 @@ on: [push]
 
 jobs:
   kind:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -26,7 +26,7 @@ jobs:
         kubectl apply -f cointrackercoin-depL.yaml
     - name: Wait service up
       run: | 
-        kubectl cluster-info dump
+        kubectl get ingress -o jsonpath='{range .items[*]}{range .spec.rules[*]}{range .http.paths[*]}{.path}{"\n"}{end}{end}{end}'
         until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
           echo 'Waiting for example-deployment to be ready...'
           kubectl get deploy
