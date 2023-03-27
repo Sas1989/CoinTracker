@@ -15,8 +15,8 @@ jobs:
         sudo mv ./kind /usr/local/bin/kind
     - name: Create Kubernetes cluster
       run: |
+        kind create cluster --loglevel debug
         kind get kubeconfig --internal >$HOME/.kube/config
-        kind create cluster
     - name: Configure kubectl
       run: |
         kubectl cluster-info
