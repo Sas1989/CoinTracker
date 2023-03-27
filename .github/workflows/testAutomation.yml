@@ -1,49 +1,17 @@
 name: "Create cluster using KinD"
-on: [push]
+on: [pull_request, push]
 
 jobs:
   kind:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-   
-    - name: Install kind
-      run: |
-        curl -Lo ./kind https://kind.sigs.k8s.io/dl/v0.17.0/kind-linux-amd64
-        chmod +x ./kind
-        sudo mv ./kind /usr/local/bin/kind
-    - name: Create Kubernetes cluster
-      run: |
-        kind create cluster --loglevel debug
-    - name: Configure kubectl
-      run: |
-        kubectl cluster-info
-    - name: Deploy app to Kubernetes
-      run: |
-        cd k8s
-        kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
-        kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
-        kubectl apply -f ingress.yaml
-        kubectl apply -f local-pvc.yaml
-        kubectl apply -f cointrackercoin-depL.yaml
-    - name: Wait service up
-      run: | 
-        kubectl describe ingress
-        kubectl get ingress -o jsonpath='{range .items[*]}{range .spec.rules[*]}{range .http.paths[*]}{.path}{"\n"}{end}{end}{end}'
-        until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
-          echo 'Waiting for example-deployment to be ready...'
-          kubectl get deploy
-          sleep 1
-        done
-        kubectl get services
-        kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
-        kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
-    - name: Test Api
-      run: |
-        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
-        NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
-        echo "http://$NODE_IP:$NODE_PORT/api/coin"
-        kubectl describe ingress
-        kubectl get nodes -o wide
-        curl http://127.0.0.1/api/coin
+      - uses: actions/checkout@master
+      - uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: "v0.11.1"
+      - name: Testing
+        run: |
+          kubectl cluster-info
+          kubectl get pods -n kube-system
+          echo "current-context:" $(kubectl config current-context)
+          echo "environment-kubeconfig:" ${KUBECONFIG}
