@@ -29,6 +29,7 @@ jobs:
         kubectl apply -f cointrackercoin-depL.yaml
     - name: Wait service up
       run: | 
+        kubectl get ingress
         kubectl get ingress -o jsonpath='{range .items[*]}{range .spec.rules[*]}{range .http.paths[*]}{.path}{"\n"}{end}{end}{end}'
         until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
           echo 'Waiting for example-deployment to be ready...'
