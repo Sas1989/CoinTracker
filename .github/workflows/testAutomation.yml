@@ -9,6 +9,31 @@ jobs:
       - uses: engineerd/setup-kind@v0.5.0
         with:
           version: "v0.11.1"
+      - name: Deploy app to Kubernetes
+        run: |
+          cd k8s
+          kubectl apply -f rabbitmq-depl.yaml
+          kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.5.1/deploy/static/provider/cloud/deploy.yaml
+          kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+          kubectl apply -f ingress.yaml
+          kubectl apply -f local-pvc.yaml
+          kubectl apply -f cointrackercoin-depL.yaml
+      - name: Wait service up
+        run: | 
+          kubectl get deploy
+          until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
+            echo 'Waiting for example-deployment to be ready...'
+            kubectl get deploy
+            sleep 1
+          done
+      - name: Test Api
+        run: |
+          kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
+          kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
+          NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
+          NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
+          echo "http://$NODE_IP:$NODE_PORT/api/coin"
+          curl http://127.0.0.1/api/coin
       - name: Testing
         run: |
           kubectl cluster-info
