@@ -16,7 +16,7 @@ jobs:
     - name: Create Kubernetes cluster
       run: |
         kind create cluster --name test-cluster --config kind-config.yaml
-        kind get kubeconfig --internal >$HOME/.kube/config --name test-cluster
+        kind get kubeconfig --internal --name test-cluster > $HOME/.kube/config
     - name: Configure kubectl
       run: |
         kubectl cluster-info --context kind-test-cluster
@@ -47,7 +47,6 @@ jobs:
         echo "http://$NODE_IP:$NODE_PORT/api/coin"
         kubectl describe ingress
         kubectl get nodes -o wide
-        apt-get update; apt-get install -y curl
         curl http://$NODE_IP:$NODE_PORT/api/coin
     - name: Debug
       run: |
