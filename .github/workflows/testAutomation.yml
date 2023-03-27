@@ -31,7 +31,6 @@ jobs:
       run: | 
         kubectl get ingress ingress-srv
         kubectl get ingress -o jsonpath='{range .items[*]}{range .spec.rules[*]}{range .http.paths[*]}{.path}{"\n"}{end}{end}{end}'
-        kubectl rollout status ingress-srv
         until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
           echo 'Waiting for example-deployment to be ready...'
           kubectl get deploy
@@ -40,6 +39,12 @@ jobs:
         kubectl get services
         kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
         kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
+    - name: Test Api
+      run: |
+        NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
+        NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
+        echo "http://$NODE_IP:$NODE_PORT/api/coin"
+        curl -I http://$NODE_IP:$NODE_PORT/api/coin
     - name: Debug
       run: |
         echo "Starting interactive shell"
