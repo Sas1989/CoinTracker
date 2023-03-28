@@ -15,8 +15,6 @@ jobs:
           kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
-          sudo ufw allow 80
-          sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
       - name: Deploy app to Kubernetes
         run: |
           cd k8s
@@ -40,5 +38,7 @@ jobs:
           kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}'
           NODE_PORT=$(kubectl get services cointracker-api-coinlist -o=jsonpath='{.spec.ports[0].targetPort}')
           NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
+          kubectl get nodes
+          kubectl get pods --all-namespaces
           echo "http://$NODE_IP:$NODE_PORT/api/coin"
-          curl http://$NODE_IP:$NODE_PORT/api/coin
+          curl http://$NODE_IP:8080/api/coin
