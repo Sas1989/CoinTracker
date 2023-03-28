@@ -27,6 +27,7 @@ jobs:
         run: | 
           kubectl get deploy
           kubectl wait --for=condition=available --timeout=120s --all deployment 
+          kubectl wait --for=condition=Available --timeout=120s deploy -n ingress-nginx ingress-nginx-controller
       - name: Test Api
         run: |
           kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
