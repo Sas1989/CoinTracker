@@ -16,10 +16,3 @@ spec:
                 name: cointracker-api-coinlist
                 port:
                   number: 80
-          - path: /api/wallet
-            pathType: Prefix
-            backend:
-              service:
-                name: cointracker-api-wallets
-                port:
-                  number: 80
