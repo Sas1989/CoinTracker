@@ -40,7 +40,10 @@ jobs:
           NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
           kubectl get nodes
           kubectl get pods --all-namespaces
-          kubectl describe pod ingress-nginx-admission-patch-htxdp
-          kubectl logs ingress-nginx-admission-patch-htxdp
+          pods=$(kubectl get pods --field-selector=status.phase=Failed -o jsonpath='{.items[*].metadata.name}')
+          for pod in $pods; do
+            echo "Checking logs for $pod"
+            kubectl logs $pod
+          done
           echo "http://$NODE_IP:$NODE_PORT/api/coin"
           curl http://127.0.0.1:8080/api/coin
