@@ -26,8 +26,7 @@ jobs:
       - name: Wait service up
         run: | 
           kubectl get deploy
-          kubectl wait --for=condition=Ready pod --all
-          kubectl wait --for=condition=Available deploy -n ingress-nginx ingress-nginx-controller
+          kubectl wait --for=condition=available --all deployment
       - name: Test Api
         run: |
           kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
