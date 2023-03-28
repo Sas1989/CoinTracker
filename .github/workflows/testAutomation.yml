@@ -15,7 +15,8 @@ jobs:
           kubectl get pods -n kube-system
           echo "current-context:" $(kubectl config current-context)
           echo "environment-kubeconfig:" ${KUBECONFIG}
-          run: sudo ufw allow 80
+          sudo ufw allow 80
+          sudo iptables -I INPUT -p tcp --dport 80 -j ACCEPT
       - name: Deploy app to Kubernetes
         run: |
           cd k8s
