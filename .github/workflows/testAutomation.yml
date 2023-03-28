@@ -26,7 +26,7 @@ jobs:
       - name: Wait service up
         run: | 
           kubectl get deploy
-          kubectl wait --for=condition=available --all deployment
+          kubectl wait --for=condition=available --timeout=120s --all deployment 
       - name: Test Api
         run: |
           kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
