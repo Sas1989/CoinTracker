@@ -26,11 +26,9 @@ jobs:
       - name: Wait service up
         run: | 
           kubectl get deploy
-          until kubectl rollout status deployment/cointracker-api-coinlist-depl --timeout=30s; do
-            echo 'Waiting for example-deployment to be ready...'
-            kubectl get deploy
-            sleep 1
-          done
+          kubectl wait --for=condition=Ready pod --all
+          kubectl wait --for=condition=Ready svc --all
+          kubectl wait --for=condition=Available deploy -n ingress-nginx ingress-nginx-controller
       - name: Test Api
         run: |
           kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}'
