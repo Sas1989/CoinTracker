@@ -10,6 +10,7 @@ jobs:
       - name: Testing
         run: |
           kubectl cluster-info
+          minikube tunnel
       - name: Deploy app to Kubernetes
         run: |
           cd k8s
