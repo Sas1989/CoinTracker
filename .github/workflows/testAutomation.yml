@@ -27,7 +27,6 @@ jobs:
         run: | 
           kubectl get deploy
           kubectl wait --for=condition=Ready pod --all
-          kubectl wait --for=condition=Ready svc --all
           kubectl wait --for=condition=Available deploy -n ingress-nginx ingress-nginx-controller
       - name: Test Api
         run: |
