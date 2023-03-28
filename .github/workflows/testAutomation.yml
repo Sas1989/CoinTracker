@@ -40,6 +40,7 @@ jobs:
           NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
           kubectl get nodes
           kubectl get pods --all-namespaces
+          echo "CERCA LOG!"
           pods=$(kubectl get pods --field-selector=status.phase=Failed -o jsonpath='{.items[*].metadata.name}')
           for pod in $pods; do
             echo "Checking logs for $pod"
