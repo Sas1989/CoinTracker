@@ -38,6 +38,6 @@ jobs:
           NODE_IP=$(kubectl get nodes -o=jsonpath='{.items[0].status.addresses[0].address}')
           kubectl get nodes
           kubectl get pods --all-namespaces
-          kubectl get svc -n ingress-nginx
+          kubectl get svc --all-namespaces
           echo "http://$NODE_IP:$NODE_PORT/api/coin"
           curl http://$NODE_IP:$NODE_PORT/api/coin
