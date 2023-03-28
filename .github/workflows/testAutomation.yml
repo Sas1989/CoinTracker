@@ -41,4 +41,4 @@ jobs:
           kubectl get nodes
           kubectl get pods --all-namespaces
           echo "http://$NODE_IP:$NODE_PORT/api/coin"
-          curl http://$NODE_IP:8080/api/coin
+          curl http://127.0.0.1:8080/api/coin
