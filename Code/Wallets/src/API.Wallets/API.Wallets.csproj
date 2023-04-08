@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Contracts\src\API.Contracts.csproj" />
     <ProjectReference Include="..\..\..\SDK\src\CoinTracker.API.SDK.Infrastructure\API.SDK.Infrastructure.csproj" />
     <ProjectReference Include="..\API.Wallets.Application\API.Wallets.Application.csproj" />
     <ProjectReference Include="..\API.Wallets.Infrastructure\API.Wallets.Infrastructure.csproj" />

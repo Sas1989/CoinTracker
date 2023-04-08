@@ -42,6 +42,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - MongoDb__host=cointracker.db.mongo
+      - RabbitMqSettings__host=cointracker.bus.rabbitmq
 
 volumes:
   mongodb:

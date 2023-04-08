@@ -15,8 +15,8 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         private RabbitMqPublisher rabbitMqPublish;
         private CoinDto coinDto;
         private IEnumerable<CoinDto> coinDtoList;
-        private CoinInsert coinInsert;
-        private IEnumerable<CoinInsert> coinInsertList;
+        private CoinUpdate coinInsert;
+        private IEnumerable<CoinUpdate> coinInsertList;
         private CoinUpdate coinUpdate;
         private CoinDelete coinDelete;
 
@@ -36,8 +36,8 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
             coinUpdate = CoinFixture.GenerateCoinUpdate();
             coinDelete = CoinFixture.GenerateCoinDelete();
 
-            mapper.Setup(mapper => mapper.Map<CoinInsert>(coinDto)).Returns(coinInsert);
-            mapper.Setup(mapper => mapper.Map<IEnumerable<CoinInsert>>(coinDto)).Returns(coinInsertList);
+            mapper.Setup(mapper => mapper.Map<CoinUpdate>(coinDto)).Returns(coinInsert);
+            mapper.Setup(mapper => mapper.Map<IEnumerable<CoinUpdate>>(coinDto)).Returns(coinInsertList);
             mapper.Setup(mapper => mapper.Map<CoinUpdate>(coinDto)).Returns(coinUpdate);
 
         }
@@ -47,7 +47,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         {
             rabbitMqPublish.PublishCreateAsync(coinDto);
 
-            mapper.Verify(mapper => mapper.Map<CoinInsert>(coinDto), Times.Once);
+            mapper.Verify(mapper => mapper.Map<CoinUpdate>(coinDto), Times.Once);
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Infrastructure
         {
             rabbitMqPublish.PublishCreateAsync(coinDtoList);
 
-            mapper.Verify(mapper => mapper.Map<IEnumerable<CoinInsert>>(coinDtoList), Times.Once);
+            mapper.Verify(mapper => mapper.Map<IEnumerable<CoinUpdate>>(coinDtoList), Times.Once);
         }
 
     }

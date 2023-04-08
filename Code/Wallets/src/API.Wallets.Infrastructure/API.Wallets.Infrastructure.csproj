@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Contracts\src\API.Contracts.csproj" />
     <ProjectReference Include="..\API.Wallets.Domain\API.Wallets.Domain.csproj" />
   </ItemGroup>
 

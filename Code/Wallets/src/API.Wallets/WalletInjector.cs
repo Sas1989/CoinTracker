@@ -1,4 +1,5 @@
 ﻿using API.SDK.Infrastructure.MessageBus;
+using API.Wallets.Domain.Entities;
 using CoinTracker.API.CoinList.Application;
 using CoinTracker.API.SDK.Infrastructure.DataMapper;
 using CoinTracker.API.SDK.Infrastructure.Providers;
@@ -12,7 +13,9 @@ namespace CoinTracker.API.CoinList
         public static IServiceCollection AddWalletServices(this IServiceCollection services)
         {
             services.AddDataMapper<WalletMapperProfile>();
-            services.AddMongo<Wallet>();
+            services.AddMongo();
+            services.AddProvider<Wallet>();
+            services.AddProvider<Coin>();
             services.AddServices();
             services.AddMassTransitWithRabbitMq();
             return services;

@@ -12,7 +12,8 @@ namespace CoinTracker.API.CoinList
         public static IServiceCollection AddCoinListServices(this IServiceCollection services)
         {
             services.AddDataMapper<CoinMapperProfile>();
-            services.AddMongo<Coin>();
+            services.AddMongo();
+            services.AddProvider<Coin>();
             services.AddServices();
             services.AddMassTransitWithRabbitMq();
             services.AddPublisher();

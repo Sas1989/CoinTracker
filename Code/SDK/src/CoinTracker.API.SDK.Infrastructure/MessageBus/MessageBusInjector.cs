@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
+using System.Reflection;
 
 namespace API.SDK.Infrastructure.MessageBus
 {
@@ -13,8 +14,10 @@ namespace API.SDK.Infrastructure.MessageBus
     {
         public static IServiceCollection AddMassTransitWithRabbitMq(this IServiceCollection services)
         {
+
             services.AddMassTransit(configure =>
             {
+                configure.AddConsumers(Assembly.GetEntryAssembly());
                 configure.UsingRabbitMq((provider, configurator) =>
                 {
                     var configuration = provider.GetService<IConfiguration>();
