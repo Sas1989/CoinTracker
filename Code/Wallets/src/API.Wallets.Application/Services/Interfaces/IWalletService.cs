@@ -1,10 +1,10 @@
-﻿using CoinTracker.API.SDK.Application.ApplicationService.Interfaces;
-using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.Domain.Entities;
+﻿using API.SDK.Application.ApplicationService.Interfaces;
+using API.Wallets.Domain.Dtos.Wallet;
+using API.Wallets.Domain.Entities.Wallet;
 
-namespace CoinTracker.API.Wallets.Application.Services.Interfaces
+namespace API.Wallets.Application.Services.Interfaces
 {
-    public interface IWalletService : IApplicationService<Wallet,WalletDto,RecivedWalletDto>
+    public interface IWalletService : IApplicationService<Wallet, WalletDto, RecivedWalletDto>
     {
     }
 }

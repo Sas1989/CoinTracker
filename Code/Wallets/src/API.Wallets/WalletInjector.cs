@@ -1,12 +1,12 @@
-﻿using API.SDK.Infrastructure.MessageBus;
+﻿using API.SDK.Infrastructure.DataMapper;
+using API.SDK.Infrastructure.MessageBus;
+using API.SDK.Infrastructure.Providers;
+using API.Wallets.Application;
 using API.Wallets.Domain.Entities;
-using CoinTracker.API.CoinList.Application;
-using CoinTracker.API.SDK.Infrastructure.DataMapper;
-using CoinTracker.API.SDK.Infrastructure.Providers;
-using CoinTracker.API.Wallets.Domain.Entities;
-using CoinTracker.API.Wallets.Infrastructure.Mapper;
+using API.Wallets.Domain.Entities.Wallet;
+using API.Wallets.Infrastructure.Mapper;
 
-namespace CoinTracker.API.CoinList
+namespace API.Wallets
 {
     public static class WalletInjector
     {

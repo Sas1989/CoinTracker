@@ -1,10 +1,9 @@
-﻿using API.Wallets.Domain.Entities;
+﻿using API.Wallets.Domain.Dtos.Wallet;
+using API.Wallets.Domain.Entities;
+using API.Wallets.Domain.Entities.Wallet;
 using AutoMapper;
-using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.Domain.Entities;
 
-namespace CoinTracker.API.Wallets.Infrastructure.Mapper
+namespace API.Wallets.Infrastructure.Mapper
 {
     public class WalletMapperProfile : Profile
     {

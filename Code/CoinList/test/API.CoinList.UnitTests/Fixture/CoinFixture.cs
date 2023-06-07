@@ -1,9 +1,9 @@
-﻿using CoinTracker.API.CoinList.Domain.Dtos;
-using CoinTracker.API.CoinList.Domain.Entities;
-using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.UnitTest.Utiltiy.FixtureManager;
+﻿using API.CoinList.Domain.Dtos;
+using API.CoinList.Domain.Entities;
+using API.Contracts.Coin;
+using API.UnitTest.Utility.FixtureManager;
 
-namespace CoinTracker.API.CoinList.UnitTests.Fixture
+namespace API.CoinList.UnitTests.Fixture
 {
     internal static class CoinFixture
     {

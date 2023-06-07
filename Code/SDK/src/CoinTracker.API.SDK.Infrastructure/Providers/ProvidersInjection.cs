@@ -1,5 +1,5 @@
-﻿using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.SDK.Domain.Entities;
+﻿using API.SDK.Application.Provider;
+using API.SDK.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Bson;
@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
-namespace CoinTracker.API.SDK.Infrastructure.Providers
+namespace API.SDK.Infrastructure.Providers
 {
     public static class ProvidersInjection
     {
@@ -27,7 +27,7 @@ namespace CoinTracker.API.SDK.Infrastructure.Providers
             return services;
         }
 
-        public static IServiceCollection AddProvider<T>(this IServiceCollection serivices) where T:Entity
+        public static IServiceCollection AddProvider<T>(this IServiceCollection serivices) where T : Entity
         {
             serivices.AddSingleton<IProvider<T>>(provider =>
             {

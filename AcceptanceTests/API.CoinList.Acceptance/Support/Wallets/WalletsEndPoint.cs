@@ -10,5 +10,6 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Wallets
     {
         public const string API_WALLETS = "api/wallet";
         public const string API_WALLETS_BULK = "api/wallet/bulk";
+        public const string API_WALLETS_COINS = "api/wallet/{0}/coins";
     }
 }

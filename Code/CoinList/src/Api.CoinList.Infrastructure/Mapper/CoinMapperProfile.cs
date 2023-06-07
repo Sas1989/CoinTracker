@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using CoinTracker.API.CoinList.Domain.Dtos;
-using CoinTracker.API.CoinList.Domain.Entities;
-using CoinTracker.API.Contracts.Coin;
+﻿using API.CoinList.Domain.Dtos;
+using API.CoinList.Domain.Entities;
+using API.Contracts.Coin;
+using AutoMapper;
 
-namespace CoinTracker.Api.CoinList.Infrastructure.Mapper
+namespace API.CoinList.Infrastructure.Mapper
 {
     public class CoinMapperProfile : Profile
     {

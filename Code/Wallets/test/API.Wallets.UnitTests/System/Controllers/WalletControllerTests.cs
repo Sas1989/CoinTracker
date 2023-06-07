@@ -1,8 +1,8 @@
-﻿using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
-using CoinTracker.API.Wallets.Application.Services.Interfaces;
-using CoinTracker.API.Wallets.Controllers;
-using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.UnitTests.Fixtures;
+﻿using API.SDK.Domain.Exceptions;
+using API.Wallets.Application.Services.Interfaces;
+using API.Wallets.Controllers;
+using API.Wallets.Domain.Dtos.Wallet;
+using API.Wallets.UnitTests.Fixtures;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.Wallets.UnitTests.System.Controller
+namespace API.Wallets.UnitTests.System.Controllers
 {
     public class WalletControllerTests
     {
@@ -41,7 +41,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
 
 
             walletService.Setup(service => service.CreateAsync(recivedWallet)).ReturnsAsync(walletDto);
-            walletService.Setup(service => service.UpdateAsync(walletId,recivedWallet)).ReturnsAsync(walletDto);
+            walletService.Setup(service => service.UpdateAsync(walletId, recivedWallet)).ReturnsAsync(walletDto);
             walletService.Setup(service => service.GetAsync(walletId)).ReturnsAsync(walletDto);
             walletService.Setup(service => service.DeleteAsync(walletId)).ReturnsAsync(true);
             walletService.Setup(service => service.GetAllAsync()).ReturnsAsync(walletDtoList);
@@ -115,7 +115,7 @@ namespace CoinTracker.API.Wallets.UnitTests.System.Controller
 
             Assert.That(ret, Is.TypeOf(typeof(NotFoundResult)));
         }
- 
+
         [Test]
         public async Task DelteAsync_Retrun_Ok()
         {

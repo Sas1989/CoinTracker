@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-using CoinTracker.API.SDK.Application.DataMapper;
+﻿using API.SDK.Application.DataMapper;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace CoinTracker.API.SDK.Infrastructure.DataMapper
+namespace API.SDK.Infrastructure.DataMapper
 {
     public static class DataMapperInjector
     {

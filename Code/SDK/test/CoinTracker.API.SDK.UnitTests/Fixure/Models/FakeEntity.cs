@@ -1,11 +1,11 @@
-﻿using CoinTracker.API.SDK.Domain.Entities;
+﻿using API.SDK.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.SDK.UnitTests.Fixure
+namespace API.SDK.UnitTests.Fixure.Models
 {
     public class FakeEntity : Entity
     {

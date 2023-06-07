@@ -1,6 +1,6 @@
-﻿using API.Wallets.Domain.Dtos.Coin;
-using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.UnitTest.Utiltiy.FixtureManager;
+﻿using API.Contracts.Coin;
+using API.UnitTest.Utility.FixtureManager;
+using API.Wallets.Domain.Dtos.Coin;
 using System;
 using System.Collections.Generic;
 using System.Linq;

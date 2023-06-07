@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace API.Contracts.Coin
+namespace API.Wallets.Domain.Entities.Wallet
 {
-    public class CoinDelete
+    public class WalletCoin
     {
         public Guid Id { get; set; }
+        public Guid Coin_Id { get; set; }
+        public decimal NumberOfCoin { get; set; }
     }
 }

@@ -1,7 +1,7 @@
-﻿using CoinTracker.API.CoinList.Application.Common.Publishers;
-using CoinTracker.API.CoinList.Domain.Dtos;
-using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.SDK.Application.DataMapper;
+﻿using API.CoinList.Application.Common.Publishers;
+using API.CoinList.Domain.Dtos;
+using API.Contracts.Coin;
+using API.SDK.Application.DataMapper;
 using MassTransit;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.Api.CoinList.Infrastructure.Publishers
+namespace API.CoinList.Infrastructure.Publishers
 {
     public class RabbitMqPublisher : ICoinPublisher
     {

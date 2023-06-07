@@ -1,12 +1,12 @@
-﻿using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.Wallets.Application.Services;
-using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.Domain.Entities;
-using CoinTracker.API.Wallets.UnitTests.Fixtures;
+﻿using API.SDK.Application.DataMapper;
+using API.SDK.Application.Provider;
+using API.Wallets.Application.Services;
+using API.Wallets.Domain.Dtos.Wallet;
+using API.Wallets.Domain.Entities.Wallet;
+using API.Wallets.UnitTests.Fixtures;
 using Moq;
 
-namespace CoinTracker.API.Wallets.UnitTests.System.Application.Services
+namespace API.Wallets.UnitTests.System.Application.Services
 {
     internal class WalletServiceTests
     {

@@ -318,17 +318,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
                             "Name",
                             "Description"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "My first wallet",
                             "This is my first wallet"});
-                table3.AddRow(new string[] {
+                table4.AddRow(new string[] {
                             "Second Wallet",
                             ""});
 #line 39
- testRunner.Given("The following wallets in the database", ((string)(null)), table3, "Given ");
+ testRunner.Given("The following wallets in the database", ((string)(null)), table4, "Given ");
 #line hidden
 #line 43
  testRunner.When("I gets all wallets", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

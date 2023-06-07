@@ -1,24 +1,24 @@
-﻿using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.Domain.Entities;
-using AutoFixture;
+﻿using AutoFixture;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoinTracker.API.UnitTest.Utiltiy.FixtureManager;
+using API.Wallets.Domain.Entities.Wallet;
+using API.Wallets.Domain.Dtos.Wallet;
+using API.UnitTest.Utility.FixtureManager;
 
-namespace CoinTracker.API.Wallets.UnitTests.Fixtures
+namespace API.Wallets.UnitTests.Fixtures
 {
     public static class WalletFixture
     {
         private static FixureManger fixtureManager = new FixureManger();
-       
+
         public static RecivedWalletDto RecivedWalletDto()
         {
             return fixtureManager.Create<RecivedWalletDto>();
         }
-        
+
         public static WalletDto WalletDto()
         {
             return fixtureManager.Create<WalletDto>();
@@ -43,7 +43,11 @@ namespace CoinTracker.API.Wallets.UnitTests.Fixtures
         public static IEnumerable<RecivedWalletDto> RecivedWalletList()
         {
             return fixtureManager.CreateList<RecivedWalletDto>();
+        }
 
+        public static RecivedWalletCoinDto RecivedWalletCoinDto()
+        {
+            return fixtureManager.Create<RecivedWalletCoinDto>();
         }
     }
 }

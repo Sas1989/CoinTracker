@@ -1,13 +1,13 @@
-﻿using CoinTracker.API.SDK.Application.ApplicationService;
-using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.Wallets.Application.Services.Interfaces;
-using CoinTracker.API.Wallets.Domain.Dtos;
-using CoinTracker.API.Wallets.Domain.Entities;
+﻿using API.SDK.Application.ApplicationService;
+using API.SDK.Application.DataMapper;
+using API.SDK.Application.Provider;
+using API.Wallets.Application.Services.Interfaces;
+using API.Wallets.Domain.Dtos.Wallet;
+using API.Wallets.Domain.Entities.Wallet;
 
-namespace CoinTracker.API.Wallets.Application.Services
+namespace API.Wallets.Application.Services
 {
-    public class WalletService : ApplicationService<Wallet,WalletDto,RecivedWalletDto>, IWalletService
+    public class WalletService : ApplicationService<Wallet, WalletDto, RecivedWalletDto>, IWalletService
     {
         public WalletService(IProvider<Wallet> provider, IDataMapper mapper) : base(provider, mapper)
         {

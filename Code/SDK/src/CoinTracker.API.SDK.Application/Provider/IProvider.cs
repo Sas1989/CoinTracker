@@ -1,11 +1,11 @@
-﻿using CoinTracker.API.SDK.Domain.Entities;
+﻿using API.SDK.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.SDK.Application.IProvider
+namespace API.SDK.Application.Provider
 {
     public interface IProvider<T> where T : Entity
     {

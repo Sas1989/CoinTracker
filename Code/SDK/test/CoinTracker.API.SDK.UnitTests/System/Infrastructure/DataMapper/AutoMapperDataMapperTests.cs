@@ -1,7 +1,7 @@
-﻿using AutoMapper;
-using CoinTracker.API.SDK.Infrastructure.DataMapper;
+﻿using API.SDK.Infrastructure.DataMapper;
+using AutoMapper;
 
-namespace CoinTracker.API.SDK.UnitTests.System.Infrastructure.DataMapper
+namespace API.SDK.UnitTests.System.Infrastructure.DataMapper
 {
     internal class AutoMapperDataMapperTests
     {

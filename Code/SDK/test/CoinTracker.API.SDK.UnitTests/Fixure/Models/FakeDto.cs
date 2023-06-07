@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.SDK.UnitTests.Fixure
+namespace API.SDK.UnitTests.Fixure.Models
 {
     public readonly record struct FakeDto(
         Guid guidProp,

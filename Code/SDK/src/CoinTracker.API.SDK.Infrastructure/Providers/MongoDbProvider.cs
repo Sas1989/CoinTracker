@@ -1,5 +1,5 @@
-﻿using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.SDK.Domain.Entities;
+﻿using API.SDK.Application.Provider;
+using API.SDK.Domain.Entities;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.SDK.Infrastructure.Providers
+namespace API.SDK.Infrastructure.Providers
 {
     public class MongoDbProvider<T> : IProvider<T> where T : Entity
     {

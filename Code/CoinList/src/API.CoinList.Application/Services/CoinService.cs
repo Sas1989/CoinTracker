@@ -1,17 +1,17 @@
-﻿using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.CoinList.Application.Services.Interfaces;
-using CoinTracker.API.CoinList.Domain.Dtos;
-using CoinTracker.API.CoinList.Domain.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.ApplicationService;
-using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
+using API.SDK.Application.Provider;
+using API.CoinList.Domain.Entities;
+using API.CoinList.Domain.Dtos;
+using API.SDK.Application.DataMapper;
+using API.SDK.Application.ApplicationService;
+using API.CoinList.Application.Services.Interfaces;
+using API.SDK.Domain.Exceptions;
 
-namespace CoinTracker.API.CoinList.Application.Services
+namespace API.CoinList.Application.Services
 {
     public class CoinService : ApplicationService<Coin, CoinDto, RecivedCoinDto>, ICoinService
     {

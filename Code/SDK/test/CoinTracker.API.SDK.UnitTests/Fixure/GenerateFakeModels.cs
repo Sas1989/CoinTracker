@@ -1,11 +1,12 @@
-﻿using CoinTracker.API.UnitTest.Utiltiy.FixtureManager;
+﻿using API.SDK.UnitTests.Fixure.Models;
+using API.UnitTest.Utility.FixtureManager;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.SDK.UnitTests.Fixure
+namespace API.SDK.UnitTests.Fixure
 {
     internal static class GenerateFakeModels
     {

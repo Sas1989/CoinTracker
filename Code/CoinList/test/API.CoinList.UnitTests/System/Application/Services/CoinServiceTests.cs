@@ -1,13 +1,13 @@
-﻿using CoinTracker.API.CoinList.Application.Services;
-using CoinTracker.API.CoinList.Domain.Dtos;
-using CoinTracker.API.CoinList.Domain.Entities;
-using CoinTracker.API.CoinList.UnitTests.Fixture;
-using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
+﻿using API.CoinList.Application.Services;
+using API.CoinList.Domain.Dtos;
+using API.CoinList.Domain.Entities;
+using API.CoinList.UnitTests.Fixture;
+using API.SDK.Application.DataMapper;
+using API.SDK.Application.Provider;
+using API.SDK.Domain.Exceptions;
 using Moq;
 
-namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
+namespace API.CoinList.UnitTests.System.Application.Services
 {
     internal class CoinServiceTests
     {
@@ -68,7 +68,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task GetCoinAsync_EmptySymbol_ThrowException()
         {
-            var func = () => coinService.GetAsync(String.Empty);
+            var func = () => coinService.GetAsync(string.Empty);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("symbol"));
@@ -77,7 +77,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task GetCoinAsync_NullSymbol_ThrowException()
         {
-            var func = () => coinService.GetAsync((string)null);
+            var func = () => coinService.GetAsync(null);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("symbol"));
@@ -121,7 +121,7 @@ namespace CoinTracker.API.CoinList.UnitTests.System.Application.Services
         [Test]
         public async Task UpdateCoinSymbol_NullSymbol_ThrowException()
         {
-            var func = () => coinService.UpdateAsync((string)null, recivedCoin);
+            var func = () => coinService.UpdateAsync(null, recivedCoin);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
         }

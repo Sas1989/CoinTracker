@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.CoinList.Domain.Dtos
+namespace API.CoinList.Domain.Dtos
 {
     public readonly record struct CoinDto
     (

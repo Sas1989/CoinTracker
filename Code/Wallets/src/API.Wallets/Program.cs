@@ -1,4 +1,4 @@
-using CoinTracker.API.CoinList;
+using API.Wallets;
 
 var builder = WebApplication.CreateBuilder(args);
 

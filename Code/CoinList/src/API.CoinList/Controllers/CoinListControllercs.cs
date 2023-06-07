@@ -1,10 +1,10 @@
-﻿using CoinTracker.API.CoinList.Application.Common.Publishers;
-using CoinTracker.API.CoinList.Application.Services.Interfaces;
-using CoinTracker.API.CoinList.Domain.Dtos;
-using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
+﻿using API.CoinList.Application.Common.Publishers;
+using API.CoinList.Application.Services.Interfaces;
+using API.CoinList.Domain.Dtos;
+using API.SDK.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoinTracker.API.CoinList.Controllers.Controllers
+namespace API.CoinList.Controllers
 {
     [ApiController]
     [Route("api/coin")]
@@ -55,7 +55,7 @@ namespace CoinTracker.API.CoinList.Controllers.Controllers
 
                 return NotFound();
             }
-            
+
         }
 
         [HttpPost]

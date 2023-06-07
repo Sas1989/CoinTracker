@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.UnitTest.Utiltiy.FixtureManager
+namespace API.UnitTest.Utility.FixtureManager
 {
     public class FixureManger
     {

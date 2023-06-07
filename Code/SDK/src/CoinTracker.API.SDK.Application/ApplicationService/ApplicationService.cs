@@ -1,10 +1,10 @@
-﻿using CoinTracker.API.SDK.Application.ApplicationService.Interfaces;
-using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.SDK.Domain.Entities;
-using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
+﻿using API.SDK.Application.ApplicationService.Interfaces;
+using API.SDK.Application.DataMapper;
+using API.SDK.Application.Provider;
+using API.SDK.Domain.Entities;
+using API.SDK.Domain.Exceptions;
 
-namespace CoinTracker.API.SDK.Application.ApplicationService
+namespace API.SDK.Application.ApplicationService
 {
     public class ApplicationService<TEntity, TDto, TRecivedDto> : IApplicationService<TEntity, TDto, TRecivedDto> where TEntity : Entity
     {

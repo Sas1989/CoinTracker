@@ -1,7 +1,7 @@
-﻿using API.Wallets.Domain.Dtos.Coin;
+﻿using API.Contracts.Coin;
+using API.Wallets.Domain.Dtos.Coin;
 using API.Wallets.Domain.Entities;
 using AutoMapper;
-using CoinTracker.API.Contracts.Coin;
 using System;
 using System.Collections.Generic;
 using System.Linq;

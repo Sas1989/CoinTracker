@@ -1,8 +1,9 @@
-﻿using CoinTracker.API.SDK.Infrastructure.Providers;
-using CoinTracker.API.SDK.UnitTests.Fixure;
+﻿using API.SDK.Infrastructure.Providers;
+using API.SDK.UnitTests.Fixure;
+using API.SDK.UnitTests.Fixure.Models;
 using MongoDB.Driver;
 
-namespace CoinTracker.API.SDK.UnitTests.System.Infrastructure.Providers
+namespace API.SDK.UnitTests.System.Infrastructure.Providers
 {
     internal class MongoDbProviderTests
     {

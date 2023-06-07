@@ -1,8 +1,8 @@
-﻿using CoinTracker.API.Contracts.Coin;
-using MassTransit;
+﻿using MassTransit;
 using API.Wallets.Application.Services.Interfaces;
-using CoinTracker.API.SDK.Application.DataMapper;
 using API.Wallets.Domain.Dtos.Coin;
+using API.SDK.Application.DataMapper;
+using API.Contracts.Coin;
 
 namespace API.Wallets.Consumers
 {

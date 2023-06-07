@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace API.Wallets.Domain.Dtos.Wallet
 {
-    public readonly record struct RecivedWalletDto(
-        string Name,
-        string Description);
+    public readonly record struct RecivedWalletCoinDto(
+        Guid Coin_ID,
+        decimal NumberOfCoin
+    );
 }

@@ -1,10 +1,9 @@
-﻿using API.Wallets.Application.Services.Interfaces;
+﻿using API.SDK.Application.ApplicationService;
+using API.SDK.Application.DataMapper;
+using API.SDK.Application.Provider;
+using API.Wallets.Application.Services.Interfaces;
 using API.Wallets.Domain.Dtos.Coin;
 using API.Wallets.Domain.Entities;
-using CoinTracker.API.Contracts.Coin;
-using CoinTracker.API.SDK.Application.ApplicationService;
-using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.IProvider;
 using System;
 using System.Collections.Generic;
 using System.Linq;

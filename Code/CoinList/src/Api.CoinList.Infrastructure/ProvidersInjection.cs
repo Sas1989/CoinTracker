@@ -1,10 +1,10 @@
-﻿using CoinTracker.Api.CoinList.Infrastructure.Publishers;
-using CoinTracker.API.CoinList.Application.Common.Publishers;
+﻿using API.CoinList.Application.Common.Publishers;
+using API.CoinList.Infrastructure.Publishers;
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CoinTracker.Api.CoinList.Infrastructure
+namespace API.CoinList.Infrastructure
 {
 
     public static class ProvidersInjection

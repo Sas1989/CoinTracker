@@ -1,8 +1,8 @@
-﻿using API.Wallets.Application.Services.Interfaces;
+﻿using API.Contracts.Coin;
+using API.Wallets.Application.Services.Interfaces;
 using API.Wallets.Consumers;
 using API.Wallets.Domain.Dtos.Coin;
 using API.Wallets.UnitTests.Fixtures;
-using CoinTracker.API.Contracts.Coin;
 using MassTransit;
 using Moq;
 using System;

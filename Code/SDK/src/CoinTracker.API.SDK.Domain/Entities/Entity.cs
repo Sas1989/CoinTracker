@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CoinTracker.API.SDK.Domain.Entities
+namespace API.SDK.Domain.Entities
 {
     public abstract class Entity
     {

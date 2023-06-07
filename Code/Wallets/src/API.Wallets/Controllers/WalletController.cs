@@ -1,10 +1,9 @@
-﻿
-using CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService;
-using CoinTracker.API.Wallets.Application.Services.Interfaces;
-using CoinTracker.API.Wallets.Domain.Dtos;
+﻿using API.SDK.Domain.Exceptions;
+using API.Wallets.Application.Services.Interfaces;
+using API.Wallets.Domain.Dtos.Wallet;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CoinTracker.API.Wallets.Controllers
+namespace API.Wallets.Controllers
 {
     [ApiController]
     [Route("api/wallet")]
@@ -42,7 +41,7 @@ namespace CoinTracker.API.Wallets.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
-            if(await walletServices.DeleteAsync(id))
+            if (await walletServices.DeleteAsync(id))
             {
                 return Ok();
             }

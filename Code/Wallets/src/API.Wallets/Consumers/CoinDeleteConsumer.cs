@@ -1,5 +1,5 @@
-﻿using API.Wallets.Application.Services.Interfaces;
-using CoinTracker.API.Contracts.Coin;
+﻿using API.Contracts.Coin;
+using API.Wallets.Application.Services.Interfaces;
 using MassTransit;
 
 namespace API.Wallets.Consumers

@@ -11,6 +11,8 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Wallets.Models
     {
         public string Name { get; set; }
         public string Description { get; set; }
+        public List<WalletCoins> WalletCoins { get; set; }
+        public decimal TotalValue { get; set; } = 0;  
 
         public override bool Equals(object? obj)
         {
@@ -44,6 +46,14 @@ namespace CoinTracker.API.CoinList.Acceptance.Support.Wallets.Models
             };
             return output;
         }
+
+    }
+
+    public class WalletCoins
+    {
+        public string Symbol { get; set; }
+        public string Name { get; set; }
+        public decimal NumberOfCoin { get; set; }
 
     }
 

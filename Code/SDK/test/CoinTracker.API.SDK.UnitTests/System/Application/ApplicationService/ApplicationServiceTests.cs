@@ -1,9 +1,11 @@
-﻿using CoinTracker.API.SDK.Application.ApplicationService;
-using CoinTracker.API.SDK.Application.DataMapper;
-using CoinTracker.API.SDK.Application.IProvider;
-using CoinTracker.API.SDK.UnitTests.Fixure;
+﻿using API.SDK.Application.ApplicationService;
+using API.SDK.Application.DataMapper;
+using API.SDK.Application.Provider;
+using API.SDK.Domain.Exceptions;
+using API.SDK.UnitTests.Fixure;
+using API.SDK.UnitTests.Fixure.Models;
 
-namespace CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService
+namespace API.SDK.UnitTests.System.Application.ApplicationService
 {
     public class ApplicationServiceTests
     {
@@ -76,7 +78,7 @@ namespace CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService
         [Test]
         public void CreateAsync_RecivedDtoIsNull_ThowException()
         {
-            var func = () => applicationService.CreateAsync((FakeRecivedDto?)null);
+            var func = () => applicationService.CreateAsync(null);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("recivedDto"));
@@ -162,7 +164,7 @@ namespace CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService
         [Test]
         public async Task GetAync_EntityNotFound_TrowException()
         {
-            
+
             provider.Setup(provider => provider.GetAsync(dto.guidProp)).ReturnsAsync((FakeEntity)null);
 
             var func = () => applicationService.GetAsync(dto.guidProp);
@@ -215,7 +217,7 @@ namespace CoinTracker.API.SDK.UnitTests.System.Application.ApplicationService
         [Test]
         public async Task UpdateAsync_EntityRecivedDto_TrowException()
         {
-            var func = () => applicationService.UpdateAsync(dto.guidProp, (FakeRecivedDto?)null);
+            var func = () => applicationService.UpdateAsync(dto.guidProp, null);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("recivedDto"));

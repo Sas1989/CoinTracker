@@ -1,4 +1,4 @@
-﻿namespace CoinTracker.API.SDK.Application.DataMapper
+﻿namespace API.SDK.Application.DataMapper
 {
     public interface IDataMapper
     {
