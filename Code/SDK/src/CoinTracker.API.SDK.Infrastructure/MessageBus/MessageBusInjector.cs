@@ -21,6 +21,10 @@ namespace API.SDK.Infrastructure.MessageBus
                 configure.UsingRabbitMq((provider, configurator) =>
                 {
                     var configuration = provider.GetService<IConfiguration>();
+                    if(configuration == null)
+                    {
+                        return;
+                    }
                     configurator.Host(configuration["RabbitMqSettings:host"]);
                     configurator.ConfigureEndpoints(provider, new KebabCaseEndpointNameFormatter(configuration["RabbitMqSettings:queueName"], false));
                     configurator.UseMessageRetry(retryConfigurator =>

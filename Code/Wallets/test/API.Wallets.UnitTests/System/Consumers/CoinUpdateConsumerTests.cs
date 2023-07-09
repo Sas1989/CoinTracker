@@ -1,16 +1,9 @@
 ﻿using API.Contracts.Coin;
 using API.SDK.Application.DataMapper;
-using API.Wallets.Application.Services.Interfaces;
+using API.Wallets.Application.Services;
 using API.Wallets.Consumers;
 using API.Wallets.Domain.Dtos.Coin;
-using API.Wallets.UnitTests.Fixtures;
 using MassTransit;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.Wallets.UnitTests.System.Consumers
 {
@@ -31,8 +24,8 @@ namespace API.Wallets.UnitTests.System.Consumers
             consumer = new CoinUpdateConsumer(coinService.Object, dataMapper.Object);
 
             coinMessage = new Mock<ConsumeContext<CoinUpdate>>();
-            coinContract = CoinFixture.CoinUpdate();
-            coinDto = CoinFixture.CoinDto();
+            coinContract = FixureManger.Create<CoinUpdate>();
+            coinDto = FixureManger.Create<CoinDto>();
 
             coinMessage.Setup(coinMessage => coinMessage.Message).Returns(coinContract);
             dataMapper.Setup(dataMapper => dataMapper.Map<CoinDto>(coinContract)).Returns(coinDto);

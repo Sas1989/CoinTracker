@@ -9,8 +9,8 @@ namespace API.Wallets.Domain.Entities
 {
     public class Coin : Entity
     {
-        public string Symbol { get; set; }
-        public string Name { get; set; }
-        public decimal Value { get; set; }
+        public string Symbol { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty ;
+        public decimal Value { get; set; } = 0;
     }
 }

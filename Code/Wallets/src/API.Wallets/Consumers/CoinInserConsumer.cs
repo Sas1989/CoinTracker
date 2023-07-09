@@ -1,8 +1,8 @@
 ﻿using MassTransit;
-using API.Wallets.Application.Services.Interfaces;
 using API.Wallets.Domain.Dtos.Coin;
 using API.SDK.Application.DataMapper;
 using API.Contracts.Coin;
+using API.Wallets.Application.Services;
 
 namespace API.Wallets.Consumers
 {

@@ -11,9 +11,9 @@ namespace API.Wallets.Domain.Entities.Wallet
     public class Wallet : Entity
     {
         [Required]
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public IEnumerable<WalletCoin> WalletCoins { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public IEnumerable<WalletCoin> WalletCoins { get; set; } = Enumerable.Empty<WalletCoin>();
 
     }
 }

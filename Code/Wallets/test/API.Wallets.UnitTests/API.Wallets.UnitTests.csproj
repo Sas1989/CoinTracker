@@ -24,4 +24,8 @@
     <ProjectReference Include="..\..\src\API.Wallets\API.Wallets.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Fixtures\" />
+  </ItemGroup>
+
 </Project>

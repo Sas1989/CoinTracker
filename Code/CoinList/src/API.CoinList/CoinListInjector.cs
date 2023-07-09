@@ -1,10 +1,11 @@
-﻿using API.CoinList.Application;
-using API.CoinList.Domain.Entities;
+﻿using API.CoinList.Domain.Entities;
 using API.CoinList.Infrastructure;
 using API.CoinList.Infrastructure.Mapper;
+using API.CoinList.Infrastructure.Services;
 using API.SDK.Infrastructure.DataMapper;
 using API.SDK.Infrastructure.MessageBus;
-using API.SDK.Infrastructure.Providers;
+using API.SDK.Infrastructure.Repository;
+
 namespace API.CoinList
 {
     public static class CoinListInjector

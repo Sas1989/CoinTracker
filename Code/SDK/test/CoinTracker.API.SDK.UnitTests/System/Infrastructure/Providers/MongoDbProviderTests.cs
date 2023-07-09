@@ -1,5 +1,4 @@
-﻿using API.SDK.Infrastructure.Providers;
-using API.SDK.UnitTests.Fixure;
+﻿using API.SDK.Infrastructure.Repository;
 using API.SDK.UnitTests.Fixure.Models;
 using MongoDB.Driver;
 
@@ -8,7 +7,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.Providers
     internal class MongoDbProviderTests
     {
         private Mock<IMongoCollection<FakeEntity>> mongoCollection;
-        private MongoDbProvider<FakeEntity> provider;
+        private MongoDbRepository<FakeEntity> provider;
         private FakeEntity entity;
         private IEnumerable<FakeEntity> entities;
 
@@ -16,17 +15,17 @@ namespace API.SDK.UnitTests.System.Infrastructure.Providers
         public void Setup()
         {
             mongoCollection = new Mock<IMongoCollection<FakeEntity>>();
-            provider = new MongoDbProvider<FakeEntity>(mongoCollection.Object);
+            provider = new MongoDbRepository<FakeEntity>(mongoCollection.Object);
 
-            entity = GenerateFakeModels.GenerateEntity();
-            entities = GenerateFakeModels.GenerateEntityList();
+            entity = FixureManger.Create<FakeEntity>();
+            entities = FixureManger.CreateList<FakeEntity>();
         }
 
         [Test]
-        public async Task CreateAsync_EmptyEntity_ThrowException()
+        public void CreateAsync_EmptyEntity_ThrowException()
         {
 
-            var func = () => provider.CreateAsync((FakeEntity)null);
+            var func = () => provider.CreateAsync((FakeEntity)null!);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("entity"));
@@ -45,7 +44,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.Providers
         {
             var result = await provider.CreateAsync(entity);
 
-            Assert.AreEqual(entity, result);
+            Assert.That(result, Is.EqualTo(entity));
         }
         [Test]
         public async Task RemoveAsync_DeleteOneAsync_CalledOnce()
@@ -94,13 +93,13 @@ namespace API.SDK.UnitTests.System.Infrastructure.Providers
         [Test]
         public void UpdateAsync_EntityIsNull_ThrowException()
         {
-            var func = () => provider.UpdateAsync(null);
+            var func = () => provider.UpdateAsync(null!);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("entity"));
         }
         [Test]
-        public async Task UpdateAsync_ReplaceOneAsync_CalledOnce()
+        public void UpdateAsync_ReplaceOneAsync_CalledOnce()
         {
 
             var replaceOneResult = new Mock<ReplaceOneResult>();
@@ -109,16 +108,16 @@ namespace API.SDK.UnitTests.System.Infrastructure.Providers
 
             mongoCollection.Setup(collection => collection.ReplaceOneAsync(It.IsAny<FilterDefinition<FakeEntity>>(), entity, It.IsAny<ReplaceOptions>(), default)).ReturnsAsync(replaceOneResult.Object);
 
-            provider.UpdateAsync(entity);
+            _ = provider.UpdateAsync(entity);
 
             mongoCollection.Verify(collection => collection.ReplaceOneAsync(It.IsAny<FilterDefinition<FakeEntity>>(), entity, It.IsAny<ReplaceOptions>(), default), Times.Once);
         }
 
         [Test]
-        public async Task CreateAsyncMultiple_EntityListIsNull_ThrowException()
+        public void CreateAsyncMultiple_EntityListIsNull_ThrowException()
         {
 
-            var func = () => provider.CreateAsync((IEnumerable<FakeEntity>)null);
+            var func = () => provider.CreateAsync((IEnumerable<FakeEntity>)null!);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("entities"));
@@ -136,7 +135,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.Providers
         {
             var result = await provider.CreateAsync(entities);
 
-            Assert.AreEqual(entities, result);
+            Assert.That(result, Is.EqualTo(entities));
 
         }
     }

@@ -1,7 +1,6 @@
 ﻿using API.CoinList.Application.Common.Publishers;
-using API.CoinList.Application.Services.Interfaces;
+using API.CoinList.Application.Services;
 using API.CoinList.Domain.Dtos;
-using API.SDK.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.CoinList.Controllers
@@ -31,35 +30,20 @@ namespace API.CoinList.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            try
-            {
-                CoinDto coin = await coinService.GetAsync(id);
-                return Ok(coin);
-            }
-            catch (EntityNotFoundException)
-            {
-                return NotFound();
-            }
+            CoinDto coin = await coinService.GetAsync(id);
+
+            return ReturnCoin(coin);
 
         }
         [HttpGet("symbol/{symbol}")]
         public async Task<IActionResult> GetBySimbolAsync(string symbol)
         {
-            try
-            {
-                var coin = await coinService.GetAsync(symbol);
-                return Ok(coin);
-            }
-            catch (EntityNotFoundException)
-            {
-
-                return NotFound();
-            }
-
+            var coin = await coinService.GetAsync(symbol);
+            return ReturnCoin(coin);
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostAsync(RecivedCoinDto coinDto)
+        public async Task<IActionResult> PostAsync(CoinDtoInput coinDto)
         {
             CoinDto coin = await coinService.CreateAsync(coinDto);
 
@@ -69,7 +53,7 @@ namespace API.CoinList.Controllers
         }
 
         [HttpPost("bulk")]
-        public async Task<IActionResult> BulkAsync(IEnumerable<RecivedCoinDto> recivedCoin)
+        public async Task<IActionResult> BulkAsync(IEnumerable<CoinDtoInput> recivedCoin)
         {
             IEnumerable<CoinDto> coins = await coinService.CreateMultipleAsync(recivedCoin);
 
@@ -79,36 +63,19 @@ namespace API.CoinList.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, RecivedCoinDto recivedCoin)
+        public async Task<IActionResult> PutAsync(Guid id, CoinDtoInput recivedCoin)
         {
-            try
-            {
-                var coin = await coinService.UpdateAsync(id, recivedCoin);
-                await coinPublisher.PublishUpdateAsync(coin);
-                return Ok(coin);
-            }
-            catch (EntityNotFoundException)
-            {
+            var coin = await coinService.UpdateAsync(id, recivedCoin);
 
-                return NotFound();
-            }
-
+            return await ReturnCoinAndPublish(coin);
         }
 
         [HttpPut("symbol/{symbol}")]
-        public async Task<IActionResult> PutBySymbolAsync(string symbol, RecivedCoinDto recivedCoin)
+        public async Task<IActionResult> PutBySymbolAsync(string symbol, CoinDtoInput recivedCoin)
         {
-            try
-            {
-                var coin = await coinService.UpdateAsync(symbol, recivedCoin);
-                await coinPublisher.PublishUpdateAsync(coin);
-                return Ok(coin);
-            }
-            catch (EntityNotFoundException)
-            {
+            var coin = await coinService.UpdateAsync(symbol, recivedCoin);
 
-                return NotFound();
-            }
+            return await ReturnCoinAndPublish(coin);
 
         }
 
@@ -122,6 +89,26 @@ namespace API.CoinList.Controllers
             }
 
             return NotFound();
+        }
+
+        private async Task<IActionResult> ReturnCoinAndPublish(CoinDto coin)
+        {
+            if (coin == default(CoinDto))
+            {
+                return NotFound();
+            }
+
+            await coinPublisher.PublishUpdateAsync(coin);
+            return Ok(coin);
+        }
+
+        private IActionResult ReturnCoin(CoinDto coin)
+        {
+            if (coin == default(CoinDto))
+            {
+                return NotFound();
+            }
+            return Ok(coin);
         }
     }
 }

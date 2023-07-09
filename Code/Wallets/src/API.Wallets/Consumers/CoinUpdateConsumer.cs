@@ -1,6 +1,6 @@
 ﻿using API.Contracts.Coin;
 using API.SDK.Application.DataMapper;
-using API.Wallets.Application.Services.Interfaces;
+using API.Wallets.Application.Services;
 using API.Wallets.Domain.Dtos.Coin;
 using MassTransit;
 

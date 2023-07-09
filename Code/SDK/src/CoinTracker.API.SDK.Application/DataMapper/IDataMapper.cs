@@ -2,6 +2,6 @@
 {
     public interface IDataMapper
     {
-        TDestination Map<TDestination>(object sourceObj);
+        TDestination Map<TDestination>(object? sourceObj);
     }
 }

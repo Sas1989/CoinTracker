@@ -17,7 +17,7 @@ namespace API.SDK.Infrastructure.DataMapper
             this.mapper = mapper;
         }
 
-        public TDestination Map<TDestination>(object sourceObj)
+        public TDestination Map<TDestination>(object? sourceObj)
         {
             return mapper.Map<TDestination>(sourceObj);
         }

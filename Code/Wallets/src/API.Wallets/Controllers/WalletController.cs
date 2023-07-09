@@ -1,5 +1,4 @@
-﻿using API.SDK.Domain.Exceptions;
-using API.Wallets.Application.Services.Interfaces;
+﻿using API.Wallets.Application.Services;
 using API.Wallets.Domain.Dtos.Wallet;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +15,7 @@ namespace API.Wallets.Controllers
             this.walletServices = walletServices;
         }
         [HttpPost]
-        public async Task<IActionResult> PostAsync(RecivedWalletDto recivedWallet)
+        public async Task<IActionResult> PostAsync(WalletDtoInput recivedWallet)
         {
             var wallet = await walletServices.CreateAsync(recivedWallet);
 
@@ -26,16 +25,18 @@ namespace API.Wallets.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
-            try
-            {
-                var wallet = await walletServices.GetAsync(id);
-                return Ok(wallet);
-            }
-            catch (EntityNotFoundException)
-            {
-                return NotFound();
-            }
+            var wallet = await walletServices.GetAsync(id);
 
+            return ReturnAction(wallet);
+
+        }
+
+        private IActionResult ReturnAction(WalletDto wallet)
+        {
+            if (wallet == default(WalletDto))
+                return NotFound();
+
+            return Ok(wallet);
         }
 
         [HttpDelete("{id}")]
@@ -58,23 +59,16 @@ namespace API.Wallets.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAsync(Guid id, RecivedWalletDto recivedWallet)
+        public async Task<IActionResult> PutAsync(Guid id, WalletDtoInput recivedWallet)
         {
-            try
-            {
-                var wallet = await walletServices.UpdateAsync(id, recivedWallet);
-                return Ok(wallet);
-            }
-            catch (EntityNotFoundException)
-            {
 
-                return NotFound();
-            }
+            var wallet = await walletServices.UpdateAsync(id, recivedWallet);
+            return ReturnAction(wallet);
 
         }
 
         [HttpPost("bulk")]
-        public async Task<IActionResult> BulkAsync(IEnumerable<RecivedWalletDto> recivedWallets)
+        public async Task<IActionResult> BulkAsync(IEnumerable<WalletDtoInput> recivedWallets)
         {
             IEnumerable<WalletDto> wallets = await walletServices.CreateMultipleAsync(recivedWallets);
 

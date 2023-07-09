@@ -7,21 +7,15 @@ using System.Threading.Tasks;
 
 namespace API.UnitTest.Utility.FixtureManager
 {
-    public class FixureManger
+    public static class FixureManger
     {
-        private readonly Fixture fixture;
-
-        public FixureManger()
-        {
-            fixture = new Fixture();
-        }
-
-        public T Create<T>()
+        private static  Fixture fixture = new Fixture();
+        public static T Create<T>()
         {
             return fixture.Create<T>();
         }
 
-        public IEnumerable<T> CreateList<T>()
+        public static IEnumerable<T> CreateList<T>()
         {
             return fixture.CreateMany<T>();
         }

@@ -1,11 +1,8 @@
 ﻿using API.CoinList.Application.Common.Publishers;
-using API.CoinList.Application.Services.Interfaces;
+using API.CoinList.Application.Services;
 using API.CoinList.Controllers;
 using API.CoinList.Domain.Dtos;
-using API.CoinList.UnitTests.Fixture;
-using API.SDK.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
 
 namespace API.CoinList.UnitTests.System.Controllers
 {
@@ -16,8 +13,8 @@ namespace API.CoinList.UnitTests.System.Controllers
         private CoinListController controller;
         private IEnumerable<CoinDto> coinDtoList;
         private CoinDto coinDto;
-        private RecivedCoinDto recivedCoin;
-        private IEnumerable<RecivedCoinDto> recivedCoinList;
+        private CoinDtoInput recivedCoin;
+        private IEnumerable<CoinDtoInput> recivedCoinList;
         private Guid newId;
         private Guid updateId;
         private CoinDto nullCoinDto;
@@ -31,10 +28,10 @@ namespace API.CoinList.UnitTests.System.Controllers
             coinPublisher = new Mock<ICoinPublisher>();
             controller = new CoinListController(coinservice.Object, coinPublisher.Object);
 
-            coinDtoList = CoinFixture.GenereteListOfCoinDtos();
-            coinDto = CoinFixture.GenerateCoinDtos();
-            recivedCoin = CoinFixture.GenerateRecivedDtos();
-            recivedCoinList = CoinFixture.GenereteListOfRecivedDtos();
+            coinDtoList = FixureManger.CreateList<CoinDto>();
+            coinDto = FixureManger.Create<CoinDto>();
+            recivedCoin = FixureManger.Create<CoinDtoInput>();
+            recivedCoinList = FixureManger.CreateList<CoinDtoInput>();
 
             newId = Guid.NewGuid();
             updateId = coinDto.Id;
@@ -46,13 +43,15 @@ namespace API.CoinList.UnitTests.System.Controllers
             coinservice.Setup(coinservice => coinservice.GetAsync(coinDto.Id)).ReturnsAsync(coinDto);
             coinservice.Setup(coinservice => coinservice.GetAsync(symbol)).ReturnsAsync(coinDto);
 
+            coinservice.Setup(coinservice => coinservice.GetAsync(newId)).ReturnsAsync(default(CoinDto));
+
             coinservice.Setup(coinservice => coinservice.CreateAsync(recivedCoin)).ReturnsAsync(coinDto);
 
             coinservice.Setup(coinservice => coinservice.CreateMultipleAsync(recivedCoinList)).ReturnsAsync(coinDtoList);
 
             coinservice.Setup(coinservice => coinservice.UpdateAsync(updateId, recivedCoin)).ReturnsAsync(coinDto);
             coinservice.Setup(coinservice => coinservice.UpdateAsync(symbol, recivedCoin)).ReturnsAsync(coinDto);
-
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(newId, recivedCoin)).ReturnsAsync(default(CoinDto));
             coinservice.Setup(coinservice => coinservice.DeleteAsync(newId)).ReturnsAsync(false);
             coinservice.Setup(coinservice => coinservice.DeleteAsync(coinDto.Id)).ReturnsAsync(true);
         }
@@ -82,7 +81,7 @@ namespace API.CoinList.UnitTests.System.Controllers
             var objresult = (OkObjectResult)result;
 
             Assert.That(objresult.Value, Is.InstanceOf(typeof(IEnumerable<CoinDto>)));
-            Assert.AreEqual(coinDtoList, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDtoList));
         }
         #endregion
 
@@ -98,7 +97,6 @@ namespace API.CoinList.UnitTests.System.Controllers
         [Test]
         public async Task GetByIdAsync_CoinNotFound_Return404()
         {
-            coinservice.Setup(coinservice => coinservice.GetAsync(newId)).ThrowsAsync(new EntityNotFoundException());
 
             var result = await controller.GetByIdAsync(newId);
 
@@ -114,7 +112,7 @@ namespace API.CoinList.UnitTests.System.Controllers
 
             var objresult = (OkObjectResult)result;
 
-            Assert.AreEqual(coinDto, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDto));
         }
         #endregion
 
@@ -143,7 +141,7 @@ namespace API.CoinList.UnitTests.System.Controllers
             var result = await controller.PostAsync(recivedCoin);
 
             var objresult = (OkObjectResult)result;
-            Assert.AreEqual(coinDto, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDto));
         }
 
 
@@ -197,7 +195,7 @@ namespace API.CoinList.UnitTests.System.Controllers
             var result = await controller.BulkAsync(recivedCoinList);
 
             var objresult = (OkObjectResult)result;
-            Assert.AreEqual(coinDtoList, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDtoList));
         }
 
         [Test]
@@ -231,13 +229,13 @@ namespace API.CoinList.UnitTests.System.Controllers
             var result = await controller.GetBySimbolAsync(symbol);
 
             var objresult = (OkObjectResult)result;
-            Assert.AreEqual(coinDto, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDto));
         }
 
         [Test]
         public async Task GetBySimbol_Retruns_404_WhenNotFound()
         {
-            coinservice.Setup(x => x.GetAsync(symbol)).ThrowsAsync(new EntityNotFoundException());
+            coinservice.Setup(x => x.GetAsync(symbol)).ReturnsAsync(default(CoinDto));
 
             var result = await controller.GetBySimbolAsync(symbol);
 
@@ -270,13 +268,11 @@ namespace API.CoinList.UnitTests.System.Controllers
 
             var objresult = (OkObjectResult)result;
 
-            Assert.AreEqual(coinDto, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDto));
         }
         [Test]
         public async Task PutAsync_CoinNotFund_Returns_404Code()
         {
-            coinservice.Setup(coinservice => coinservice.UpdateAsync(newId, recivedCoin)).ThrowsAsync(new EntityNotFoundException());
-
             var result = await controller.PutAsync(newId, recivedCoin);
 
             Assert.That(result, Is.TypeOf(typeof(NotFoundResult)));
@@ -322,12 +318,12 @@ namespace API.CoinList.UnitTests.System.Controllers
 
             var objresult = (OkObjectResult)result;
 
-            Assert.AreEqual(coinDto, objresult.Value);
+            Assert.That(objresult.Value, Is.EqualTo(coinDto));
         }
         [Test]
         public async Task PutBySymbolAsync_CoinNotFund_Returns_404Codee()
         {
-            coinservice.Setup(coinservice => coinservice.UpdateAsync(symbol, recivedCoin)).ThrowsAsync(new EntityNotFoundException());
+            coinservice.Setup(coinservice => coinservice.UpdateAsync(symbol, recivedCoin)).ReturnsAsync(default(CoinDto));
 
             var result = await controller.PutBySymbolAsync(symbol, recivedCoin);
 

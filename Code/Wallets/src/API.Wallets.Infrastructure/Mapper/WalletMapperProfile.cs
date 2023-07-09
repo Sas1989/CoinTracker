@@ -9,7 +9,7 @@ namespace API.Wallets.Infrastructure.Mapper
     {
         public WalletMapperProfile()
         {
-            CreateMap<RecivedWalletDto, Wallet>();
+            CreateMap<WalletDtoInput, Wallet>();
             CreateMap<Wallet, WalletDto>();
         }
     }

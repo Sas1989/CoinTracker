@@ -28,4 +28,8 @@
     <ProjectReference Include="..\..\src\API.CoinList\API.CoinList.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Fixture\" />
+  </ItemGroup>
+
 </Project>

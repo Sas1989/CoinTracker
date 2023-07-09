@@ -10,7 +10,7 @@ namespace API.CoinList.Infrastructure.Mapper
         public CoinMapperProfile()
         {
             CreateMap<Coin, CoinDto>();
-            CreateMap<RecivedCoinDto, Coin>();
+            CreateMap<CoinDtoInput, Coin>();
             CreateMap<CoinDto, CoinInsert>();
             CreateMap<CoinDto, CoinUpdate>();
         }

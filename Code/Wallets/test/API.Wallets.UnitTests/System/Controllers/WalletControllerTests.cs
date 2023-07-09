@@ -1,15 +1,7 @@
-﻿using API.SDK.Domain.Exceptions;
-using API.Wallets.Application.Services.Interfaces;
+﻿using API.Wallets.Application.Services;
 using API.Wallets.Controllers;
 using API.Wallets.Domain.Dtos.Wallet;
-using API.Wallets.UnitTests.Fixtures;
 using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace API.Wallets.UnitTests.System.Controllers
 {
@@ -17,12 +9,11 @@ namespace API.Wallets.UnitTests.System.Controllers
     {
         private Mock<IWalletService> walletService;
         private WalletController wallertController;
-        private RecivedWalletDto recivedWallet;
+        private WalletDtoInput recivedWallet;
         private WalletDto walletDto;
         private Guid walletId;
-        private WalletDto? nullWalletDto;
         private IEnumerable<WalletDto> walletDtoList;
-        private IEnumerable<RecivedWalletDto> recivedWalletList;
+        private IEnumerable<WalletDtoInput> recivedWalletList;
 
         [SetUp]
         public void Setup()
@@ -31,13 +22,12 @@ namespace API.Wallets.UnitTests.System.Controllers
 
             wallertController = new WalletController(walletService.Object);
 
-            recivedWallet = WalletFixture.RecivedWalletDto();
-            walletDto = WalletFixture.WalletDto();
+            recivedWallet = FixureManger.Create<WalletDtoInput>();
+            walletDto = FixureManger.Create<WalletDto>();
             walletId = walletDto.Id;
-            nullWalletDto = null;
 
-            walletDtoList = WalletFixture.WalletDtoList();
-            recivedWalletList = WalletFixture.RecivedWalletList();
+            walletDtoList = FixureManger.CreateList<WalletDto>();
+            recivedWalletList = FixureManger.CreateList<WalletDtoInput>();
 
 
             walletService.Setup(service => service.CreateAsync(recivedWallet)).ReturnsAsync(walletDto);
@@ -63,7 +53,7 @@ namespace API.Wallets.UnitTests.System.Controllers
 
             var walletActual = (OkObjectResult)ret;
 
-            Assert.AreEqual(walletDto, walletActual.Value);
+            Assert.That(walletActual.Value, Is.EqualTo(walletDto));
 
         }
 
@@ -102,14 +92,14 @@ namespace API.Wallets.UnitTests.System.Controllers
 
             var walletActual = (OkObjectResult)ret;
 
-            Assert.AreEqual(walletDto, walletActual.Value);
+            Assert.That(walletActual.Value, Is.EqualTo(walletDto));
         }
 
 
         [Test]
         public async Task GetByIdAsync_WalletNotFound_Return404()
         {
-            walletService.Setup(service => service.GetAsync(walletId)).Throws<EntityNotFoundException>();
+            walletService.Setup(service => service.GetAsync(walletId)).ReturnsAsync(default(WalletDto));
 
             var ret = await wallertController.GetByIdAsync(walletId);
 
@@ -165,7 +155,7 @@ namespace API.Wallets.UnitTests.System.Controllers
 
             var walletActual = (OkObjectResult)ret;
 
-            Assert.AreEqual(walletDtoList, walletActual.Value);
+            Assert.That(walletActual.Value, Is.EqualTo(walletDtoList));
         }
 
         [Test]
@@ -192,15 +182,14 @@ namespace API.Wallets.UnitTests.System.Controllers
 
             var walletActual = (OkObjectResult)ret;
 
-            Assert.AreEqual(walletDto, walletActual.Value);
+            Assert.That(walletActual.Value, Is.EqualTo(walletDto));
 
         }
 
         [Test]
         public async Task PutAsync_WalletNotFound_Return404()
         {
-            walletService.Setup(service => service.UpdateAsync(walletId, recivedWallet)).Throws<EntityNotFoundException>();
-
+            walletService.Setup(service => service.UpdateAsync(walletId, recivedWallet)).ReturnsAsync(default(WalletDto));
             var ret = await wallertController.PutAsync(walletId, recivedWallet);
 
             Assert.That(ret, Is.TypeOf(typeof(NotFoundResult)));
@@ -221,7 +210,7 @@ namespace API.Wallets.UnitTests.System.Controllers
 
             var walletsActual = (OkObjectResult)ret;
 
-            Assert.AreEqual(walletDtoList, walletsActual.Value);
+            Assert.That(walletsActual.Value, Is.EqualTo(walletDtoList));
 
         }
 

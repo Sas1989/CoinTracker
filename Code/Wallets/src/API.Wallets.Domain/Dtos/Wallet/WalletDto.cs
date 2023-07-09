@@ -11,6 +11,6 @@ namespace API.Wallets.Domain.Dtos.Wallet
         string Name,
         string Description,
         string TotalValue,
-        IEnumerable<WalletCoinDto> WalletCoins
+        IEnumerable<WalletCoinDto> Coins
      );
 }

@@ -9,8 +9,8 @@ namespace API.Contracts.Coin
     public class CoinContract
     {
         public Guid Id { get; set; }
-        public string Symbol { get; set; }
-        public string Name { get; set; }
-        public decimal Value { get; set; }
+        public string? Symbol { get; set; }
+        public string? Name { get; set; }
+        public decimal Value { get; set; } = 0;
     }
 }
