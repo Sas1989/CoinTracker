@@ -13,7 +13,7 @@ namespace API.Wallets.Domain.Entities.Wallet
         [Required]
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public IEnumerable<WalletCoin> WalletCoins { get; set; } = Enumerable.Empty<WalletCoin>();
+        public List<WalletCoin> Coins { get; set; } = new List<WalletCoin>();
 
     }
 }

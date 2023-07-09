@@ -20,7 +20,7 @@ namespace API.Wallets.Controllers
         {
             var wallet = await walletService.AddCoin(id, recivedWalletCoinDto);
             
-            if(wallet == default(WalletDto))
+            if(wallet == default)
                 return NotFound();
             
             return Ok(wallet);

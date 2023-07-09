@@ -76,7 +76,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.ApplicationService
         [Test]
         public void CreateAsync_RecivedDtoIsNull_ThowException()
         {
-            var func = () => applicationService.CreateAsync(default(FakeDTOInput));
+            var func = () => applicationService.CreateAsync(default);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("recivedDto"));
@@ -114,7 +114,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.ApplicationService
 
             var result = await applicationService.DeleteAsync(entity.Id);
 
-            Assert.IsFalse(result);
+            Assert.That(result, Is.False);
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.ApplicationService
         {
             var result = await applicationService.DeleteAsync(entity.Id);
 
-            Assert.IsTrue(result);
+            Assert.That(result, Is.True);
         }
 
         [Test]
@@ -215,7 +215,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.ApplicationService
         [Test]
         public void UpdateAsync_EntityRecivedDto_TrowException()
         {
-            var func = () => applicationService.UpdateAsync(dto.guidProp, default(FakeDTOInput));
+            var func = () => applicationService.UpdateAsync(dto.guidProp, default);
 
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("recivedDto"));

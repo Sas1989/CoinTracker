@@ -11,6 +11,8 @@ namespace API.Wallets.Infrastructure.Mapper
         {
             CreateMap<WalletDtoInput, Wallet>();
             CreateMap<Wallet, WalletDto>();
+            CreateMap<WalletCoinDtoInput, WalletCoin>();
+            CreateMap<WalletCoin, WalletCoinDto>();
         }
     }
 }

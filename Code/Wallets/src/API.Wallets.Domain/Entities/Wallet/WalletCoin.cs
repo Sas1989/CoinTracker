@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API.SDK.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,6 @@ namespace API.Wallets.Domain.Entities.Wallet
 {
     public class WalletCoin
     {
-        public Guid Id { get; set; }
         public Guid Coin_Id { get; set; }
         public decimal NumberOfCoin { get; set; }
     }

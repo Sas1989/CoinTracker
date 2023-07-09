@@ -13,9 +13,21 @@ namespace API.Wallets.Infrastructure.Services
         {
         }
 
-        Task<WalletDto> IWalletService.AddCoin(Guid walletId, WalletCoinDtoInput recivedWalletCoinDto)
+        public async Task<WalletDto> AddCoin(Guid walletId, WalletCoinDtoInput recivedWalletCoinDto)
         {
-            throw new NotImplementedException();
+            var wallet = await repository.GetAsync(walletId);
+
+            if(wallet == default)
+            {
+                return default;
+            }
+            var walletCoin = mapper.Map<WalletCoin>(recivedWalletCoinDto);
+
+            wallet.Coins.Add(walletCoin);
+
+            var walletSaved = await repository.UpdateAsync(wallet);
+
+            return mapper.Map<WalletDto>(walletSaved);
         }
     }
 }
