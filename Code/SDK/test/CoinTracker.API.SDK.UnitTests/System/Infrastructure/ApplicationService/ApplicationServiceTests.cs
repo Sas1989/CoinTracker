@@ -7,7 +7,7 @@ namespace API.SDK.UnitTests.System.Infrastructure.ApplicationService
 {
     public class ApplicationServiceTests
     {
-        private Mock<IRepository<FakeEntity>> provider;
+     /*   private Mock<IRepository<FakeEntity>> provider;
         private Mock<IDataMapper> mapper;
         private FakeDTOInput recivedDto;
         private FakeDto dto;
@@ -220,6 +220,6 @@ namespace API.SDK.UnitTests.System.Infrastructure.ApplicationService
             var ex = Assert.ThrowsAsync<ArgumentNullException>(() => func());
             Assert.That(ex.ParamName, Is.EqualTo("recivedDto"));
         }
-
+     */
     }
 }

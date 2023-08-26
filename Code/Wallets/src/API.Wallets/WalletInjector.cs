@@ -1,24 +1,35 @@
-﻿using API.SDK.Infrastructure.DataMapper;
+﻿using API.SDK.Infrastructure.Cache;
+using API.SDK.Infrastructure.Dispatcher;
 using API.SDK.Infrastructure.MessageBus;
+using API.SDK.Infrastructure.Repositories;
 using API.SDK.Infrastructure.Repository;
-using API.Wallets.Domain.Entities;
-using API.Wallets.Domain.Entities.Wallet;
-using API.Wallets.Infrastructure.Mapper;
-using API.Wallets.Infrastructure.Services;
+using API.Wallets.Domain.Entities.CoinEntity;
+using API.Wallets.Domain.Entities.WalletEntity;
+using System.Reflection;
 
-namespace API.Wallets
+namespace API.Wallets;
+
+public static class WalletInjector
 {
-    public static class WalletInjector
+    public static IServiceCollection AddWalletServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddWalletServices(this IServiceCollection services)
-        {
-            services.AddDataMapper<WalletMapperProfile>();
-            services.AddMongo();
-            services.AddProvider<Wallet>();
-            services.AddProvider<Coin>();
-            services.AddServices();
-            services.AddMassTransitWithRabbitMq();
-            return services;
-        }
+        var assembly = new[] {
+            Assembly.Load("API.Wallets.Application")
+        };
+
+        services.AddMongo();
+        services.AddCqrsDispatcher(assembly);
+        services.AddProvider<Coin>();
+        services.AddMassTransitWithRabbitMq();
+        services.AddRepositories();
+
+        services.AddDataProvider<Wallet>();
+        services.AddCache<Wallet>();
+
+        services.AddDataProvider<Coin>();
+        services.AddCache<Coin>();
+
+
+        return services;
     }
 }

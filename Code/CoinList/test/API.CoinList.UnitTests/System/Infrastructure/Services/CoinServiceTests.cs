@@ -19,8 +19,6 @@ namespace API.CoinList.UnitTests.System.Infrastructure.Services
         private IEnumerable<CoinDto> coinDtoList;
         private IEnumerable<CoinDtoInput> recivedCoinList;
         private Guid idNew;
-        private Guid updateId;
-        private Guid idEmpty;
 
         [SetUp]
         public void Setup()
@@ -39,8 +37,6 @@ namespace API.CoinList.UnitTests.System.Infrastructure.Services
             coin = coinList.First();
 
             idNew = Guid.NewGuid();
-            updateId = coin.Id;
-            idEmpty = Guid.Empty;
 
             symbolCoin = coin.Symbol;
 

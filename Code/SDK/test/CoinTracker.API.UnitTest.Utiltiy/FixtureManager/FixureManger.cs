@@ -9,7 +9,7 @@ namespace API.UnitTest.Utility.FixtureManager
 {
     public static class FixureManger
     {
-        private static  Fixture fixture = new Fixture();
+        private static readonly Fixture fixture = new();
         public static T Create<T>()
         {
             return fixture.Create<T>();

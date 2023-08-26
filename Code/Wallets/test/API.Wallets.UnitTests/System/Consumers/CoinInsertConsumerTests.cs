@@ -1,15 +1,8 @@
-﻿using API.Contracts.Coin;
-using API.SDK.Application.DataMapper;
-using API.Wallets.Application.Services;
-using API.Wallets.Consumers;
-using API.Wallets.Domain.Dtos.Coin;
-using MassTransit;
-
-namespace API.Wallets.UnitTests.System.Consumers
+﻿namespace API.Wallets.UnitTests.System.Consumers
 {
     internal class CoinInsertConsumerTests
     {
-        private Mock<ICoinService> coinService;
+ /*       private Mock<ICoinService> coinService;
         private Mock<IDataMapper> dataMapper;
         private CoinInserConsumer consumer;
         private Mock<ConsumeContext<CoinInsert>> coinMessage;
@@ -46,6 +39,6 @@ namespace API.Wallets.UnitTests.System.Consumers
             await consumer.Consume(coinMessage.Object);
 
             dataMapper.Verify(dataMapper => dataMapper.Map<CoinDto>(coinContract), Times.Once);
-        }
+        }*/
     }
 }

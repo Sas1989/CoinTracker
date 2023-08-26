@@ -19,9 +19,9 @@ namespace API.CoinList.Infrastructure.Services
 
             var coinList = await repository.GetAsync(nameof(Coin.Symbol), symbol);
 
-            if (coinList == null || coinList.Count() == 0) 
+            if (coinList == null || coinList.Any()) 
             {
-                return default(CoinDto);
+                return default;
             }
 
             return ToDto(coinList.FirstOrDefault());
@@ -33,9 +33,9 @@ namespace API.CoinList.Infrastructure.Services
 
             var coinList = await repository.GetAsync(nameof(Coin.Symbol), symbol);
 
-            if (coinList.Count() == 0)
+            if (coinList.Any())
             {
-                return default(CoinDto);
+                return default;
             }
 
             var coin = ToEntity(recivedCoin);

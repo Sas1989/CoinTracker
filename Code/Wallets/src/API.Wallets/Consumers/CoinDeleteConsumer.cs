@@ -1,12 +1,11 @@
 ﻿using API.Contracts.Coin;
-using API.Wallets.Application.Services;
 using MassTransit;
 
 namespace API.Wallets.Consumers
 {
-    public class CoinDeleteConsumer : IConsumer<CoinDelete>
+    public class CoinDeleteConsumer
     {
-        private readonly ICoinService coinService;
+/*        private readonly ICoinService coinService;
 
         public CoinDeleteConsumer(ICoinService coinService)
         {
@@ -19,6 +18,6 @@ namespace API.Wallets.Consumers
             var id = coinContract.Id;
 
             await coinService.DeleteAsync(id);
-        }
+        }*/
     }
 }

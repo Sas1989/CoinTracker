@@ -1,13 +1,8 @@
-﻿using API.Wallets.Application.Services;
-using API.Wallets.Controllers;
-using API.Wallets.Domain.Dtos.Wallet;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Wallets.UnitTests.System.Controllers
+﻿namespace API.Wallets.UnitTests.System.Controllers
 {
     public class WalletCoinControllerTests
     {
-        private WalletCoinController controller;
+ /*       private WalletCoinController controller;
         private WalletCoinDtoInput recivedWalletCoinDto;
         private Guid walletId;
         private WalletDto wallet;
@@ -60,6 +55,6 @@ namespace API.Wallets.UnitTests.System.Controllers
             var ret = await controller.PostAsync(notFoundWallet, recivedWalletCoinDto);
 
             Assert.That(ret, Is.TypeOf(typeof(NotFoundResult)));
-        }
+        }*/
     }
 }

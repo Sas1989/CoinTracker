@@ -1,13 +1,8 @@
-﻿using MassTransit;
-using API.Wallets.Domain.Dtos.Coin;
-using API.SDK.Application.DataMapper;
-using API.Contracts.Coin;
-using API.Wallets.Application.Services;
-
-namespace API.Wallets.Consumers
+﻿namespace API.Wallets.Consumers
 {
-    public class CoinInserConsumer : IConsumer<CoinInsert>
+    public class CoinInserConsumer
     {
+        /*
         private readonly ICoinService coinService;
         private readonly IDataMapper dataMapper;
 
@@ -23,6 +18,6 @@ namespace API.Wallets.Consumers
             var coinDto = dataMapper.Map<CoinDto>(coinContract);
 
             await coinService.CreateAsync(coinDto);
-        }
+        }*/
     }
 }

@@ -93,7 +93,7 @@ namespace API.CoinList.Controllers
 
         private async Task<IActionResult> ReturnCoinAndPublish(CoinDto coin)
         {
-            if (coin == default(CoinDto))
+            if (coin == default)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace API.CoinList.Controllers
 
         private IActionResult ReturnCoin(CoinDto coin)
         {
-            if (coin == default(CoinDto))
+            if (coin == default)
             {
                 return NotFound();
             }

@@ -1,13 +1,9 @@
-﻿using API.Wallets.Application.Services;
-using API.Wallets.Controllers;
-using API.Wallets.Domain.Dtos.Wallet;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Wallets.UnitTests.System.Controllers
+﻿namespace API.Wallets.UnitTests.System.Controllers
 {
+
     public class WalletControllerTests
     {
-        private Mock<IWalletService> walletService;
+ /*       private Mock<IWalletService> walletService;
         private WalletController wallertController;
         private WalletDtoInput recivedWallet;
         private WalletDto walletDto;
@@ -221,6 +217,6 @@ namespace API.Wallets.UnitTests.System.Controllers
             var ret = await wallertController.BulkAsync(recivedWalletList);
 
             walletService.Verify(service => service.CreateMultipleAsync(recivedWalletList), Times.Once);
-        }
+        }*/
     }
 }

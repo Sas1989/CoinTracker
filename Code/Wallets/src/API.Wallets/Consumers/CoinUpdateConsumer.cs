@@ -1,14 +1,8 @@
-﻿using API.Contracts.Coin;
-using API.SDK.Application.DataMapper;
-using API.Wallets.Application.Services;
-using API.Wallets.Domain.Dtos.Coin;
-using MassTransit;
-
-namespace API.Wallets.Consumers
+﻿namespace API.Wallets.Consumers
 {
-    public class CoinUpdateConsumer : IConsumer<CoinUpdate>
+    public class CoinUpdateConsumer 
     {
-        private readonly ICoinService coinService;
+     /*   private readonly ICoinService coinService;
         private readonly IDataMapper dataMapper;
 
         public CoinUpdateConsumer(ICoinService coinService, IDataMapper dataMapper)
@@ -23,6 +17,6 @@ namespace API.Wallets.Consumers
             var coinDto = dataMapper.Map<CoinDto>(coinContract);
 
             await coinService.UpdateAsync(coinDto.Id, coinDto);
-        }
+        }*/
     }
 }

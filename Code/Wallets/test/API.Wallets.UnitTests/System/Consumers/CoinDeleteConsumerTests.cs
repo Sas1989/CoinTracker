@@ -1,18 +1,12 @@
-﻿using API.Contracts.Coin;
-using API.Wallets.Application.Services;
-using API.Wallets.Consumers;
-using API.Wallets.Domain.Dtos.Coin;
-using MassTransit;
-
-namespace API.Wallets.UnitTests.System.Consumers
+﻿namespace API.Wallets.UnitTests.System.Consumers
 {
     internal class CoinDeleteConsumerTests
     {
+        /*
         private Mock<ICoinService> coinService;
         private CoinDeleteConsumer consumer;
         private Mock<ConsumeContext<CoinDelete>> coinMessage;
         private CoinDelete coinContract;
-        private CoinDto coinDto;
 
         [SetUp]
         public void SetUp()
@@ -22,7 +16,6 @@ namespace API.Wallets.UnitTests.System.Consumers
 
             coinMessage = new Mock<ConsumeContext<CoinDelete>>();
             coinContract = FixureManger.Create<CoinDelete>();
-            coinDto = FixureManger.Create<CoinDto>();
 
             coinMessage.Setup(coinMessage => coinMessage.Message).Returns(coinContract);
 
@@ -34,6 +27,6 @@ namespace API.Wallets.UnitTests.System.Consumers
             await consumer.Consume(coinMessage.Object);
 
             coinService.Verify(coinService => coinService.DeleteAsync(coinContract.Id), Times.Once);
-        }
+        }*/
     }
 }

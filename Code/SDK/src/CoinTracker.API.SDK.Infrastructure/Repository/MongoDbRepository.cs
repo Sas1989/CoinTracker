@@ -12,11 +12,11 @@ namespace API.SDK.Infrastructure.Repository
     public class MongoDbRepository<T> : IRepository<T> where T : Entity
     {
         private readonly FilterDefinitionBuilder<T> filterBuilder = Builders<T>.Filter;
-        private IMongoCollection<T> collection { get; set; }
+        private IMongoCollection<T> Collection { get; set; }
 
         public MongoDbRepository(IMongoCollection<T> collection)
         {
-            this.collection = collection;
+            this.Collection = collection;
         }
         public async Task<T> CreateAsync(T entity)
         {
@@ -24,33 +24,34 @@ namespace API.SDK.Infrastructure.Repository
             {
                 throw new ArgumentNullException(nameof(entity));
             }
-            await collection.InsertOneAsync(entity);
+            await Collection.InsertOneAsync(entity);
             return entity;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            return await collection.Find(filterBuilder.Empty).ToListAsync();
+            return await Collection.Find(filterBuilder.Empty).ToListAsync();
         }
 
         public async Task<T?> GetAsync(Guid id)
         {
             FilterDefinition<T> filter = filterBuilder.Eq(entity => entity.Id, id);
 
-            return await collection.Find(filter).FirstOrDefaultAsync();
+            return await Collection.Find(filter).FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<T>> GetAsync<TField>(string field, TField filedValue)
         {
             FilterDefinition<T> filter = filterBuilder.Eq(field, filedValue);
-            return await collection.Find(filter).ToListAsync();
+            return await Collection.Find(filter).ToListAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
             FilterDefinition<T> filter = filterBuilder.Eq(entity => entity.Id, id);
-            var result = await collection.DeleteOneAsync(filter);
+            var result = await Collection.DeleteOneAsync(filter);
             return result.DeletedCount > 0;
+
         }
 
         public async Task<T?> UpdateAsync(T entity)
@@ -62,7 +63,7 @@ namespace API.SDK.Infrastructure.Repository
 
             FilterDefinition<T> filter = filterBuilder.Eq(existingentity => existingentity.Id, entity.Id);
 
-            var result = await collection.ReplaceOneAsync(filter, entity);
+            var result = await Collection.ReplaceOneAsync(filter, entity);
 
             if (!result.IsAcknowledged || result.MatchedCount == 0)
             {
@@ -79,7 +80,7 @@ namespace API.SDK.Infrastructure.Repository
                 throw new ArgumentNullException(nameof(entities));
             }
 
-            await collection.InsertManyAsync(entities);
+            await Collection.InsertManyAsync(entities);
             return entities;
         }
     }
